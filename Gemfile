@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '1.9.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
@@ -40,6 +41,15 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'letter_opener'
   gem 'debugger'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'jasmine-rails'
 end
 
 group :production do
