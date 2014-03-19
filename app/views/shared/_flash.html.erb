@@ -1,8 +1,9 @@
-<!-- begin flash display -->
-<% if flash[:errors] %>
-  <%= flash[:errors] %>
-<% end %>
-<% if flash[:notice] %>
-  <%= flash[:notice] %>
-<% end %>
+<div class="flash">
+  <% if flash[:errors] %>
+    <%= flash[:errors] %>
+  <% end %>
+  <% if flash[:notice] %>
+    <%= flash[:notice] %>
+  <% end %>
 <!-- end flash display -->
+</div>

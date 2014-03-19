@@ -1,0 +1,7 @@
+<h1>Welcome to the <%= @sub.name %> sub-seddit!</h1>
+
+<h3>This page is currently under construction.</h3>
+
+<% @posts.each do |post| %>
+  <p id="post-<%= post.id %>"><%= render "post", post: post %></p>
+<% end %>

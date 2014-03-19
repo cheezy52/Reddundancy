@@ -1,0 +1,17 @@
+<div class="form-container">
+  <form action="<%= sub_seddits_url %>" method="POST">
+    <%= csrf_token %>
+
+    <div class="form-group">
+      <label>Title:
+      <input type="text"
+        name="sub[name]"
+        class="form-control"
+        value="<%= sub.name %>"
+        placeholder="Title"></input>
+      </label>
+    </div>
+
+    <input type="submit" class="btn btn-success" value="Create Sub!"></input>
+  </form>
+</div>

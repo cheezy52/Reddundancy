@@ -24,4 +24,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def logged_in?
+    !!current_user
+  end
+
+  def ensure_signed_in
+    unless logged_in?
+      flash[:notice] = "You must sign in to perform this action."
+      redirect_to new_session_url
+    end
+  end
+
 end
