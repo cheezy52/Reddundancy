@@ -41,6 +41,15 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'letter_opener'
   gem 'debugger'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'jasmine-rails'
 end
 
 group :production do
