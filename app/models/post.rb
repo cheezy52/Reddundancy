@@ -11,4 +11,10 @@
 #
 
 class Post < ActiveRecord::Base
+  validates :link, :owner, :sub, presence: true
+
+  belongs_to :sub, class_name: "SubSeddit", inverse_of: :posts
+  belongs_to :owner, class_name: "User", inverse_of: :owned_posts
+  has_many :comments, as: :commentable, inverse_of: :commentable
+  has_many :votes, as: :votable, inverse_of: :votable
 end

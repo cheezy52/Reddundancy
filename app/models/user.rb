@@ -17,6 +17,9 @@ class User < ActiveRecord::Base
   validates :password, :length => { :minimum => 6, :allow_nil => true }
   before_validation :ensure_session_token
 
+  has_many :owned_comments, class_name: "Comment", foreign_key: "owner_id"
+  has_many :owned_posts, class_name: "Post", foreign_key: "owner_id"
+  has_many :owned_subs, class_name: "SubSeddit", foreign_key: "owner_id"
 
   def self.find_by_credentials(username, plaintext_password)
     user = self.find_by_username(username)

@@ -12,4 +12,12 @@
 #
 
 class Vote < ActiveRecord::Base
+  validates :up, :owner, :votable, presence: true
+  validates_uniqueness_of :owner, :scope => :votable
+
+  belongs_to :votable, polymorphic: true
+
+  def self.karma(votable)
+    self.find_by_votable_id(votable.id).length
+  end
 end

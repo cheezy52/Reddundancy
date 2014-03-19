@@ -10,4 +10,9 @@
 #
 
 class SubSeddit < ActiveRecord::Base
+  validates :name, :owner, presence: true
+  validates :name, uniqueness: true
+
+  has_many :posts, inverse_of: :sub
+  belongs_to :owner, class_name: "User", inverse_of: :owned_subs
 end

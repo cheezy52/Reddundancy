@@ -12,4 +12,10 @@
 #
 
 class Comment < ActiveRecord::Base
+  validates :body, :owner, :commentable, presence: true
+
+  belongs_to :commentable, polymorphic: true, inverse_of: :comments
+  belongs_to :owner, class_name: "User", inverse_of: :owned_comments
+  has_many :comments, as: :commentable, inverse_of: :commentable
+  has_many :votes, as: :votable, inverse_of: :votable
 end
