@@ -8,14 +8,13 @@
 </head>
 <body>
 
-<% if flash[:errors] %>
-  <%= flash[:errors] %>
-<% end %>
-<% if flash[:notice] %>
-  <%= flash[:notice] %>
-<% end %>
+  <%= render "shared/navbar" %>
 
-<%= yield %>
+  <%= render "shared/flash" %>
+
+  <div class="container" id="content">
+    <%= yield %>
+  </div>
 
 </body>
 </html>

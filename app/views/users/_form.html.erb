@@ -1,0 +1,36 @@
+<div class="form-container">
+  <form action="<%= users_url %>" method="POST">
+    <%= csrf_token %>
+
+    <div class="form-group">
+      <label>E-mail:
+      <input type="text"
+        name="user[email]"
+        class="form-control"
+        value="<%= user.email %>"
+        placeholder="E-mail"></input>
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label>Username:
+      <input type="text"
+        name="user[username]"
+        class="form-control"
+        value="<%= user.username %>"
+        placeholder="Username"></input>
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label>Password:
+      <input type="password"
+        name="user[password]"
+        class="form-control"
+        placeholder="6+ characters"></input>
+      </label>
+    </div>
+
+    <input type="submit" class="btn btn-success" value="Sign Up!"></input>
+  </form>
+</div>
