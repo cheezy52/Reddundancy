@@ -1,0 +1,2 @@
+class SubSedditsController < ApplicationController
+end
