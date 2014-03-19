@@ -1,1 +1,5 @@
-<a href="<%= post.link %>"><%= post.title %></a>
+<% if post.link.nil? %>
+  <h1><%= post.title %></h1>
+<% else %>
+  <h1><a href="<%= post.link %>"><%= post.title %></a></h1>
+<% end %>

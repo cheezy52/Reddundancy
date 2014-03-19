@@ -1,0 +1,29 @@
+<h2>Create a Post</h1>
+<h3>Sub: <%= post.sub.name %></h3>
+
+<div class="form-container">
+  <form action="<%= sub_seddit_posts_url(sub) %>" method="POST">
+    <%= csrf_token %>
+
+    <div class="form-group">
+      <label>Title:
+      <input type="text"
+        name="post[title]"
+        class="form-control"
+        value="<%= post.title %>"
+        placeholder="Title"></input>
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label>URL:
+      <input type="text"
+        name="post[link]"
+        class="form-control"
+        placeholder="URL"></input>
+      </label>
+    </div>
+
+    <input type="submit" class="btn btn-success" value="Create Post!"></input>
+  </form>
+</div>

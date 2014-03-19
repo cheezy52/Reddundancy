@@ -10,7 +10,7 @@ before_action :ensure_signed_in, only: [:new, :create]
   end
 
   def create
-    @sub = SubSeddit.new(sub_params)
+    @sub = current_user.owned_subs.build(sub_params)
     @sub.owner = current_user
     if @sub.save
       flash[:notice] = "Sub-seddit successfully created!"
@@ -23,7 +23,6 @@ before_action :ensure_signed_in, only: [:new, :create]
 
   def show
     @sub = SubSeddit.includes(posts: [:comments, :votes]).find(params[:id])
-    @posts = @sub.posts
     render :show
   end
 

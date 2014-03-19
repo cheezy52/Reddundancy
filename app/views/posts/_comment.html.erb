@@ -1,0 +1,8 @@
+<div id="comment-<%= comment.id %>">
+  <%= comment.owner.username %> wrote:
+  <%= comment.body %>
+
+  <% comment.comments.each do |subcomment| %>
+    <%= render "comment", comment: subcomment %>
+  <% end %>
+</div>

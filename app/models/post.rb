@@ -8,10 +8,11 @@
 #  sub_id     :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  title      :string(255)      not null
 #
 
 class Post < ActiveRecord::Base
-  validates :link, :owner, :sub, presence: true
+  validates :owner, :sub, :title, presence: true
 
   belongs_to :sub,
     class_name: "SubSeddit",
