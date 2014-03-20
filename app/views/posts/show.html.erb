@@ -1,7 +1,9 @@
+<div id="backbone-trigger"></div>
+
 <% if post.link.nil? %>
   <h1><%= post.title %></h1>
 <% else %>
-  <h1><a href="<%= post.link %>"><%= post.title %></a></h1>
+  <h1><a href="http://<%= post.link %>"><%= post.title %></a></h1>
 <% end %>
 
 <% post_comments_by_parent_id["toplevel"].each do |comment| %>

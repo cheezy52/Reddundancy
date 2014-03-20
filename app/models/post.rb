@@ -12,6 +12,8 @@
 #
 
 class Post < ActiveRecord::Base
+  include Votable
+  include Commentable
   validates :owner, :sub, :title, presence: true
 
   belongs_to :sub,

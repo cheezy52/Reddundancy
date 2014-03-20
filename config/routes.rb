@@ -13,4 +13,18 @@ Seddit::Application.routes.draw do
     resources :comments, only: [:new, :create]
     resources :votes, only: [:create]
   end
+
+  namespace :api, :defaults => { :format => :json } do
+    resources :sub_seddits, only: [:show], path: "s" do
+      resources :posts, only: [:index]
+    end
+    resources :posts, only: [:show] do
+      resources :comments, only: [:index]
+      resources :votes, only: [:index]
+    end
+    resources :comments, only: [:show] do
+      resources :comments, only: [:index]
+      resources :votes, only: [:index]
+    end
+  end
 end

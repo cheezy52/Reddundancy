@@ -12,6 +12,9 @@
 #
 
 class Comment < ActiveRecord::Base
+  include Votable
+  include Commentable
+
   validates :body, :owner, :post, presence: true
 
   belongs_to :parent, class_name: "Comment", inverse_of: :comments
