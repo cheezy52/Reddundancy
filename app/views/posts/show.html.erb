@@ -1,11 +1,12 @@
-<% if @post.link.nil? %>
-  <h1><%= @post.title %></h1>
+<% if post.link.nil? %>
+  <h1><%= post.title %></h1>
 <% else %>
-  <h1><a href="<%= @post.link %>"><%= @post.title %></a></h1>
+  <h1><a href="<%= post.link %>"><%= post.title %></a></h1>
 <% end %>
 
-<% @post.comments.each do |comment| %>
-  <%= render "comment", comment: comment %>
+<% post_comments_by_parent_id["toplevel"].each do |comment| %>
+  <%= render "comment", comment: comment,
+     post_comments_by_parent_id: post_comments_by_parent_id %>
 <% end %>
 
-<%= render "comments/form", post: @post, comment: @post.comments.build %>
+<%= render "comments/form", post: post, comment: post.comments.build %>

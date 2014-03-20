@@ -6,7 +6,7 @@ before_action :ensure_signed_in, only: [:new, :create]
 
   def new
     @sub = SubSeddit.new
-    render :new
+    render :new, locals: {sub: @sub}
   end
 
   def create
@@ -17,13 +17,13 @@ before_action :ensure_signed_in, only: [:new, :create]
       redirect_to sub_seddit_url(@sub)
     else
       flash.now[:errors] = @sub.errors.full_messages
-      render :new
+      render :new, locals: {sub: @sub}
     end
   end
 
   def show
     @sub = SubSeddit.includes(posts: [:comments, :votes]).find(params[:id])
-    render :show
+    render :show, locals: {sub: @sub}
   end
 
 #   def edit

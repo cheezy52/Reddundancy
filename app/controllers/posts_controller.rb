@@ -5,7 +5,7 @@ class PostsController < ApplicationController
 
   def new
     @post = SubSeddit.find(params[:sub_seddit_id]).posts.build
-    render :new
+    render :new, locals: {post: @post}
   end
 
   def create
@@ -16,13 +16,17 @@ class PostsController < ApplicationController
       redirect_to post_url(@post)
     else
       flash[:errors] = @post.errors.full_messages
-      render :new
+      render :new, locals: {post: @post}
     end
   end
 
   def show
-    @post = Post.includes(:comments, :votes, :sub).find(params[:id])
-    render :show
+    @post = Post.includes(:votes, :sub).find(params[:id])
+    #comments not in includes due to load/sort function in next line
+    @post_comments_by_parent_id = Comment.post_comments_by_parent_id(@post.id)
+    puts @post_comments_by_parent_id
+    render :show, locals: {post: @post,
+      post_comments_by_parent_id: @post_comments_by_parent_id}
   end
 
 #   def edit

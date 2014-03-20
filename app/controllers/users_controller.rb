@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def new
     @user = User.new
-    render :new
+    render :new, locals: {user: @user}
   end
 
   def create
@@ -11,13 +11,13 @@ class UsersController < ApplicationController
       redirect_to user_url(@user)
     else
       flash.now[:errors] = @user.errors.full_messages
-      render :new
+      render :new, locals: {user: @user}
     end
   end
 
   def show
     @user = User.find(params[:id])
-    render :show
+    render :show, locals: {user: @user}
   end
 
   private

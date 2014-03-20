@@ -1,1 +1,19 @@
-<div>Placeholder for comments form</div>
+<h3>Add a Comment!</h3>
+
+<div class="form-container">
+  <form action="<%= post_comments_url(post) %>" method="POST">
+    <%= csrf_token %>
+
+    <div class="form-group">
+      <label>Your Comment:
+      <input type="text"
+        name="comment[body]"
+        class="form-control"
+        value="<%= comment.body %>"
+        placeholder="Let your wisdom be known!"></input>
+      </label>
+    </div>
+
+    <input type="submit" class="btn btn-success" value="Add Comment!"></input>
+  </form>
+</div>

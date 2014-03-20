@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   def new
     @user = User.new
-    render :new
+    render :new, locals: {user: @user}
   end
 
   def create
@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
     else
       @user = User.new(session_params)
       flash.now[:errors] = "No user found for these credentials."
-      render :new
+      render :new, locals: {user: @user}
     end
   end
 
