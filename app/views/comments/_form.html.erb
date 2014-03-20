@@ -1,7 +1,10 @@
+<% action = ((!params[:post_id].nil?) || (params[:controller] == "posts") ?
+  post_comments_url(post) : comment_comments_url(parent_comment))%>
+
 <h3>Add a Comment!</h3>
 
 <div class="form-container">
-  <form action="<%= post_comments_url(post) %>" method="POST">
+  <form action="<%= action %>" method="POST">
     <%= csrf_token %>
 
     <div class="form-group">

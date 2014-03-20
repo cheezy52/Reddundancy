@@ -1,11 +1,9 @@
 <div id="comment-<%= comment.id %>">
-  <%= puts comment.id %>
-  <%= puts post_comments_by_parent_id[comment.id] %>
   <%= comment.owner.username %> wrote:
   <%= comment.body %>
 
-  <% post_comments_by_parent_id[comment.id].each do |subcomment| %>
-    <%= render "comment", comment: subcomment,
-      post_comments_by_parent_id: post_comments_by_parent_id %>
-  <% end %>
+  <ul><% post_comments_by_parent_id[comment.id].each do |subcomment| %>
+    <li><%= render "comment", comment: subcomment,
+      post_comments_by_parent_id: post_comments_by_parent_id %></li>
+  <% end %></ul>
 </div>

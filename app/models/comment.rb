@@ -31,7 +31,7 @@ class Comment < ActiveRecord::Base
       if (comment.parent_id.nil?)
         comments_hash["toplevel"] = comments_hash["toplevel"].push(comment)
       else
-        comments_hash[comment.parent_id].push(comment)
+        comments_hash[comment.parent_id] = comments_hash[comment.parent_id].push(comment)
       end
     end
     return comments_hash
