@@ -1,12 +1,16 @@
 class Api::CommentsController < ApplicationController
   def index
-    @post = Post.includes(comments: :votes).find(params[:post_id])
-    @comments = @post.comments
-    render :json => @comments, :include => :votes
+    @post = Post.includes(comments: [:votes, :owner, :comments])
+      .find(params[:post_id])
+    render :index, locals: {post: @post}
   end
 
   def show
-    @comment = Comment.includes(:votes).find(params[:id])
-    render :json => @comment, :include => :votes
+    #Note: Subcomments sent as a nested structure
+    #Very inefficient compared to index or posts/show if comments deeply nested
+    #Recommend using index or posts/show and filtering on client-side
+    @comment = Comment.includes(:votes, :owner, comments: [:votes, :owner, :comments])
+      .find(params[:id])
+    render :show, locals: {comment: @comment}
   end
 end

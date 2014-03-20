@@ -1,0 +1,1 @@
+json.partial! partial: "post", collection: sub.posts, as: :post

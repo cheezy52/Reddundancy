@@ -39,4 +39,14 @@ class Comment < ActiveRecord::Base
     end
     return comments_hash
   end
+
+  def num_comments_nested
+    if (self.comments.length == 0)
+      return 0
+    else
+      self.comments.length + self.comments.map do |subcomment|
+        subcomment.num_comments
+      end.inject(:+)
+    end
+  end
 end
