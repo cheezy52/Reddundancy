@@ -8,11 +8,11 @@ Seddit::Application.routes.draw do
   end
   resources :posts, only: [:show] do
     resources :comments, only: [:new, :create]
-    resources :votes, only: [:create]
+    resource :vote, only: [:create, :update]
   end
   resources :comments, only: [:show] do
     resources :comments, only: [:new, :create]
-    resources :votes, only: [:create]
+    resource :vote, only: [:create, :update]
   end
 
   namespace :api, :defaults => { :format => :json } do
@@ -20,12 +20,12 @@ Seddit::Application.routes.draw do
       resources :posts, only: [:index]
     end
     resources :posts, only: [:show] do
-      resources :comments, only: [:index]
-      resources :votes, only: [:index]
+      resources :comments, only: [:index, :create]
+      resource :vote, only: [:create, :update]
     end
     resources :comments, only: [:show] do
-      resources :comments, only: [:index]
-      resources :votes, only: [:index]
+      resources :comments, only: [:create]
+      resource :vote, only: [:create, :update]
     end
   end
 end

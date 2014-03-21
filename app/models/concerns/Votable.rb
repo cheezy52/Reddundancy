@@ -17,12 +17,12 @@ module Votable
     self.votes.select { |vote| !vote.up }.length
   end
 
-  def user_already_voted?(user_id)
-    !!self.votes.to_a.find { |vote| vote.owner_id == user_id }
+  def user_already_voted?(user)
+    !!self.votes.to_a.find { |vote| vote.owner == user }
   end
 
-  def user_upvoted?(user_id)
+  def user_upvoted?(user)
     #Combine with user_already_voted? to determine if user downvoted
-    !!self.votes.to_a.find { |vote| vote.owner_id == user_id && vote.up }
+    !!self.votes.to_a.find { |vote| vote.owner == user && vote.up }
   end
 end

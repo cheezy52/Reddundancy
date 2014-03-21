@@ -16,8 +16,5 @@ class Vote < ActiveRecord::Base
   validates_uniqueness_of :owner, :scope => :votable
 
   belongs_to :votable, polymorphic: true
-
-  def self.karma(votable)
-    self.find_by_votable_id(votable.id).length
-  end
+  belongs_to :owner, class_name: "User", inverse_of: :owned_votes
 end

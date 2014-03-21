@@ -1,0 +1,4 @@
+<%= csrf_token %>
+<input type="hidden" name="vote[votable_id]" value="<%= model.id %>"></input>
+<input type="hidden" name="vote[votable_type]"
+  value="<%= model.class.name %>"></input>

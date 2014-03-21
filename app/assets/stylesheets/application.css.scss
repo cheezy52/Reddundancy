@@ -22,6 +22,18 @@ div.flash {
   margin-left: 20px;
 }
 
+div.notice {
+  margin-left: 20px;
+}
+
 .hidden {
   display: none;
+}
+
+.upvote.active {
+  background-color: orange;
+}
+
+.downvote.active {
+  background-color: blue;
 }

@@ -1,3 +1,9 @@
 <li class="post" data-id="<%= post.id %>">
-  <a href="<%= post_url(post) %>"><%= post.title %></a>
+  <%= render "votable/karma", model: post, action: post_vote_url(post) %>
+  <div class="post-link">
+    <a href="<%= post_url(post) %>"><%= post.title %></a>
+  </div>
+  <div class="post-num-comments">
+    (<%= post.num_comments %> comments)
+  </div>
 </li>
