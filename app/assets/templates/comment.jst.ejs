@@ -1,2 +1,10 @@
-<li><%= comment.escape("owner_name") %> wrote:
+<li><button class="upvote <%= (!comment.vote.isNew()) &&
+  comment.escape("upvoted") === "true" ? 'active' : '' %>">Upboat!</button>
+
+<p>Karma: <%= comment.get("karma") %></p>
+
+<button class="downvote <%= (!comment.vote.isNew()) &&
+  comment.escape("upvoted") === "false" ? 'active' : '' %>">Downboat!</button>
+
+<%= comment.escape("owner_name") %> wrote:
 <%= comment.escape("body")%></li>

@@ -2,7 +2,10 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
   template: JST["post_show"],
 
   events: {
-
+    "click .upvote:not(.active)" : "upvote",
+    "click .downvote:not(.active)" : "downvote",
+    "click .upvote.active" : "removeVote",
+    "click .downvote.active" : "removeVote"
   },
 
   initialize: function(options) {
@@ -82,5 +85,40 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
     });
     this.addSubview(commentView);
     this.commentParentEl(comment).prepend(commentView.render().$el);
+  },
+
+  upvote: function(event) {
+    var comment = this.collection.get($($(event.target).parent().parent()).data("id"));
+    var view = this;
+
+    comment.vote.save({ "up": true });
+
+    //cannot upvote an already-upvoted comment, so no need to check here
+    //could just re-fetch for authoritative source, but possible race condition
+    var karmaDiff = comment.vote.isNew() ? 1 : 2
+    comment.set("karma", comment.get("karma") + karmaDiff)
+  },
+
+  downvote: function(event) {
+    var comment = this.collection.get($($(event.target).parent().parent()).data("id"));
+    var view = this;
+
+    comment.vote.save({ "up": false });
+
+    //cannot downvote an already-downvoted comment, so no need to check here
+    //could just re-fetch for authoritative source, but possible race condition
+    var karmaDiff = comment.vote.isNew() ? -1 : -2
+    comment.set("karma", comment.get("karma") + karmaDiff)
+  },
+
+  removeVote: function(event) {
+    var comment = this.collection.get($($(event.target).parent().parent()).data("id"));
+    var view = this;
+
+    var karmaDiff = comment.vote.get("up") ? -1 : 1
+
+    comment.vote.destroy();
+
+    comment.set("karma", comment.get("karma") + karmaDiff)
   }
 })
