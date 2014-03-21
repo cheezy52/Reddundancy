@@ -1,5 +1,5 @@
 <li class="post" data-id="<%= post.id %>">
-  <%= render "votable/karma", model: post, action: post_vote_url(post) %>
+  <%= render "votable/karma", model: post %>
   <div class="post-link">
     <a href="<%= post_url(post) %>"><%= post.title %></a>
   </div>

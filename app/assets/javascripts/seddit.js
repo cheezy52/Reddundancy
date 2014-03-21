@@ -29,23 +29,24 @@ Backbone.CompositeView = Backbone.View.extend({
     }
   },
 
-  removeSubviewByModel: function(model) {
+  findSubviewByModel: function(model) {
     var foundView = this.subviews().forEach(function(subview) {
       if (subview.model === model) {
         return subview;
       }
     });
+    return null;
+  },
+
+  removeSubviewByModel: function(model) {
+    var foundView = this.findSubviewByModel(model);
     if (foundView) {
       this.removeSubview(foundView);
     }
   },
 
   renderSubviewByModel: function(model) {
-    var foundView = this.subviews().forEach(function(subview) {
-      if (subview.model === model) {
-        return subview;
-      }
-    });
+    var foundView = this.findSubviewByModel(model);
     if (foundView) {
       this.subviews().indexOf(foundView).render();
     }

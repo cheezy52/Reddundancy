@@ -1,5 +1,9 @@
-<% if (post.escape("link")) { %>
-  <%= post.escape("title") %>
-<% } else { %>
-  <a href="#/posts/<%= post.get("id") %>"><%= post.escape("title")%></a>
-<% } %>
+<button class="upvote <%= (!post.vote.isNew()) &&
+  post.escape("upvoted") === "true" ? 'active' : '' %>">Upboat!</button>
+
+<p>Karma: <%= post.get("karma") %></p>
+
+<button class="downvote <%= (!post.vote.isNew()) &&
+  post.escape("upvoted") === "false" ? 'active' : '' %>">Downboat!</button>
+
+<a href="#/posts/<%= post.get("id") %>"><%= post.escape("title")%></a>

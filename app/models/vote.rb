@@ -12,9 +12,14 @@
 #
 
 class Vote < ActiveRecord::Base
-  validates :up, :owner, :votable, presence: true
+  validates :owner, :votable, presence: true
   validates_uniqueness_of :owner, :scope => :votable
+  validate :up_attr_exists
 
   belongs_to :votable, polymorphic: true
   belongs_to :owner, class_name: "User", inverse_of: :owned_votes
+
+  def up_attr_exists
+    errors.add(:up, "must not be nil") if up.nil?
+  end
 end

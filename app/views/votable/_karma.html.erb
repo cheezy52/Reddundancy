@@ -1,6 +1,6 @@
 <div class="karma">
   <% if model.user_already_voted?(current_user) %>
-  <form action="<%= action %>" method="POST">
+  <form action="<%= vote_url %>" method="POST">
     <input type="hidden" name="_method" value="PUT"></input>
     <input type="hidden" name="vote[up]" value="true"></input>
     <%= render "votable/vote_hidden_fields", model: model %>
@@ -9,7 +9,7 @@
       'active' : '' %>"></input>
   </form>
   Karma: <%= model.karma %>
-  <form action="<%= action %>" method="POST">
+  <form action="<%= vote_url %>" method="POST">
     <input type="hidden" name="_method" value="PUT"></input>
     <input type="hidden" name="vote[up]" value="false"></input>
     <%= render "votable/vote_hidden_fields", model: model %>
@@ -20,13 +20,13 @@
 
   <% else %>
 
-  <form action="<%= action %>" method="POST">
+  <form action="<%= vote_url %>" method="POST">
     <input type="hidden" name="vote[up]" value="true"></input>
     <%= render "votable/vote_hidden_fields", model: model %>
     <input type="submit" value="Upboat!" class="upvote"></input>
   </form>
   Karma: <%= model.karma %>
-  <form action="<%= action %>" method="POST">
+  <form action="<%= vote_url %>" method="POST">
     <input type="hidden" name="vote[up]" value="false"></input>
     <%= render "votable/vote_hidden_fields", model: model %>
     <input type="submit" value="Downboat!" class="downvote"></input>

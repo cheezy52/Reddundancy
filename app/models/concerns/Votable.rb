@@ -25,4 +25,8 @@ module Votable
     #Combine with user_already_voted? to determine if user downvoted
     !!self.votes.to_a.find { |vote| vote.owner == user && vote.up }
   end
+
+  def user_vote_id(user)
+    self.votes.to_a.find { |vote| vote.owner == user }.id
+  end
 end

@@ -8,12 +8,12 @@ Seddit::Application.routes.draw do
   end
   resources :posts, only: [:show] do
     resources :comments, only: [:new, :create]
-    resource :vote, only: [:create, :update]
   end
   resources :comments, only: [:show] do
     resources :comments, only: [:new, :create]
-    resource :vote, only: [:create, :update]
   end
+
+  resources :votes, only: [:create, :update]
 
   namespace :api, :defaults => { :format => :json } do
     resources :sub_seddits, only: [:index, :show], path: "s" do
@@ -21,11 +21,11 @@ Seddit::Application.routes.draw do
     end
     resources :posts, only: [:show] do
       resources :comments, only: [:index, :create]
-      resource :vote, only: [:create, :update]
     end
     resources :comments, only: [:show] do
       resources :comments, only: [:create]
-      resource :vote, only: [:create, :update]
     end
+
+    resources :votes, only: [:create, :update, :destroy]
   end
 end
