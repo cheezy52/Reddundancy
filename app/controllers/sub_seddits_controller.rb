@@ -22,7 +22,7 @@ before_action :ensure_signed_in, only: [:new, :create]
   end
 
   def show
-    @sub = SubSeddit.includes(posts: [:comments, :votes]).find(params[:id])
+    @sub = SubSeddit.includes(posts: [:comments, :votes, :owner]).find(params[:id])
     render :show, locals: {sub: @sub}
   end
 

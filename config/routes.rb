@@ -2,6 +2,7 @@ Seddit::Application.routes.draw do
   root to: "static_pages#index"
   resource :session, only: [:new, :create, :destroy]
   resources :users, only: [:new, :create, :show]
+
   resources :sub_seddits, only: [:new, :create, :show, :index], path: "s" do
     resources :posts, only: [:new, :create]
   end

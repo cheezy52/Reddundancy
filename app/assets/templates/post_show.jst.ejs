@@ -1,0 +1,5 @@
+<% if (post.get("link")) { %>
+  <h1><a href="http://<%= post.escape("link") %>"><%= post.escape("title") %></a></h1>
+<% } else {%>
+  <h1><%= post.escape("title") %></h1>
+<% } %>
