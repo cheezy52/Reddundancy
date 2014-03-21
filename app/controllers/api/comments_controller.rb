@@ -1,8 +1,8 @@
 class Api::CommentsController < ApplicationController
   def index
-    @post = Post.includes(comments: [:votes, :owner, :comments])
-      .find(params[:post_id])
-    render :index, locals: {post: @post}
+    @comments = Comment.includes(:votes, :owner, :comments)
+                       .where(post_id: params[:post_id])
+    render :index, locals: {comments: @comments}
   end
 
   def show

@@ -1,5 +1,3 @@
-<% if post.link.nil? %>
-  <h1><%= post.title %></h1>
-<% else %>
-  <h1><a href="<%= post_url(post) %>"><%= post.title %></a></h1>
-<% end %>
+<li class="post" data-id="<%= post.id %>">
+  <a href="<%= post_url(post) %>"><%= post.title %></a>
+</li>

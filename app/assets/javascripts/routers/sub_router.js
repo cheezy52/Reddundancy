@@ -4,11 +4,30 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
   },
 
   routes: {
-    "s/:id": "subIndex",
+    "": "subsIndex",
+    "s/:id": "subShow",
     "posts/:id": "postShow"
   },
 
-  subIndex: function(id) {
+  subsIndex: function(id) {
+    var subs = new Seddit.Collections.Subs();
+    var router = this;
+    this.$rootEl.html("Loading...")
+    subs.fetch({
+      success: function(models) {
+        var view = new Seddit.Views.SubsIndexView({
+          collection: subs
+        });
+        router._swapView(view);
+      },
+      error: function() {
+        router.$rootEl.html("Loading failed :(");
+      }
+    });
+  },
+
+  subShow: function(id) {
+    var router = this;
     var sub = new Seddit.Models.Sub({
       id: id
     });
@@ -16,15 +35,21 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
       subId: id
     });
     sub.fetch();
-    posts.fetch();
-    var view = new Seddit.Views.SubIndexView({
-      model: sub,
-      collection: posts
+    posts.fetch({
+      success: function() {
+        var view = new Seddit.Views.SubShowView({
+          model: sub,
+          collection: posts
+        });
+        router._swapView(view);
+      }, error: function() {
+        router.$rootEl.html("Loading failed :(");
+      }
     });
-    this._swapView(view);
   },
 
   postShow: function(id) {
+    var router = this;
     var post = new Seddit.Models.Post({
       id: id
     });
@@ -32,12 +57,17 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
       postId: id
     });
     post.fetch();
-    comments.fetch();
-    var view = new Seddit.Views.PostShowView({
-      model: post,
-      collection: comments
-    })
-    this._swapView(view)
+    comments.fetch({
+      success: function() {
+        var view = new Seddit.Views.PostShowView({
+          model: post,
+          collection: comments
+        });
+        router._swapView(view);
+      }, error: function() {
+        router.$rootEl.html("Loading failed :(");
+      }
+    });
   },
 
   _swapView: function(view) {

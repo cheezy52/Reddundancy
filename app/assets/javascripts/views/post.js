@@ -2,12 +2,14 @@ Seddit.Views.PostView = Backbone.View.extend({
   template: JST["post"],
 
   tagName: "li",
-  id: function() {
-    this.model.get("id")
+
+  attributes: function() {
+    return {
+      "data-id": this.model.get("id")
+    }
   },
-  // function() {
-//     "li id='post-" + this.model.get("id") + "'"
-//   },
+
+  className: "post",
 
   events: {
 

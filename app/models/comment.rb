@@ -25,7 +25,8 @@ class Comment < ActiveRecord::Base
   has_many :votes, as: :votable, inverse_of: :votable
 
   def self.post_comments_by_parent_id(post_id)
-    comments = self.where(post_id: post_id)
+    #Takes in a list of comments rather than fetching locally
+    comments = self.includes(:owner).where(post_id: post_id)
     comments_hash = Hash.new { [] }
 
     comments.each do |comment|
@@ -41,6 +42,9 @@ class Comment < ActiveRecord::Base
   end
 
   def num_comments_nested
+    #Works, but fires a SQL query for every comment that's not top-level.
+    #To be avoided for now; Commentable "num_comments" will return
+    #a shallow list of children, instead of this one's deep list.
     if (self.comments.length == 0)
       return 0
     else

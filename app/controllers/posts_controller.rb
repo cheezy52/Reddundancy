@@ -21,10 +21,9 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.includes(:votes, :sub, :owner, :comments => :owner).find(params[:id])
+    @post = Post.includes(:votes, :sub, :owner).find(params[:id])
     #comments not in includes due to load/sort function in next line
     @post_comments_by_parent_id = Comment.post_comments_by_parent_id(@post.id)
-    puts @post_comments_by_parent_id
     render :show, locals: {post: @post,
       post_comments_by_parent_id: @post_comments_by_parent_id}
   end

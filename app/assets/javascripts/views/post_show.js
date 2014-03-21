@@ -6,10 +6,11 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
   },
 
   initialize: function(options) {
-    this.listenTo(this.model, "sync change update", this.render)
-    this.listenTo(this.collection, "change sync update", this.renderSubviewByModel)
-    this.listenTo(this.collection, "add", this.addComment)
-    this.listenTo(this.collection, "remove", this.removeComment)
+    this.listenTo(this.model, "sync change update", this.render);
+    this.listenTo(this.collection, "change sync update", this.render);
+    this.listenTo(this.collection, "add", this.addComment);
+    this.listenTo(this.collection, "remove", this.removeComment);
+    this.populateSubviews();
   },
 
   render: function() {
@@ -19,17 +20,35 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
     }));
 
     var sortedViews = this.sortComments();
-    sortedViews.forEach(function(viewLayer) {
+    sortedViews.forEach(function(viewLayer, layerIndex) {
       viewLayer.forEach(function(commentView) {
-        if (viewLayer === 0) {
+        if (layerIndex === 0) {
           postView.$el.append(commentView.$el);
         } else {
-          postView.$el.find("#comment-" + commentView.model.get("parent_id") +
-            "-children").append(commentView.$el);
+          postView.subviewParentEl(commentView).append(commentView.$el);
         }
       });
     });
     return this;
+  },
+
+  subviewParentEl: function(view) {
+    return this.commentParentEl(view.model);
+  },
+
+  commentParentEl: function(comment) {
+    var sel = ".comment[data-id=" + comment.get("parent_id") + "]";
+    return this.$el.find(sel);
+  },
+
+  populateSubviews: function() {
+    var view = this;
+    this.collection.forEach(function(comment) {
+      view.addSubview(new Seddit.Views.CommentView({
+        model: comment
+      }));
+    });
+    this.render();
   },
 
   sortComments: function() {
@@ -41,10 +60,12 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
       var tempComment = commentView.model;
       var nestingDepth = 0;
       while(tempComment.get("parent_id")) {
-        tempComment = this.collection.getOrFetch(tempComment.get("parent_id"));
+        tempComment = postView.collection.get(tempComment.get("parent_id"));
         nestingDepth++;
       }
-      layeredViews[nestingDepth] || layeredViews[nestingDepth] = [];
+      if(!layeredViews[nestingDepth]) {
+        layeredViews[nestingDepth] = [];
+      }
       layeredViews[nestingDepth].push(commentView.render());
     });
     return layeredViews;
@@ -52,7 +73,7 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
 
   removeComment: function(comment) {
     this.removeSubviewByModel(comment);
-    this.$el.find("#comment-" + comment.get("id")).remove();
+    this.commentParentEl(comment).remove();
   },
 
   addComment: function(comment) {
@@ -60,7 +81,6 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
       model: comment
     });
     this.addSubview(commentView);
-    this.$el.find("#comment-" + comment.get("parent_id"))
-      .prepend(commentView.render().$el);
+    this.commentParentEl(comment).prepend(commentView.render().$el);
   }
 })

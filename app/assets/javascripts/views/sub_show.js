@@ -1,5 +1,5 @@
-Seddit.Views.SubIndexView = Backbone.CompositeView.extend({
-  template: JST["sub_index"],
+Seddit.Views.SubShowView = Backbone.CompositeView.extend({
+  template: JST["sub_show"],
 
   events: {
 
@@ -10,6 +10,7 @@ Seddit.Views.SubIndexView = Backbone.CompositeView.extend({
     this.listenTo(this.collection, "change sync update", this.render);
     this.listenTo(this.collection, "add", this.addPost);
     this.listenTo(this.collection, "remove", this.removePost);
+    this.populateSubviews();
   },
 
   render: function() {
@@ -23,6 +24,13 @@ Seddit.Views.SubIndexView = Backbone.CompositeView.extend({
     return this;
   },
 
+  populateSubviews: function() {
+    var view = this;
+    this.collection.forEach(function(post) {
+      view.addPost(post);
+    })
+  },
+
   addPost: function(post) {
     var postView = new Seddit.Views.PostView({
       model: post
@@ -33,6 +41,6 @@ Seddit.Views.SubIndexView = Backbone.CompositeView.extend({
 
   removePost: function(post) {
     this.removeSubviewByModel(post);
-    this.$el.find("#post-" + post.get("id")).remove();
+    this.$el.find(".post[data-id=" + post.get("id") + "]").remove();
   }
 })

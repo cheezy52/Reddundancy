@@ -1,0 +1,9 @@
+<h1>Welcome to the <%= sub.name %> sub-seddit!</h1>
+
+<h3>This page is currently under construction.</h3>
+
+<ul id="posts">
+  <% posts.each do |post| %>
+    <%= render "post", post: post %>
+  <% end %>
+</ul>

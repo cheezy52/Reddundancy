@@ -16,7 +16,7 @@ Seddit::Application.routes.draw do
   end
 
   namespace :api, :defaults => { :format => :json } do
-    resources :sub_seddits, only: [:show], path: "s" do
+    resources :sub_seddits, only: [:index, :show], path: "s" do
       resources :posts, only: [:index]
     end
     resources :posts, only: [:show] do

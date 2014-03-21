@@ -1,1 +1,1 @@
-json.partial! partial: "comment", collection: post.comments, as: :comment
+json.partial! partial: "comment", collection: comments, as: :comment

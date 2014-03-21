@@ -1,0 +1,1 @@
+json.partial! partial: "sub", collection: subs, as: :sub

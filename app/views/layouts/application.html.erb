@@ -16,28 +16,5 @@
     <%= yield %>
   </div>
 
-<!-- this is for testing only; it shouldn't be here in the first place
-  and it causes serious problems with the backbone router
-  it is an interim solution for allowing backbone start on a subset of pages -->
-<% if request.path == sub_seddit_path %>
-  <script>$(document).ready(function(){
-    Seddit.ROOT_URL = "<%= request.base_url %>";
-    Seddit.initialize();
-    var sub = new Seddit.Models.Sub({
-      id: <%= params[:id] %>
-    });
-    Seddit.Collections.posts = new Seddit.Collections.SubPosts([], {
-      subId: <%= params[:id] %>
-    });
-    sub.fetch();
-    Seddit.Collections.posts.fetch();
-    var subView = new Seddit.Views.SubIndexView({
-      model: sub,
-      collection: Seddit.Collections.posts
-    });
-    Seddit.router._swapView(subView);
-  })</script>
-<% end %>
-
 </body>
 </html>
