@@ -9,7 +9,7 @@ Seddit.Views.PostView = Backbone.View.extend({
     }
   },
 
-  className: "post",
+  className: "post row",
 
   events: {
 

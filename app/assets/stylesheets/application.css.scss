@@ -35,5 +35,18 @@ div.notice {
 }
 
 .downvote.active {
-  background-color: blue;
+  background-color: #7294f3;
+}
+
+.karma p {
+  text-align: center;
+}
+
+.karma .btn {
+  padding: 0px;
+  height: 50%;
+}
+
+ul.comment, ul#posts {
+  list-style-type: none;
 }

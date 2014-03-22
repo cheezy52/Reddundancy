@@ -1,9 +1,18 @@
-<button class="upvote <%= (!post.vote.isNew()) &&
-  post.escape("upvoted") === "true" ? 'active' : '' %>">Upboat!</button>
+<div class="karma col-xs-1">
+  <button class="upvote <%= (!post.vote.isNew()) &&
+  post.escape("upvoted") === "true" ? 'active' : '' %>
+  btn btn-xs">
+  <span class="glyphicon glyphicon-chevron-up"></span></button>
 
-<p>Karma: <%= post.get("karma") %></p>
+  <br><%= post.get("karma") %><br>
 
-<button class="downvote <%= (!post.vote.isNew()) &&
-  post.escape("upvoted") === "false" ? 'active' : '' %>">Downboat!</button>
+  <button class="downvote <%= (!post.vote.isNew()) &&
+  post.escape("upvoted") === "false" ? 'active' : '' %>
+  btn btn-xs">
+  <span class="glyphicon glyphicon-chevron-down"></span></button>
+</div>
 
-<a href="#/posts/<%= post.get("id") %>"><%= post.escape("title")%></a>
+<div class="post-body col-xs-11">
+  <%= post.escape("owner_name") %> posted:<br>
+  <a href="#/posts/<%= post.get("id") %>"><%= post.escape("title")%></a>
+</div>

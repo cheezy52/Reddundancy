@@ -2,10 +2,10 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
   template: JST["post_show"],
 
   events: {
-    "click .upvote:not(.active)" : "upvote",
-    "click .downvote:not(.active)" : "downvote",
-    "click .upvote.active" : "removeVote",
-    "click .downvote.active" : "removeVote"
+    "click .upvote:not(.active)" : "upvoteComment",
+    "click .downvote:not(.active)" : "downvoteComment",
+    "click .upvote.active" : "removeCommentVote",
+    "click .downvote.active" : "removeCommentVote"
   },
 
   initialize: function(options) {
@@ -87,38 +87,30 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
     this.commentParentEl(comment).prepend(commentView.render().$el);
   },
 
-  upvote: function(event) {
-    var comment = this.collection.get($($(event.target).parent().parent()).data("id"));
-    var view = this;
+  upvoteComment: function(event) {
+    var comment = this.collection.get($($(event.target)
+                                      .parents(".comment")).data("id"));
 
     comment.vote.save({ "up": true });
-
-    //cannot upvote an already-upvoted comment, so no need to check here
-    //could just re-fetch for authoritative source, but possible race condition
     var karmaDiff = comment.vote.isNew() ? 1 : 2
-    comment.set("karma", comment.get("karma") + karmaDiff)
+    comment.set("karma", comment.get("karma") + karmaDiff);
   },
 
-  downvote: function(event) {
-    var comment = this.collection.get($($(event.target).parent().parent()).data("id"));
-    var view = this;
+  downvoteComment: function(event) {
+    var comment = this.collection.get($($(event.target)
+                                      .parents(".comment")).data("id"));
 
     comment.vote.save({ "up": false });
-
-    //cannot downvote an already-downvoted comment, so no need to check here
-    //could just re-fetch for authoritative source, but possible race condition
     var karmaDiff = comment.vote.isNew() ? -1 : -2
-    comment.set("karma", comment.get("karma") + karmaDiff)
+    comment.set("karma", comment.get("karma") + karmaDiff);
   },
 
-  removeVote: function(event) {
-    var comment = this.collection.get($($(event.target).parent().parent()).data("id"));
-    var view = this;
+  removeCommentVote: function(event) {
+    var comment = this.collection.get($($(event.target)
+                                      .parents(".comment")).data("id"));
 
     var karmaDiff = comment.vote.get("up") ? -1 : 1
-
     comment.vote.destroy();
-
-    comment.set("karma", comment.get("karma") + karmaDiff)
+    comment.set("karma", comment.get("karma") + karmaDiff);
   }
 })

@@ -1,10 +1,20 @@
-<li><button class="upvote <%= (!comment.vote.isNew()) &&
-  comment.escape("upvoted") === "true" ? 'active' : '' %>">Upboat!</button>
+<li class="row">
+  <div class="karma col-xs-1">
+    <button class="upvote <%= (!comment.vote.isNew()) &&
+    comment.escape("upvoted") === "true" ? 'active' : '' %>
+    btn btn-xs">
+    <span class="glyphicon glyphicon-chevron-up"></span></button>
 
-<p>Karma: <%= comment.get("karma") %></p>
+    <br><%= comment.get("karma") %><br>
 
-<button class="downvote <%= (!comment.vote.isNew()) &&
-  comment.escape("upvoted") === "false" ? 'active' : '' %>">Downboat!</button>
+    <button class="downvote <%= (!comment.vote.isNew()) &&
+    comment.escape("upvoted") === "false" ? 'active' : '' %>
+    btn btn-xs">
+    <span class="glyphicon glyphicon-chevron-down"></span></button>
+  </div>
 
-<%= comment.escape("owner_name") %> wrote:
-<%= comment.escape("body")%></li>
+  <div class="comment-body col-xs-11">
+    <%= comment.escape("owner_name") %> wrote:<br>
+    <%= comment.escape("body")%>
+  </div>
+</li>

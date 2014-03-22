@@ -48,7 +48,8 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
   },
 
   upvote: function(event) {
-    var post = this.collection.get($($(event.target).parent()).data("id"));
+    var post = this.collection.get($($(event.target)
+                                   .parents(".post")).data("id"));
     var view = this;
 
     post.vote.save({ "up": true });
@@ -60,7 +61,8 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
   },
 
   downvote: function(event) {
-    var post = this.collection.get($($(event.target).parent()).data("id"));
+    var post = this.collection.get($($(event.target)
+                                   .parents(".post")).data("id"));
     var view = this;
 
     post.vote.save({ "up": false });
@@ -72,7 +74,8 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
   },
 
   removeVote: function(event) {
-    var post = this.collection.get($($(event.target).parent()).data("id"));
+    var post = this.collection.get($($(event.target)
+                                   .parents(".post")).data("id"));
     var view = this;
 
     var karmaDiff = post.vote.get("up") ? -1 : 1

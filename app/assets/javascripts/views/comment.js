@@ -20,10 +20,14 @@ Seddit.Views.CommentView = Backbone.View.extend({
     this.listenTo(this.model, "remove", this.destroy);
     this.listenTo(this.model.vote, "sync", this.updateVoteStatus);
     this.listenTo(this.model.vote, "destroy", this.removeVote);
+    //pseudo-render to get elements in place for full render
+    this.$el.html(this.template({ comment: this.model }));
   },
 
   render: function() {
-    this.$el.html(this.template({
+    //re-render only own info, without clearing child comments from subShowView
+    this.$el.children().first().remove();
+    this.$el.prepend(this.template({
       comment: this.model
     }));
     return this;
