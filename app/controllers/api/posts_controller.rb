@@ -1,4 +1,7 @@
 class Api::PostsController < ApplicationController
+  before_action :ensure_signed_in, only: [:create, :update, :destroy]
+  before_action :verify_ownership, only: [:update, :destroy]
+
   def index
     @posts = Post.includes(:sub, :owner, :comments, :votes => :owner)
                  .where(sub_id: params[:sub_seddit_id])
@@ -24,8 +27,32 @@ class Api::PostsController < ApplicationController
     end
   end
 
+  def update
+    #@post found in verify_ownership
+    if @post.update_attributes(post_params)
+      render :show, locals: {post: @post}
+    else
+      render :json => @post.errors.full_messages, status: 422
+    end
+  end
+
+  def destroy
+    #@post found in verify_ownership
+    if @post
+      @post.destroy
+      render :show, locals: {post: @post}
+    else
+      head 404
+    end
+  end
+
   private
   def post_params
     params.require(:post).permit(:link, :title, :sub_id)
+  end
+
+  def verify_ownership
+    @post = Post.includes(:owner).find(params[:id])
+    head 403 unless @post.owner == current_user
   end
 end

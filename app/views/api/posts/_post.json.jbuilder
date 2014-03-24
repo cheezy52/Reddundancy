@@ -1,5 +1,6 @@
 json.(post, :id, :link, :title, :owner_id, :sub_id, :created_at, :updated_at)
 json.sub_name(post.sub.name)
+json.user_is_owner(current_user == post.owner)
 json.karma(post.karma)
 json.upvotes(post.upvotes)
 json.downvotes(post.downvotes)

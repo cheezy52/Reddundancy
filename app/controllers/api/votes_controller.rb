@@ -1,4 +1,7 @@
 class Api::VotesController < ApplicationController
+  before_action :ensure_signed_in
+  before_action :verify_ownership, only: [:update, :destroy]
+
   def create
     @vote = current_user.owned_votes.build(vote_params)
     @votable = @vote.votable
@@ -40,5 +43,9 @@ class Api::VotesController < ApplicationController
   private
   def vote_params
     params.require(:vote).permit(:up, :votable_id, :votable_type)
+  end
+
+  def verify_ownership
+    head 403 unless Vote.find(params[:id]).owner == current_user
   end
 end
