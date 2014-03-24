@@ -1,16 +1,16 @@
 <div class="row">
   <div class="karma col-xs-1">
-    <!-- <button class="upvote <%= (!post.vote.isNew()) &&
-    post.escape("upvoted") === "true" ? 'active' : '' %>
-    btn btn-xs">
-    <span class="glyphicon glyphicon-chevron-up"></span></button>
+    <button class="upvote <%= (!post.vote.isNew()) &&
+    post.vote.get("up") === true ? 'active' : '' %>
+    btn btn-xs" data-id="<%= post.get("id") %>" data-model="post">
+    <span class="glyphicon glyphicon-chevron-up" data-id="<%= post.get("id") %>" data-model="post"></span></button>
 
     <br><%= post.get("karma") %><br>
 
     <button class="downvote <%= (!post.vote.isNew()) &&
-    post.escape("upvoted") === "false" ? 'active' : '' %>
-    btn btn-xs">
-    <span class="glyphicon glyphicon-chevron-down"></span></button> -->
+    post.vote.get("up") === false ? 'active' : '' %>
+    btn btn-xs" data-id="<%= post.get("id") %>" data-model="post">
+    <span class="glyphicon glyphicon-chevron-down" data-id="<%= post.get("id") %>" data-model="post"></span></button>
   </div>
 
   <div class="post-header col-xs-11">

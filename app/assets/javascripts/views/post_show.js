@@ -2,14 +2,15 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
   template: JST["post_show"],
 
   events: {
-    "click .upvote:not(.active)" : "upvoteComment",
-    "click .downvote:not(.active)" : "downvoteComment",
-    "click .upvote.active" : "removeCommentVote",
-    "click .downvote.active" : "removeCommentVote"
+    "click .upvote:not(.active)" : "upvote",
+    "click .downvote:not(.active)" : "downvote",
+    "click .upvote.active" : "removeVote",
+    "click .downvote.active" : "removeVote"
   },
 
   initialize: function(options) {
     this.listenTo(this.model, "sync change update", this.render);
+    this.listenTo(this.model.vote, "sync", this.render);
     this.listenTo(this.collection, "change sync update", this.render);
     this.listenTo(this.collection, "add", this.addComment);
     this.listenTo(this.collection, "remove", this.removeComment);
@@ -87,30 +88,33 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
     this.commentParentEl(comment).prepend(commentView.render().$el);
   },
 
-  upvoteComment: function(event) {
-    var comment = this.collection.get($($(event.target)
-                                      .parents(".comment")).data("id"));
-
-    comment.vote.save({ "up": true });
-    var karmaDiff = comment.vote.isNew() ? 1 : 2
-    comment.set("karma", comment.get("karma") + karmaDiff);
+  upvote: function(event) {
+    var id = $(event.target).data("id");
+    if ($(event.target).data("model") === "post") {
+      this.model.upvote();
+    } else {
+      this.collection.get(id).upvote();
+    }
   },
 
-  downvoteComment: function(event) {
-    var comment = this.collection.get($($(event.target)
-                                      .parents(".comment")).data("id"));
-
-    comment.vote.save({ "up": false });
-    var karmaDiff = comment.vote.isNew() ? -1 : -2
-    comment.set("karma", comment.get("karma") + karmaDiff);
+  downvote: function(event) {
+    var id = $(event.target).data("id");
+    if ($(event.target).data("model") === "post") {
+      this.model.downvote();
+    } else {
+      this.collection.get(id).downvote();
+    }
   },
 
-  removeCommentVote: function(event) {
-    var comment = this.collection.get($($(event.target)
-                                      .parents(".comment")).data("id"));
-
-    var karmaDiff = comment.vote.get("up") ? -1 : 1
-    comment.vote.destroy();
-    comment.set("karma", comment.get("karma") + karmaDiff);
+  removeVote: function(event) {
+    var id = $(event.target).data("id");
+    if ($(event.target).data("model") === "post") {
+      this.model.removeVote();
+      this.listenTo(this.model.vote, "change sync", this.render);
+    } else {
+      this.collection.get(id).removeVote();
+      var voteView = this.findSubviewByModel(this.collection.get(id));
+      voteView.listenTo(voteView.model.vote, "change sync", voteView.render);
+    }
   }
 })

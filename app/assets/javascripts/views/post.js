@@ -16,10 +16,7 @@ Seddit.Views.PostView = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.listenTo(this.model, "sync change update", this.render)
-    this.listenTo(this.model, "remove", this.destroy)
-    this.listenTo(this.model.vote, "sync", this.updateVoteStatus)
-    this.listenTo(this.model.vote, "destroy", this.removeVote)
+    this.listenTo(this.model.vote, "sync", this.render)
   },
 
   render: function() {
@@ -27,18 +24,5 @@ Seddit.Views.PostView = Backbone.View.extend({
       post: this.model
     }));
     return this;
-  },
-
-  updateVoteStatus: function(vote) {
-    this.model.set({
-      "upvoted": vote.get("up")
-    });
-    this.render();
-  },
-
-  removeVote: function() {
-    this.model.vote.unset("id");
-    this.model.vote.unset("up");
-    this.render();
   }
 })
