@@ -26,10 +26,6 @@ div.notice {
   margin-left: 20px;
 }
 
-.hidden {
-  display: none;
-}
-
 .upvote.active {
   background-color: orange;
 }
@@ -49,4 +45,8 @@ div.notice {
 
 ul.comment, ul#posts {
   list-style-type: none;
+}
+
+.hidden {
+  display: none;
 }

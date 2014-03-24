@@ -1,5 +1,9 @@
 <h1>Sub-Seddits:</h1>
 
+<div id="new-sub-form-container">
+  <%= JST["sub_form"]() %>
+</div>
+
 <ul id="subs-list">
 <% subs.each(function(sub) { %>
   <li><a href="#/s/<%= sub.get("id") %>"><%= sub.escape("name")%></a></li>

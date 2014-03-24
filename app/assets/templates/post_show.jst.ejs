@@ -6,11 +6,17 @@
 
   <div class="post-header col-xs-11">
     <% if (post.get("link")) { %>
-      <h1><a href="http://<%= post.escape("link") %>"><%= post.escape("title") %></a></h1>
+      <% if (post.get("link").slice(0, 4) == "http") { %>
+        <h1><a href="<%= post.escape("link") %>"><%= post.escape("title") %></a></h1>
+      <% } else { %>
+        <h1><a href="http://<%= post.escape("link") %>"><%= post.escape("title") %></a></h1>
+      <% } %>
     <% } else {%>
       <h1><%= post.escape("title") %></h1>
     <% } %>
   </div>
+
+  <%= JST["comment_form"]({ parentId: null, postId: post.get("id")}) %>
 </div>
 
 <hr>

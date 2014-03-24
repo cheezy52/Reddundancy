@@ -11,7 +11,6 @@ before_action :ensure_signed_in, only: [:new, :create]
 
   def create
     @sub = current_user.owned_subs.build(sub_params)
-    @sub.owner = current_user
     if @sub.save
       flash[:notice] = "Sub-seddit successfully created!"
       redirect_to sub_seddit_url(@sub)

@@ -20,7 +20,8 @@ Backbone.CompositeView = Backbone.View.extend({
   },
 
   addSubview: function(view) {
-    this.subviews().push(view)
+    //unshift rather than push so that newer entries will be first
+    this.subviews().unshift(view)
   },
 
   removeSubview: function(view) {
@@ -111,8 +112,6 @@ Backbone.VotableModel = Backbone.Model.extend({
 
 Backbone.VotableCompositeView = Backbone.CompositeView.extend({
   upvote: function(event) {
-    console.log($(event.target).data("model"));
-    console.log(this.model.get("class_name"));
     if ($(event.target).data("model") === this.model.get("class_name")) {
       this.model.upvote();
     } else {
@@ -141,4 +140,8 @@ Backbone.VotableCompositeView = Backbone.CompositeView.extend({
       voteView.listenTo(voteView.model.vote, "change sync", voteView.render);
     }
   }
+});
+
+$(document).ready(function(){
+  Seddit.initialize();
 });

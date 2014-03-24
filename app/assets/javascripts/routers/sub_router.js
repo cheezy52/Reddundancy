@@ -35,17 +35,12 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
       subId: id
     });
     sub.fetch();
-    posts.fetch({
-      success: function() {
-        var view = new Seddit.Views.SubShowView({
-          model: sub,
-          collection: posts
-        });
-        router._swapView(view);
-      }, error: function() {
-        router.$rootEl.html("Loading failed :(");
-      }
+    posts.fetch();
+    var view = new Seddit.Views.SubShowView({
+      model: sub,
+      collection: posts
     });
+    router._swapView(view);
   },
 
   postShow: function(id) {

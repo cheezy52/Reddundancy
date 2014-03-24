@@ -5,7 +5,9 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
     "click .upvote:not(.active)" : "upvote",
     "click .downvote:not(.active)" : "downvote",
     "click .upvote.active" : "removeVote",
-    "click .downvote.active" : "removeVote"
+    "click .downvote.active" : "removeVote",
+    "click .new-comment-show": "showNewCommentForm",
+    "submit .new-comment-form": "submitComment"
   },
 
   initialize: function(options) {
@@ -85,6 +87,30 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
       model: comment
     });
     this.addSubview(commentView);
-    this.commentParentEl(comment).prepend(commentView.render().$el);
+  },
+
+  showNewCommentForm: function(event) {
+    $(event.target).addClass("hidden");
+    $($(event.target).parent()).find(".new-comment-form").removeClass("hidden");
+  },
+
+  submitComment: function(event) {
+    event.preventDefault();
+    var view = this;
+
+    var formData = $(event.target).serializeJSON();
+    var newModel = new view.collection.model(formData);
+    newModel.save({}, {
+      success: function(model) {
+        $($(event.target).parent()).find(".new-comment-show")
+          .removeClass("hidden");
+        $(event.target).addClass("hidden");
+        view.collection.add(model);
+      },
+      error: function(errors) {
+        $(event.target).find(".comment-form-errors")
+          .text(JSON.parse(errors.get("post")));
+      }
+    })
   }
 })

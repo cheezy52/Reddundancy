@@ -1,6 +1,6 @@
 Seddit.Collections.PostComments = Backbone.Collection.extend({
   url: function() {
-    return Seddit.ROOT_URL + "/api/posts/" + this.postId + "/comments"
+    return "/api/posts/" + this.postId + "/comments"
   },
 
   model: Seddit.Models.Comment,

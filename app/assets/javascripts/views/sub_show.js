@@ -5,7 +5,9 @@ Seddit.Views.SubShowView = Backbone.VotableCompositeView.extend({
     "click .upvote:not(.active)" : "upvote",
     "click .downvote:not(.active)" : "downvote",
     "click .upvote.active" : "removeVote",
-    "click .downvote.active" : "removeVote"
+    "click .downvote.active" : "removeVote",
+    "click #new-post-show": "showNewPostForm",
+    "submit #new-post-form": "submitPost"
   },
 
   initialize: function(options) {
@@ -45,5 +47,28 @@ Seddit.Views.SubShowView = Backbone.VotableCompositeView.extend({
   removePost: function(post) {
     this.removeSubviewByModel(post);
     this.$el.find(".post[data-id=" + post.get("id") + "]").remove();
+  },
+
+  showNewPostForm: function(event) {
+    $("#new-post-show").addClass("hidden");
+    $("#new-post-form").removeClass("hidden");
+  },
+
+  submitPost: function(event) {
+    event.preventDefault();
+    var view = this;
+
+    var formData = $(event.target).serializeJSON();
+    var newModel = new view.collection.model(formData);
+    newModel.save({}, {
+      success: function(model) {
+        $("#new-post-show").addClass("hidden");
+        $("#new-post-form").removeClass("hidden");
+        view.collection.add(model);
+      },
+      error: function(errors) {
+        $("#post-form-errors").text(JSON.parse(errors.get("post")));
+      }
+    })
   }
 })

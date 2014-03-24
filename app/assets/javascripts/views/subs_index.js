@@ -2,7 +2,8 @@ Seddit.Views.SubsIndexView = Backbone.View.extend({
   template: JST["subs_index"],
 
   events: {
-
+    "click #new-sub-show": "showNewSubForm",
+    "submit #new-sub-form": "submitSub"
   },
 
   initialize: function(options) {
@@ -15,5 +16,28 @@ Seddit.Views.SubsIndexView = Backbone.View.extend({
       subs: this.collection
     }));
     return this;
+  },
+
+  showNewSubForm: function(event) {
+    $("#new-sub-show").addClass("hidden");
+    $("#new-sub-form").removeClass("hidden");
+  },
+
+  submitSub: function(event) {
+    event.preventDefault();
+    var view = this;
+
+    var formData = $(event.target).serializeJSON();
+    var newModel = new view.collection.model(formData);
+    newModel.save({}, {
+      success: function(model) {
+        $("#new-sub-show").addClass("hidden");
+        $("#new-sub-form").removeClass("hidden");
+        view.collection.add(model);
+      },
+      error: function(errors) {
+        $("#sub-form-errors").text(JSON.parse(errors));
+      }
+    })
   }
 })
