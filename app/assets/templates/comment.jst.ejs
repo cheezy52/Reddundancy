@@ -1,17 +1,5 @@
 <li class="row">
-  <div class="karma col-xs-1">
-    <button class="upvote <%= (!comment.vote.isNew()) &&
-    comment.vote.get("up") === true ? 'active' : '' %>
-    btn btn-xs" data-id="<%= comment.get("id") %>">
-    <span class="glyphicon glyphicon-chevron-up" data-id="<%= comment.get("id") %>"></span></button>
-
-    <br><%= comment.get("karma") %><br>
-
-    <button class="downvote <%= (!comment.vote.isNew()) &&
-    comment.vote.get("up") === false ? 'active' : '' %>
-    btn btn-xs" data-id="<%= comment.get("id") %>">
-    <span class="glyphicon glyphicon-chevron-down" data-id="<%= comment.get("id") %>"></span></button>
-  </div>
+  <%= JST["karma"]({ model: comment }) %>
 
   <div class="comment-body col-xs-11">
     <%= comment.escape("owner_name") %> wrote:<br>

@@ -1,0 +1,27 @@
+<div class="karma col-xs-1">
+  <button
+    class="upvote <%= (!model.vote.isNew()) &&
+                       model.vote.get("up") === true ?
+                       'active' : '' %> btn btn-xs"
+    data-id="<%= model.get("id") %>"
+    data-model="<%= model.get("class_name") %>"
+  >
+    <span class="glyphicon glyphicon-chevron-up"
+          data-id="<%= model.get("id") %>"
+          data-model="<%= model.get("class_name") %>"></span>
+  </button>
+
+  <br><%= model.get("karma") %><br>
+
+  <button
+    class="downvote <%= (!model.vote.isNew()) &&
+                        model.vote.get("up") === false ?
+                        'active' : '' %> btn btn-xs"
+    data-id="<%= model.get("id") %>"
+    data-model="<%= model.get("class_name") %>"
+  >
+    <span class="glyphicon glyphicon-chevron-down"
+          data-id="<%= model.get("id") %>"
+          data-model="<%= model.get("class_name") %>"></span>
+  </button>
+</div>

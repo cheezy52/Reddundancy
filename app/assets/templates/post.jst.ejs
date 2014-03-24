@@ -1,16 +1,4 @@
-<div class="karma col-xs-1">
-  <button class="upvote <%= (!post.vote.isNew()) &&
-  post.vote.get("up") === true ? 'active' : '' %>
-  btn btn-xs" data-id="<%= post.get("id") %>">
-  <span class="glyphicon glyphicon-chevron-up" data-id="<%= post.get("id") %>"></span></button>
-
-  <br><%= post.get("karma") %><br>
-
-  <button class="downvote <%= (!post.vote.isNew()) &&
-  post.vote.get("up") === false ? 'active' : '' %>
-  btn btn-xs" data-id="<%= post.get("id") %>">
-  <span class="glyphicon glyphicon-chevron-down" data-id="<%= post.get("id") %>"></span></button>
-</div>
+<%= JST["karma"]({ model: post }) %>
 
 <div class="post-body col-xs-11">
   <%= post.escape("owner_name") %> posted:<br>
