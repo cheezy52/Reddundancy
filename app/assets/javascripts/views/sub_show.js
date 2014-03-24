@@ -1,4 +1,4 @@
-Seddit.Views.SubShowView = Backbone.CompositeView.extend({
+Seddit.Views.SubShowView = Backbone.VotableCompositeView.extend({
   template: JST["sub_show"],
 
   events: {
@@ -45,22 +45,5 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
   removePost: function(post) {
     this.removeSubviewByModel(post);
     this.$el.find(".post[data-id=" + post.get("id") + "]").remove();
-  },
-
-  upvote: function(event) {
-    var id = $(event.target).data("id");
-    this.collection.get(id).upvote();
-  },
-
-  downvote: function(event) {
-    var id = $(event.target).data("id");
-    this.collection.get(id).downvote();
-  },
-
-  removeVote: function(event) {
-    var id = $(event.target).data("id");
-    this.collection.get(id).removeVote();
-    var voteView = this.findSubviewByModel(this.collection.get(id));
-    voteView.listenTo(voteView.model.vote, "change sync", voteView.render);
   }
 })

@@ -1,4 +1,4 @@
-Seddit.Views.PostShowView = Backbone.CompositeView.extend({
+Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
   template: JST["post_show"],
 
   events: {
@@ -86,35 +86,5 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
     });
     this.addSubview(commentView);
     this.commentParentEl(comment).prepend(commentView.render().$el);
-  },
-
-  upvote: function(event) {
-    var id = $(event.target).data("id");
-    if ($(event.target).data("model") === "post") {
-      this.model.upvote();
-    } else {
-      this.collection.get(id).upvote();
-    }
-  },
-
-  downvote: function(event) {
-    var id = $(event.target).data("id");
-    if ($(event.target).data("model") === "post") {
-      this.model.downvote();
-    } else {
-      this.collection.get(id).downvote();
-    }
-  },
-
-  removeVote: function(event) {
-    var id = $(event.target).data("id");
-    if ($(event.target).data("model") === "post") {
-      this.model.removeVote();
-      this.listenTo(this.model.vote, "change sync", this.render);
-    } else {
-      this.collection.get(id).removeVote();
-      var voteView = this.findSubviewByModel(this.collection.get(id));
-      voteView.listenTo(voteView.model.vote, "change sync", voteView.render);
-    }
   }
 })

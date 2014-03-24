@@ -13,7 +13,7 @@
 
 class Vote < ActiveRecord::Base
   validates :owner, :votable, presence: true
-  validates_uniqueness_of :owner, :scope => :votable
+  validates_uniqueness_of :owner, :scope => [:votable_id, :votable_type]
   validate :up_attr_exists
 
   belongs_to :votable, polymorphic: true

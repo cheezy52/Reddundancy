@@ -1,16 +1,30 @@
 <div class="row">
   <div class="karma col-xs-1">
-    <button class="upvote <%= (!post.vote.isNew()) &&
-    post.vote.get("up") === true ? 'active' : '' %>
-    btn btn-xs" data-id="<%= post.get("id") %>" data-model="post">
-    <span class="glyphicon glyphicon-chevron-up" data-id="<%= post.get("id") %>" data-model="post"></span></button>
+    <button
+      class="upvote <%= (!post.vote.isNew()) &&
+                         post.vote.get("up") === true ?
+                         'active' : '' %> btn btn-xs"
+      data-id="<%= post.get("id") %>"
+      data-model="<%= post.get("class_name") %>"
+    >
+      <span class="glyphicon glyphicon-chevron-up"
+            data-id="<%= post.get("id") %>"
+            data-model="<%= post.get("class_name") %>"></span>
+    </button>
 
     <br><%= post.get("karma") %><br>
 
-    <button class="downvote <%= (!post.vote.isNew()) &&
-    post.vote.get("up") === false ? 'active' : '' %>
-    btn btn-xs" data-id="<%= post.get("id") %>" data-model="post">
-    <span class="glyphicon glyphicon-chevron-down" data-id="<%= post.get("id") %>" data-model="post"></span></button>
+    <button
+      class="downvote <%= (!post.vote.isNew()) &&
+                          post.vote.get("up") === false ?
+                          'active' : '' %> btn btn-xs"
+      data-id="<%= post.get("id") %>"
+      data-model="<%= post.get("class_name") %>"
+    >
+      <span class="glyphicon glyphicon-chevron-down"
+            data-id="<%= post.get("id") %>"
+            data-model="<%= post.get("class_name") %>"></span>
+    </button>
   </div>
 
   <div class="post-header col-xs-11">

@@ -108,3 +108,37 @@ Backbone.VotableModel = Backbone.Model.extend({
     this.set("karma", this.get("karma") + karmaDiff);
   }
 });
+
+Backbone.VotableCompositeView = Backbone.CompositeView.extend({
+  upvote: function(event) {
+    console.log($(event.target).data("model"));
+    console.log(this.model.get("class_name"));
+    if ($(event.target).data("model") === this.model.get("class_name")) {
+      this.model.upvote();
+    } else {
+      var id = $(event.target).data("id");
+      this.collection.get(id).upvote();
+    }
+  },
+
+  downvote: function(event) {
+    if ($(event.target).data("model") === this.model.get("class_name")) {
+      this.model.downvote();
+    } else {
+      var id = $(event.target).data("id");
+      this.collection.get(id).downvote();
+    }
+  },
+
+  removeVote: function(event) {
+    if ($(event.target).data("model") === this.model.get("class_name")) {
+      this.model.removeVote();
+      this.listenTo(this.model.vote, "change sync", this.render);
+    } else {
+      var id = $(event.target).data("id");
+      this.collection.get(id).removeVote();
+      var voteView = this.findSubviewByModel(this.collection.get(id));
+      voteView.listenTo(voteView.model.vote, "change sync", voteView.render);
+    }
+  }
+});
