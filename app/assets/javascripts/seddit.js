@@ -122,10 +122,6 @@ Backbone.VotableModel = Backbone.Model.extend({
       votable_type: this.get("class_name")
     });
     this.set("karma", this.get("karma") + karmaDiff);
-  },
-
-  initialize: function(options) {
-    this.vote = new Seddit.Models.Vote();
   }
 });
 
