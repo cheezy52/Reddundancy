@@ -2,10 +2,6 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
   template: JST["post_show"],
 
   events: {
-    "click .upvote:not(.active)" : "upvote",
-    "click .downvote:not(.active)" : "downvote",
-    "click .upvote.active" : "removeVote",
-    "click .downvote.active" : "removeVote",
     "click .new-comment-show": "showNewCommentForm",
     "submit .new-comment-form": "submitComment",
     "click .delete-comment": "deleteComment",
@@ -13,29 +9,43 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
   },
 
   initialize: function(options) {
+    //call super
+    Backbone.VotableCompositeView.prototype.initialize.call(this, options);
     this.listenTo(this.model, "sync change update", this.render);
-    //cause of errors in loading if post-show comes back before comments?
-    //delegate to comment view
-    //this.listenTo(this.model.vote, "sync", this.render);
     this.listenTo(this.collection, "change sync update", this.render);
     this.listenTo(this.collection, "add", this.addComment);
     this.listenTo(this.collection, "remove", this.removeComment);
+    //this.showForm is a placeholder so that other renders don't re-hide form
+    this.showForm = false;
+    this.formErrors = null;
+    this.formDataDefault = {"comment": { "body": null } };
+    this.formPending = false;
     this.populateSubviews();
   },
 
   render: function() {
+    //get form data to preserve entered text between renders
+    var formData = this.$el.find(".new-comment-form").first().serializeJSON();
+    if(!formData["comment"]) {
+      formData = this.formDataDefault;
+    };
     var postView = this;
     this.$el.html(this.template({
-      post: this.model
+      post: this.model,
+      showForm: this.showForm,
+      formErrors: this.formErrors,
+      formData: formData["comment"],
+      votingDisabled: this.awaitingVoteReturn,
+      formPending: this.formPending
     }));
 
     var sortedViews = this.sortComments();
     sortedViews.forEach(function(viewLayer, layerIndex) {
       viewLayer.forEach(function(commentView) {
         if (layerIndex === 0) {
-          postView.$el.append(commentView.$el);
+          postView.$el.append(commentView.render().$el);
         } else {
-          postView.subviewParentEl(commentView).append(commentView.$el);
+          postView.subviewParentEl(commentView).append(commentView.render().$el);
         }
       });
     });
@@ -76,14 +86,15 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
       if(!layeredViews[nestingDepth]) {
         layeredViews[nestingDepth] = [];
       }
-      layeredViews[nestingDepth].push(commentView.render());
+      layeredViews[nestingDepth].push(commentView);
     });
     return layeredViews;
   },
 
   removeComment: function(comment) {
     var commentView = this.findSubviewByModel(comment);
-    if(commentView.$el.find(".comment").length > 1) {
+    if(commentView.$el.find(".comment").length > 0) {
+      console.log("contains child comments");
       //contains child comments
       commentView.$el.find(".comment-body").first().text("Comment deleted");
     } else {
@@ -98,13 +109,23 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
     this.addSubview(commentView);
   },
 
+  findFormView: function(event) {
+    var commentId = $(event.target).closest(".comment").data("id");
+    //declaring and handling the "else" for the next conditional in one step
+    var commentView = this;
+    if(commentId) {
+      //if this is entered, comment is on a comment subview
+      commentView = this.findSubviewByModel(this.collection.get(commentId));
+    };
+    return commentView;
+  },
+
   showNewCommentForm: function(event) {
     //hide all other comment fields first to prevent having multiple open.
     //will keep any partially-entered comments in closed forms
-    this.$el.find(".new-comment-form").addClass("hidden");
-    var commentForm = $($(event.target).parent()).find(".new-comment-form");
-    commentForm.removeClass("hidden");
-    commentForm.find(".comment-body-field").focus();
+    var commentView = this.findFormView(event);
+    commentView.showForm = !commentView.showForm;
+    commentView.render();
   },
 
   submitComment: function(event) {
@@ -113,15 +134,23 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
 
     var formData = $(event.target).serializeJSON();
     var newModel = new view.collection.model(formData);
+    var commentView = view.findFormView(event);
+    commentView.formPending = true;
+    commentView.render();
     newModel.save({}, {
       success: function(model) {
-        $(event.target).addClass("hidden");
+        commentView.showForm = false;
+        commentView.formErrors = null;
+        commentView.formPending = false;
+        view.$el.find(".new-comment-form").empty();
+        commentView.render();
         view.collection.add(model);
       },
-      error: function(model, errors) {
-        debugger
-        $(event.target).find(".comment-form-errors")
-          .text(JSON.parse(errors.responseText));
+      error: function(model, response) {
+        var commentView = view.findFormView(event);
+        commentView.formPending = false;
+        commentView.formErrors = JSON.parse(response.responseText);
+        commentView.render();
       }
     })
   },

@@ -1,16 +1,28 @@
-<button class="btn btn-primary" id="new-post-show">Submit a Post</button>
+<% if (showForm) { %>
+<button class="btn btn-primary hidden new-post-show">Submit a Post</button>
+<% } else { %>
+<button class="btn btn-primary new-post-show">Submit a Post</button>
+<% } %>
 
-<form class="hidden" id="new-post-form">
-  <div id="post-form-errors"></div>
+<% if (showForm) { %>
+<form class="new-post-form">
+<% } else { %>
+<form class="hidden new-post-form">
+<% } %>
+  <div id="post-form-errors"><%= formErrors %></div>
 
   <h3>Add a Post!</h3>
   <input type="hidden" name="post[sub_id]" value="<%= sub.get("id") %>">
 
-  <label>Title<input type="textarea" name="post[title]" class="post-form-title"></input></label>
+  <label>Title<input type="textarea" name="post[title]"
+    class="post-form-title" value="<%= formData["title"] %>"></input></label>
   <br>
 
-  <label>URL<input type="text" name="post[link]"></input></label>
+  <label>URL<input type="text" name="post[link]"
+    value="<%= formData["link"] %>"></input></label>
   <br>
 
-  <input type="submit" class="btn btn-success">Submit Post!</input>
+  <input type="submit" class="btn btn-success
+  <%= formPending ? 'disabled' : '' %>"
+  value="<%= formPending ? "Working..." : "Submit Post!" %>"></input>
 </form>

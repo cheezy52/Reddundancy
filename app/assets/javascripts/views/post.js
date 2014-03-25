@@ -1,4 +1,4 @@
-Seddit.Views.PostView = Backbone.View.extend({
+Seddit.Views.PostView = Backbone.VotableView.extend({
   template: JST["post"],
 
   tagName: "li",
@@ -16,12 +16,15 @@ Seddit.Views.PostView = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.listenTo(this.model.vote, "sync", this.render)
+    //call super
+    Backbone.VotableView.prototype.initialize.call(this, options);
+    this.listenTo(this.model.vote, "request sync", this.render);
   },
 
   render: function() {
     this.$el.html(this.template({
-      post: this.model
+      post: this.model,
+      votingDisabled: this.awaitingVoteReturn
     }));
     return this;
   }

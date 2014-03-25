@@ -18,10 +18,26 @@ window.Seddit = {
       Seddit.current_user = null;
     }
 
+    Seddit.pendingRequests = 0;
+    $(document).ajaxStart(Seddit.displayLoadingIcon);
+    $(document).ajaxStop(Seddit.hideLoadingIcon);
+
     window.Seddit.router = new Seddit.Routers.SubRouter({
       $rootEl: $("#content")
     });
     Backbone.history.start();
+  }
+};
+
+Seddit.displayLoadingIcon = function() {
+  Seddit.pendingRequests += 1;
+  $("#loading-icon").removeClass("hidden");
+};
+
+Seddit.hideLoadingIcon = function() {
+  Seddit.pendingRequests -= 1;
+  if(Seddit.pendingRequests === 0) {
+    $("#loading-icon").addClass("hidden");
   }
 };
 
@@ -74,6 +90,7 @@ Backbone.CompositeView = Backbone.View.extend({
       subview.remove();
     })
     this.stopListening();
+    this.undelegateEvents();
     this.$el.remove();
   }
 });
@@ -97,23 +114,44 @@ Backbone.VotableModel = Backbone.Model.extend({
     return data
   },
 
-  upvote: function(event) {
-    this.vote.save({ "up": true });
+  upvote: function(event, callback) {
+    this.vote.save({ "up": true }, {
+      success: function(model) {
+        callback();
+      },
+      error: function(model, response) {
+        callback();
+      }
+    });
 
     var karmaDiff = this.vote.isNew() ? 1 : 2;
     this.set("karma", this.get("karma") + karmaDiff);
   },
 
-  downvote: function(event) {
-    this.vote.save({ "up": false });
+  downvote: function(event, callback) {
+    this.vote.save({ "up": false }, {
+      success: function(model) {
+        callback();
+      },
+      error: function(model, response) {
+        callback();
+      }
+    });
 
     var karmaDiff = this.vote.isNew() ? -1 : -2;
     this.set("karma", this.get("karma") + karmaDiff);
   },
 
-  removeVote: function(event) {
+  removeVote: function(event, callback) {
     var karmaDiff = this.vote.get("up") ? -1 : 1;
-    this.vote.destroy();
+    this.vote.destroy({
+      success: function(model) {
+        callback();
+      },
+      error: function(model, response) {
+        callback();
+      }
+    });
 
     //re-initialize fresh, not-yet-persisted vote
     //remember to have views listen to the new model.vote!
@@ -125,35 +163,97 @@ Backbone.VotableModel = Backbone.Model.extend({
   }
 });
 
+Backbone.VotableView = Backbone.View.extend({
+  upvote: function(event) {
+    if(!this.awaitingVoteReturn) {
+      this.disableKarmaButtons();
+      this.model.upvote(event, this.enableKarmaButtons.bind(this));
+    }
+  },
+
+  downvote: function(event) {
+    if(!this.awaitingVoteReturn) {
+      this.disableKarmaButtons();
+      this.model.downvote(event, this.enableKarmaButtons.bind(this));
+    }
+  },
+
+  removeVote: function(event) {
+    if(!this.awaitingVoteReturn) {
+      this.disableKarmaButtons();
+      this.model.removeVote(event, this.enableKarmaButtons.bind(this));
+      this.listenTo(this.model.vote, "change sync", this.render);
+    }
+  },
+
+  disableKarmaButtons: function() {
+    this.awaitingVoteReturn = true;
+  },
+
+  enableKarmaButtons: function() {
+    this.awaitingVoteReturn = false;
+  },
+
+  addKarmaEvents: function() {
+    this.events["click button.upvote:not(.active)"] = "upvote";
+    this.events["click button.downvote:not(.active)"] = "downvote";
+    this.events["click button.upvote.active"] = "removeVote";
+    this.events["click button.downvote.active"] = "removeVote";
+  },
+
+  initialize: function(options) {
+    this.awaitingVoteReturn = false;
+    this.addKarmaEvents();
+  }
+});
+
 Backbone.VotableCompositeView = Backbone.CompositeView.extend({
+  getSubview: function(event) {
+    var id = $(event.target).data("id");
+    var model = this.collection.get(id);
+    var modelView = this.findSubviewByModel(model);
+    return modelView;
+  },
+
+  //fake multiple inheritance
   upvote: function(event) {
     if ($(event.target).data("model") === this.model.get("class_name")) {
-      this.model.upvote();
+      Backbone.VotableView.prototype.upvote.call(this, event);
     } else {
-      var id = $(event.target).data("id");
-      this.collection.get(id).upvote();
+      Backbone.VotableView.prototype.upvote.call(this.getSubview(event), event);
     }
   },
 
   downvote: function(event) {
     if ($(event.target).data("model") === this.model.get("class_name")) {
-      this.model.downvote();
+      Backbone.VotableView.prototype.downvote.call(this, event);
     } else {
-      var id = $(event.target).data("id");
-      this.collection.get(id).downvote();
+      Backbone.VotableView.prototype.downvote.call(this.getSubview(event), event);
     }
   },
 
   removeVote: function(event) {
     if ($(event.target).data("model") === this.model.get("class_name")) {
-      this.model.removeVote();
-      this.listenTo(this.model.vote, "change sync", this.render);
+      Backbone.VotableView.prototype.removeVote.call(this, event);
     } else {
-      var id = $(event.target).data("id");
-      this.collection.get(id).removeVote();
-      var voteView = this.findSubviewByModel(this.collection.get(id));
-      voteView.listenTo(voteView.model.vote, "change sync", voteView.render);
+      Backbone.VotableView.prototype.removeVote.call(this.getSubview(event), event);
     }
+  },
+
+  disableKarmaButtons: function() {
+    Backbone.VotableView.prototype.disableKarmaButtons.call(this);
+  },
+
+  enableKarmaButtons: function() {
+    Backbone.VotableView.prototype.enableKarmaButtons.call(this);
+  },
+
+  addKarmaEvents: function() {
+    Backbone.VotableView.prototype.addKarmaEvents.call(this);
+  },
+
+  initialize: function(options) {
+    Backbone.VotableView.prototype.initialize.call(this, options);
   }
 });
 

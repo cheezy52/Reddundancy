@@ -1,7 +1,15 @@
-<button class="btn btn-primary new-comment-show">Add Comment...</button>
+<% if (showForm) { %>
+<button class="btn btn-primary hidden new-comment-show">Add Comment</button>
+<% } else { %>
+<button class="btn btn-primary new-comment-show">Add Comment</button>
+<% } %>
 
+<% if (showForm) { %>
+<form class="new-comment-form">
+<% } else { %>
 <form class="hidden new-comment-form">
-  <div class="comment-form-errors"></div>
+<% } %>
+  <div class="comment-form-errors"><%= formErrors %></div>
 
   <h3>Add a Comment!</h3>
   <input type="hidden" name="comment[post_id]" value="<%= postId %>">
@@ -10,8 +18,11 @@
   <% } %>
 
   <input type="textarea" name="comment[body]"
-   class="comment-body-field" placeholder="Add Your Wisdom..."></input>
+   class="comment-body-field" placeholder="Add Your Wisdom..."
+   value="<%= formData["body"] %>"></input>
   <br>
 
-  <input type="submit" class="btn btn-success">Submit Comment!</input>
+  <input type="submit" class="btn btn-success
+  <%= formPending ? 'disabled' : '' %>"
+  value="<%= formPending ? "Working..." : "Submit Comment!" %>"></input>
 </form>

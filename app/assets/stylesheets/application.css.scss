@@ -43,6 +43,11 @@ div.notice {
   height: 50%;
 }
 
+.disabled {
+  opacity: 0.6;
+  filter:alpha(opacity=50);
+}
+
 ul.comment, ul#posts {
   list-style-type: none;
 }

@@ -2,26 +2,37 @@ Seddit.Views.SubsIndexView = Backbone.View.extend({
   template: JST["subs_index"],
 
   events: {
-    "click #new-sub-show": "showNewSubForm",
-    "submit #new-sub-form": "submitSub"
+    "click .new-sub-show": "showNewSubForm",
+    "submit .new-sub-form": "submitSub"
   },
 
   initialize: function(options) {
     this.listenTo(this.collection, "add change sync update remove", this.render);
+    this.showForm = false;
+    this.formErrors = null;
+    this.formDataDefault = { "sub" : { "name" : null } };
+    this.formPending = false;
   },
 
   render: function() {
-    var view = this;
+    var formData = this.$el.find(".new-sub-form").first().serializeJSON();
+    if(!formData["sub"]) {
+      formData = this.formDataDefault;
+    }
     this.$el.html(this.template({
-      subs: this.collection
+      subs: this.collection,
+      showForm: this.showForm,
+      formErrors: this.formErrors,
+      formData: formData["sub"],
+      formPending: this.formPending
     }));
     return this;
   },
 
   showNewSubForm: function(event) {
-    $("#new-sub-show").addClass("hidden");
-    $("#new-sub-form").removeClass("hidden");
-    $("#new-sub-form").find(".sub-form-name").focus();
+    this.showForm = !this.showForm;
+    this.render();
+    this.$el.find(".sub-form-name").focus();
   },
 
   submitSub: function(event) {
@@ -30,14 +41,20 @@ Seddit.Views.SubsIndexView = Backbone.View.extend({
 
     var formData = $(event.target).serializeJSON();
     var newModel = new view.collection.model(formData);
+    view.formPending = true;
+    this.render();
     newModel.save({}, {
       success: function(model) {
-        $("#new-sub-show").addClass("hidden");
-        $("#new-sub-form").removeClass("hidden");
+        view.formPending = false;
+        view.formErrors = null;
+        view.showForm = false;
+        view.$el.find(".new-sub-form").empty();
         view.collection.add(model);
       },
       error: function(model, errors) {
-        $("#sub-form-errors").text(JSON.parse(errors.responseText));
+        view.formPending = false;
+        view.formErrors = JSON.parse(errors.responseText);
+        view.render();
       }
     })
   }

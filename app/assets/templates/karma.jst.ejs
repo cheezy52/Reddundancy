@@ -1,9 +1,8 @@
 <div class="karma col-xs-1">
   <% if (Seddit.current_user) { %>
     <button
-      class="upvote <%= (!model.vote.isNew()) &&
-                         model.vote.get("up") === true ?
-                         'active' : '' %> btn btn-xs"
+      class="upvote <%= model.vote.get("up") === true ? 'active' : '' %>
+        btn btn-xs <%= votingDisabled ? 'disabled' : '' %>"
       data-id="<%= model.get("id") %>"
       data-model="<%= model.get("class_name") %>"
     >
@@ -15,9 +14,8 @@
     <br><%= model.get("karma") %><br>
 
     <button
-      class="downvote <%= (!model.vote.isNew()) &&
-                          model.vote.get("up") === false ?
-                          'active' : '' %> btn btn-xs"
+      class="downvote <%= model.vote.get("up") === false ? 'active' : '' %>
+        btn btn-xs <%= votingDisabled ? 'disabled' : '' %>"
       data-id="<%= model.get("id") %>"
       data-model="<%= model.get("class_name") %>"
     >
