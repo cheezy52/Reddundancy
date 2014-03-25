@@ -3,4 +3,7 @@
 <div class="post-body col-xs-11">
   <%= post.escape("owner_name") %> posted:<br>
   <a href="#/posts/<%= post.get("id") %>"><%= post.escape("title")%></a>
+  <% if(post.get("user_is_owner") === "true") { %>
+    <button class="delete-post btn btn-danger">Delete Post</button>
+  <% } %>
 </div>

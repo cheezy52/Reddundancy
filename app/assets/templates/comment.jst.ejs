@@ -4,6 +4,10 @@
   <div class="comment-body col-xs-11">
     <%= comment.escape("owner_name") %> wrote:<br>
     <%= comment.escape("body")%>
+    <% if(comment.get("user_is_owner")) { %>
+      <button class="delete-comment btn btn-danger"
+              data-id="<%= comment.get("id") %>">Delete Comment</button>
+    <% } %>
     <%= JST["comment_form"]({ parentId: comment.get("id"),
       postId: comment.get("post_id")})%>
   </div>

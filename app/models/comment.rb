@@ -16,13 +16,15 @@ class Comment < ActiveRecord::Base
   include Commentable
 
   validates :body, :owner, :post, presence: true
+  #allows nil parent_id for toplevel comments, else must be valid reference
+  validates_associated :parent
 
   belongs_to :parent, class_name: "Comment", inverse_of: :comments
   belongs_to :post, inverse_of: :comments
   belongs_to :owner, class_name: "User", inverse_of: :owned_comments
 
   has_many :comments, inverse_of: :parent, foreign_key: :parent_id
-  has_many :votes, as: :votable, inverse_of: :votable
+  has_many :votes, as: :votable, inverse_of: :votable, dependent: :destroy
 
   def self.post_comments_by_parent_id(post_id)
     #Takes in a list of comments rather than fetching locally

@@ -21,6 +21,7 @@ Seddit.Views.SubsIndexView = Backbone.View.extend({
   showNewSubForm: function(event) {
     $("#new-sub-show").addClass("hidden");
     $("#new-sub-form").removeClass("hidden");
+    $("#new-sub-form").find(".sub-form-name").focus();
   },
 
   submitSub: function(event) {
@@ -35,8 +36,8 @@ Seddit.Views.SubsIndexView = Backbone.View.extend({
         $("#new-sub-form").removeClass("hidden");
         view.collection.add(model);
       },
-      error: function(errors) {
-        $("#sub-form-errors").text(JSON.parse(errors));
+      error: function(model, errors) {
+        $("#sub-form-errors").text(JSON.parse(errors.responseText));
       }
     })
   }

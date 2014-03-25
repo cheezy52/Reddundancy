@@ -1,7 +1,7 @@
 <button class="btn btn-primary new-comment-show">Add Comment...</button>
 
 <form class="hidden new-comment-form">
-  <div id="comment-form-errors"></div>
+  <div class="comment-form-errors"></div>
 
   <h3>Add a Comment!</h3>
   <input type="hidden" name="comment[post_id]" value="<%= postId %>">
@@ -9,7 +9,8 @@
     <input type="hidden" name="comment[parent_id]" value="<%= parentId %>">
   <% } %>
 
-  <input type="textarea" name="comment[body]" placeholder="Add Your Wisdom..."></input>
+  <input type="textarea" name="comment[body]"
+   class="comment-body-field" placeholder="Add Your Wisdom..."></input>
   <br>
 
   <input type="submit" class="btn btn-success">Submit Comment!</input>

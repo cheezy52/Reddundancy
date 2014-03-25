@@ -21,6 +21,6 @@ class Post < ActiveRecord::Base
     foreign_key: :sub_id,
     inverse_of: :posts
   belongs_to :owner, class_name: "User", inverse_of: :owned_posts
-  has_many :comments, inverse_of: :post
-  has_many :votes, as: :votable, inverse_of: :votable
+  has_many :comments, inverse_of: :post, dependent: :destroy
+  has_many :votes, as: :votable, inverse_of: :votable, dependent: :destroy
 end

@@ -52,6 +52,7 @@ Seddit.Views.SubShowView = Backbone.VotableCompositeView.extend({
   showNewPostForm: function(event) {
     $("#new-post-show").addClass("hidden");
     $("#new-post-form").removeClass("hidden");
+    $("#new-post-form").find(".post-form-title").focus();
   },
 
   submitPost: function(event) {
@@ -66,8 +67,8 @@ Seddit.Views.SubShowView = Backbone.VotableCompositeView.extend({
         $("#new-post-form").removeClass("hidden");
         view.collection.add(model);
       },
-      error: function(errors) {
-        $("#post-form-errors").text(JSON.parse(errors.get("post")));
+      error: function(model, errors) {
+        $("#post-form-errors").text(JSON.parse(errors.responseText));
       }
     })
   }

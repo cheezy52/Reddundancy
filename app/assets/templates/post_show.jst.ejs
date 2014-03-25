@@ -14,8 +14,13 @@
     <% } else {%>
       <h1><%= post.escape("title") %></h1>
     <% } %>
+
+    <% if(post.get("user_is_owner")) { %>
+      <button class="delete-post btn btn-danger">Delete Post</button>
+    <% } %>
   </div>
 
+  <hr>
   <%= JST["comment_form"]({ parentId: null, postId: post.get("id")}) %>
 </div>
 

@@ -40,6 +40,7 @@ class Api::CommentsController < ApplicationController
   def destroy
     #@comment found in verify_ownership
     @child_comments = Comment.where(parent_id: @comment.id)
+    puts @child_comments
     if @child_comments.empty?
       @comment.destroy
       render :show, locals: {comment: @comment}
@@ -49,6 +50,7 @@ class Api::CommentsController < ApplicationController
       #then have checks on render to display appropriate text;
       #don't like deliberately having invalid data, though.
       @comment.update(body: "Comment deleted")
+      puts @comment.errors.full_messages
       render :show, locals: {comment: @comment}
     end
   end

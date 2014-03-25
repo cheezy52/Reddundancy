@@ -7,7 +7,9 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
     "click .upvote.active" : "removeVote",
     "click .downvote.active" : "removeVote",
     "click .new-comment-show": "showNewCommentForm",
-    "submit .new-comment-form": "submitComment"
+    "submit .new-comment-form": "submitComment",
+    "click .delete-comment": "deleteComment",
+    "click .delete-post": "deletePost"
   },
 
   initialize: function(options) {
@@ -78,8 +80,13 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
   },
 
   removeComment: function(comment) {
-    this.removeSubviewByModel(comment);
-    this.commentParentEl(comment).remove();
+    var commentView = this.findSubviewByModel(comment);
+    if(commentView.$el.find(".comment").length > 1) {
+      //contains child comments
+      commentView.$el.find(".comment-body").first().text("Comment deleted");
+    } else {
+      commentView.remove();
+    }
   },
 
   addComment: function(comment) {
@@ -90,8 +97,12 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
   },
 
   showNewCommentForm: function(event) {
-    $(event.target).addClass("hidden");
-    $($(event.target).parent()).find(".new-comment-form").removeClass("hidden");
+    //hide all other comment fields first to prevent having multiple open.
+    //will keep any partially-entered comments in closed forms
+    this.$el.find(".new-comment-form").addClass("hidden");
+    var commentForm = $($(event.target).parent()).find(".new-comment-form");
+    commentForm.removeClass("hidden");
+    commentForm.find(".comment-body-field").focus();
   },
 
   submitComment: function(event) {
@@ -102,15 +113,24 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
     var newModel = new view.collection.model(formData);
     newModel.save({}, {
       success: function(model) {
-        $($(event.target).parent()).find(".new-comment-show")
-          .removeClass("hidden");
         $(event.target).addClass("hidden");
         view.collection.add(model);
       },
-      error: function(errors) {
+      error: function(model, errors) {
         $(event.target).find(".comment-form-errors")
-          .text(JSON.parse(errors.get("post")));
+          .text(JSON.parse(errors.responseText));
       }
     })
+  },
+
+  deleteComment: function(event) {
+    var comment = this.collection.get($(event.target).data("id"));
+    comment.destroy();
+  },
+
+  deletePost: function(event) {
+    var redirectUrl = "s/" + this.model.get("sub_id");
+    this.model.destroy();
+    Backbone.history.navigate(redirectUrl, {trigger: true})
   }
 })
