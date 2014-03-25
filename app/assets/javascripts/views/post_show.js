@@ -119,6 +119,7 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
         view.collection.add(model);
       },
       error: function(model, errors) {
+        debugger
         $(event.target).find(".comment-form-errors")
           .text(JSON.parse(errors.responseText));
       }

@@ -1,5 +1,4 @@
 class Api::CommentsController < ApplicationController
-  before_action :ensure_signed_in, only: [:create, :update, :destroy]
   before_action :verify_ownership, only: [:update, :destroy]
 
   def index

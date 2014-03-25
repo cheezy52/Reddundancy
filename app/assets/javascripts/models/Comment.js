@@ -1,3 +1,5 @@
 Seddit.Models.Comment = Backbone.VotableModel.extend({
-  urlRoot: "/api/comments"
+  urlRoot: function() {
+    return Seddit.ROOT_URL + "/api/comments"
+  }
 })

@@ -16,5 +16,17 @@
     <%= yield %>
   </div>
 
+  <script type="application/json" id="server_details_json">
+    {"ROOT_URL": "<%= root_url %>"}
+  </script>
+  <script type="application/json" id="current_user_json">
+    <% if logged_in? %>
+      {"signed_in": true,
+      "id": "<%= current_user.id %>"}
+    <% else %>
+      {"signed_in": false}
+    <% end %>
+  </script>
+
 </body>
 </html>

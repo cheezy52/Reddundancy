@@ -1,5 +1,4 @@
 class Api::VotesController < ApplicationController
-  before_action :ensure_signed_in
   before_action :verify_ownership, only: [:update, :destroy]
 
   def create

@@ -1,3 +1,5 @@
 Seddit.Models.Post = Backbone.VotableModel.extend({
-  urlRoot: "/api/posts"
+  urlRoot: function() {
+    return Seddit.ROOT_URL + "/api/posts";
+  }
 })

@@ -1,6 +1,6 @@
 Seddit.Collections.Subs = Backbone.Collection.extend({
   url: function() {
-    return "/api/s"
+    return Seddit.ROOT_URL + "/api/s"
   },
 
   model: Seddit.Models.Sub,

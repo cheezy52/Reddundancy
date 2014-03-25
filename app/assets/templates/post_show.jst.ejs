@@ -21,7 +21,11 @@
   </div>
 
   <hr>
-  <%= JST["comment_form"]({ parentId: null, postId: post.get("id")}) %>
+  <% if (Seddit.current_user) { %>
+    <%= JST["comment_form"]({ parentId: null, postId: post.get("id")}) %>
+  <% } else { %>
+    <a href="<%= Seddit.ROOT_URL %>/session/new">Log in to comment!</a>
+  <% } %>
 </div>
 
 <hr>

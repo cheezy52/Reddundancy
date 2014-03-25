@@ -1,3 +1,5 @@
 Seddit.Models.Sub = Backbone.Model.extend({
-  urlRoot: "/api/s"
+  urlRoot: function() {
+    return Seddit.ROOT_URL + "/api/s";
+  }
 })

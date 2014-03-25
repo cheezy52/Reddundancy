@@ -8,7 +8,12 @@
       <button class="delete-comment btn btn-danger"
               data-id="<%= comment.get("id") %>">Delete Comment</button>
     <% } %>
-    <%= JST["comment_form"]({ parentId: comment.get("id"),
-      postId: comment.get("post_id")})%>
+
+    <% if (Seddit.current_user) { %>
+      <%= JST["comment_form"]({ parentId: comment.get("id"),
+        postId: comment.get("post_id")})%>
+    <% } else { %>
+      <a href="<%= Seddit.ROOT_URL %>/session/new">Log in to comment!</a>
+    <% } %>
   </div>
 </li>
