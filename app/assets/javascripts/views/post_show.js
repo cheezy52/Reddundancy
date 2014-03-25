@@ -14,7 +14,9 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
 
   initialize: function(options) {
     this.listenTo(this.model, "sync change update", this.render);
-    this.listenTo(this.model.vote, "sync", this.render);
+    //cause of errors in loading if post-show comes back before comments?
+    //delegate to comment view
+    //this.listenTo(this.model.vote, "sync", this.render);
     this.listenTo(this.collection, "change sync update", this.render);
     this.listenTo(this.collection, "add", this.addComment);
     this.listenTo(this.collection, "remove", this.removeComment);

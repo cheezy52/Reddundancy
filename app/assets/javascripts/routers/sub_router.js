@@ -10,9 +10,9 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
   },
 
   subsIndex: function(id) {
-    var subs = new Seddit.Collections.Subs();
+    $("#loading-icon").removeClass("hidden");
     var router = this;
-    this.$rootEl.html("Loading...")
+    var subs = new Seddit.Collections.Subs();
     subs.fetch({
       success: function(models) {
         var view = new Seddit.Views.SubsIndexView({
@@ -27,6 +27,7 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
   },
 
   subShow: function(id) {
+    $("#loading-icon").removeClass("hidden");
     var router = this;
     var sub = new Seddit.Models.Sub({
       id: id
@@ -34,16 +35,21 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
     var posts = new Seddit.Collections.SubPosts([], {
       subId: id
     });
-    sub.fetch();
-    posts.fetch();
-    var view = new Seddit.Views.SubShowView({
-      model: sub,
-      collection: posts
+    //wait until we have sub info to prevent confusing renders
+    sub.fetch({
+      success: function(model) {
+        var view = new Seddit.Views.SubShowView({
+          model: sub,
+          collection: posts
+        });
+        router._swapView(view);
+      }
     });
-    router._swapView(view);
+    posts.fetch();
   },
 
   postShow: function(id) {
+    $("#loading-icon").removeClass("hidden");
     var router = this;
     var post = new Seddit.Models.Post({
       id: id
@@ -51,23 +57,23 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
     var comments = new Seddit.Collections.PostComments([], {
       postId: id
     });
-    post.fetch();
-    comments.fetch({
-      success: function() {
+    //wait until we have post info to prevent confusing renders
+    post.fetch({
+      success: function(model) {
         var view = new Seddit.Views.PostShowView({
           model: post,
           collection: comments
         });
         router._swapView(view);
-      }, error: function() {
-        router.$rootEl.html("Loading failed :(");
       }
     });
+    comments.fetch();
   },
 
   _swapView: function(view) {
     this._currentView && this._currentView.remove();
     this._currentView = view;
     this.$rootEl.html(view.render().$el);
+    $("#loading-icon").addClass("hidden");
   }
 })

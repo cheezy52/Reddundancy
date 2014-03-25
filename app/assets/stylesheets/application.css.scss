@@ -50,3 +50,10 @@ ul.comment, ul#posts {
 .hidden {
   display: none;
 }
+
+#loading-icon {
+  background: image-url("loading-20x20.gif");
+  height: 20px;
+  width: 20px;
+  margin-top: 10px;
+}
