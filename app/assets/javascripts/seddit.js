@@ -28,6 +28,7 @@ Backbone.CompositeView = Backbone.View.extend({
     if (this.subviews().indexOf(view) > -1) {
       this.subviews().splice(this.subviews().indexOf(view), 1);
     }
+    view.remove();
   },
 
   findSubviewByModel: function(model) {

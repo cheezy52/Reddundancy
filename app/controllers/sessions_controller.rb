@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     @user = User.find_by_credentials(session_params[:username], session_params[:password])
     if @user
       login!(@user)
-      redirect_to user_url(@user)
+      redirect_to "/"
     else
       @user = User.new(session_params)
       flash.now[:errors] = "No user found for these credentials."

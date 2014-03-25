@@ -85,7 +85,7 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
       //contains child comments
       commentView.$el.find(".comment-body").first().text("Comment deleted");
     } else {
-      commentView.remove();
+      this.removeSubview(commentView);
     }
   },
 
