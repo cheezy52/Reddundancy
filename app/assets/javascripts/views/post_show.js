@@ -94,7 +94,6 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
   removeComment: function(comment) {
     var commentView = this.findSubviewByModel(comment);
     if(commentView.$el.find(".comment").length > 0) {
-      console.log("contains child comments");
       //contains child comments
       commentView.$el.find(".comment-body").first().text("Comment deleted");
     } else {
