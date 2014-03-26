@@ -11,33 +11,23 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
   initialize: function(options) {
     //call super
     Backbone.VotableCompositeView.prototype.initialize.call(this, options);
+    Backbone.FormBearingView.prototype.initialize.call(this, options);
     this.listenTo(this.model, "sync change update", this.render);
     this.listenTo(this.collection, "change sync update", this.render);
     this.listenTo(this.collection, "add", this.addComment);
     this.listenTo(this.collection, "remove", this.removeComment);
-    //this.showForm is a placeholder so that other renders don't re-hide form
-    this.showForm = false;
-    this.formErrors = null;
-    this.formDataDefault = {"comment": { "body": null } };
-    this.formPending = false;
+    this.formDataDefault["comment"] = { "body": null };
     this.populateSubviews();
   },
 
   render: function() {
-    //get form data to preserve entered text between renders
-    var formData = this.$el.find(".new-comment-form").first().serializeJSON();
-    if(!formData["comment"]) {
-      formData = this.formDataDefault;
-    };
     var postView = this;
-    this.$el.html(this.template({
+
+    var templateArgs = _.extend({
       post: this.model,
-      showForm: this.showForm,
-      formErrors: this.formErrors,
-      formData: formData["comment"],
-      votingDisabled: this.awaitingVoteReturn,
-      formPending: this.formPending
-    }));
+      votingDisabled: this.awaitingVoteReturn
+    }, this.formHelpers(".new-comment-form", "comment"));
+    this.$el.html(this.template(templateArgs));
 
     var sortedViews = this.sortComments();
     sortedViews.forEach(function(viewLayer, layerIndex) {
@@ -50,6 +40,10 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
       });
     });
     return this;
+  },
+
+  formHelpers: function(selector, className) {
+    return Backbone.FormBearingView.prototype.formHelpers.call(this);
   },
 
   subviewParentEl: function(view) {

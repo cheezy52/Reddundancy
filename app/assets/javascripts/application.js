@@ -18,6 +18,7 @@
 //= require underscore
 //= require backbone
 //= require seddit
+//= require_tree ./includes
 //= require_tree ../templates
 //= require_tree ./models
 //= require_tree ./collections
