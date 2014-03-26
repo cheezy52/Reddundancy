@@ -2,8 +2,7 @@ Seddit.Views.PaginationView = Backbone.View.extend({
   template: JST["pagination"],
 
   events: {
-    "click .nextPage": "nextPage",
-    "click .prevPage": "previousPage"
+    "click .pageNav:not(.disabled)": "toPage"
   },
 
   initialize: function(options) {
@@ -22,19 +21,9 @@ Seddit.Views.PaginationView = Backbone.View.extend({
     return this;
   },
 
-  nextPage: function(event) {
+  toPage: function(event) {
     event.preventDefault();
-    if(this.collection.page < this.collection.total_pages) {
-      this.collection.page += 1;
-      this.collection.fetch({ data: { page: this.collection.page } });
-    }
-  },
-
-  previousPage: function(event) {
-    event.preventDefault();
-    if(this.collection.page > 1) {
-      this.collection.page -= 1;
-      this.collection.fetch({ data: { page: this.collection.page } });
-    }
+    this.collection.page = $(event.target).data("page");
+    this.collection.fetch({ data: { page: this.collection.page } });
   }
 });
