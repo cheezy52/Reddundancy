@@ -66,3 +66,11 @@ ul.comment, ul#posts {
 .buttons-container > div {
   display: inline;
 }
+
+.pagination-container div.row {
+  width: 200px;
+}
+
+.pagination-container p, .pagination-container a {
+  padding: 0px;
+}
