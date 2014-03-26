@@ -2,16 +2,4 @@
 
 <h1><%= sub.escape("name") %></h1>
 
-<% if (Seddit.current_user) { %>
-  <%= JST["post_form"]({
-    sub: sub,
-    showForm: showForm,
-    formErrors: formErrors,
-    formData: formData,
-    formPending: formPending
-  }) %>
-<% } else { %>
-  <a href="<%= Seddit.ROOT_URL %>/session/new">Log in to add a post!</a>
-<% } %>
-
 <ul id="posts"></ul>

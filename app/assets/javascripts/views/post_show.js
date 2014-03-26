@@ -1,49 +1,49 @@
-Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
+Seddit.Views.PostShowView = Backbone.CompositeView.extend({
   template: JST["post_show"],
 
   events: {
-    "click .new-comment-show": "showNewCommentForm",
-    "submit .new-comment-form": "submitComment",
-    "click .delete-comment": "deleteComment",
-    "click .delete-post": "deletePost"
+    "click button.delete-comment": "deleteComment",
+    "click button.delete-post": "deletePost"
   },
 
+  sedditClass: "PostShowView",
+
   initialize: function(options) {
-    //call super
-    Backbone.VotableCompositeView.prototype.initialize.call(this, options);
-    Backbone.FormBearingView.prototype.initialize.call(this, options);
     this.listenTo(this.model, "sync change update", this.render);
     this.listenTo(this.collection, "change sync update", this.render);
     this.listenTo(this.collection, "add", this.addComment);
     this.listenTo(this.collection, "remove", this.removeComment);
-    this.formDataDefault["comment"] = { "body": null };
     this.populateSubviews();
   },
 
   render: function() {
-    var postView = this;
+    var view = this;
 
-    var templateArgs = _.extend({
-      post: this.model,
-      votingDisabled: this.awaitingVoteReturn
-    }, this.formHelpers(".new-comment-form", "comment"));
-    this.$el.html(this.template(templateArgs));
+    this.$el.html(this.template({ post: this.model }));
+    this.subviews().forEach(function(subview) {
+      if(subview.sedditClass === "KarmaView") {
+        view.$el.find(".karma-container").first().html(subview.render().$el);
+        subview.delegateEvents();
+      } else if(subview.sedditClass === "FormView") {
+        view.$el.find(".buttons-container").first().append(subview.render().$el);
+        subview.delegateEvents();
+      } else if(subview.sedditClass === "CommentView") {
+        //explicitly bypass comment views, as they're handled below
+        return;
+      }
+    });
 
     var sortedViews = this.sortComments();
     sortedViews.forEach(function(viewLayer, layerIndex) {
       viewLayer.forEach(function(commentView) {
         if (layerIndex === 0) {
-          postView.$el.append(commentView.render().$el);
+          view.$el.append(commentView.render().$el);
         } else {
-          postView.subviewParentEl(commentView).append(commentView.render().$el);
+          view.subviewParentEl(commentView).append(commentView.render().$el);
         }
       });
     });
     return this;
-  },
-
-  formHelpers: function(selector, className) {
-    return Backbone.FormBearingView.prototype.formHelpers.call(this);
   },
 
   subviewParentEl: function(view) {
@@ -57,9 +57,21 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
 
   populateSubviews: function() {
     var view = this;
+    view.addSubview(new Seddit.Views.KarmaView({
+      model: this.model
+    }));
+    view.addSubview(new Seddit.Views.FormView({
+      model: new Seddit.Models.Comment({
+        post_id: this.model.get("id"),
+        parent_id: null
+      }),
+      collection: this.collection,
+      formClassName: "comment"
+    }));
     this.collection.forEach(function(comment) {
       view.addSubview(new Seddit.Views.CommentView({
-        model: comment
+        model: comment,
+        collection: view.collection
       }));
     });
     this.render();
@@ -70,17 +82,20 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
     //2 = reply to a reply, etc.
     var postView = this;
     var layeredViews = [];
-    this.subviews().forEach(function(commentView) {
-      var tempComment = commentView.model;
-      var nestingDepth = 0;
-      while(tempComment.get("parent_id")) {
-        tempComment = postView.collection.get(tempComment.get("parent_id"));
-        nestingDepth++;
+
+    this.subviews().forEach(function(subview) {
+      if(subview.sedditClass === "CommentView") {
+        var tempComment = subview.model;
+        var nestingDepth = 0;
+        while(tempComment.get("parent_id")) {
+          tempComment = postView.collection.get(tempComment.get("parent_id"));
+          nestingDepth++;
+        }
+        if(!layeredViews[nestingDepth]) {
+          layeredViews[nestingDepth] = [];
+        }
+        layeredViews[nestingDepth].push(subview);
       }
-      if(!layeredViews[nestingDepth]) {
-        layeredViews[nestingDepth] = [];
-      }
-      layeredViews[nestingDepth].push(commentView);
     });
     return layeredViews;
   },
@@ -97,64 +112,20 @@ Seddit.Views.PostShowView = Backbone.VotableCompositeView.extend({
 
   addComment: function(comment) {
     var commentView = new Seddit.Views.CommentView({
-      model: comment
+      model: comment,
+      //pass in collection for use in its formView
+      collection: this.collection
     });
     this.addSubview(commentView);
   },
 
-  findFormView: function(event) {
-    var commentId = $(event.target).closest(".comment").data("id");
-    //declaring and handling the "else" for the next conditional in one step
-    var commentView = this;
-    if(commentId) {
-      //if this is entered, comment is on a comment subview
-      commentView = this.findSubviewByModel(this.collection.get(commentId));
-    };
-    return commentView;
-  },
-
-  showNewCommentForm: function(event) {
-    //hide all other comment fields first to prevent having multiple open.
-    //will keep any partially-entered comments in closed forms
-    var commentView = this.findFormView(event);
-    commentView.showForm = !commentView.showForm;
-    commentView.render();
-  },
-
-  submitComment: function(event) {
-    event.preventDefault();
-    var view = this;
-
-    var formData = $(event.target).serializeJSON();
-    var newModel = new view.collection.model(formData);
-    var commentView = view.findFormView(event);
-    commentView.formPending = true;
-    commentView.render();
-    newModel.save({}, {
-      success: function(model) {
-        commentView.showForm = false;
-        commentView.formErrors = null;
-        commentView.formPending = false;
-        view.$el.find(".new-comment-form").empty();
-        commentView.render();
-        view.collection.add(model);
-      },
-      error: function(model, response) {
-        var commentView = view.findFormView(event);
-        commentView.formPending = false;
-        commentView.formErrors = JSON.parse(response.responseText);
-        commentView.render();
-      }
-    })
-  },
-
   deleteComment: function(event) {
     var comment = this.collection.get($(event.target).data("id"));
-    comment.destroy();
+    comment && comment.destroy();
   },
 
   deletePost: function(event) {
-    var redirectUrl = "s/" + this.model.get("sub_id");
+    var redirectUrl = "/s/" + this.model.get("sub_id");
     this.model.destroy();
     Backbone.history.navigate(redirectUrl, {trigger: true})
   }

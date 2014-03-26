@@ -1,5 +1,7 @@
-Seddit.Views.CommentView = Backbone.VotableView.extend({
+Seddit.Views.CommentView = Backbone.CompositeView.extend({
   template: JST["comment"],
+
+  sedditClass: "CommentView",
 
   tagName: "ul",
 
@@ -15,36 +17,36 @@ Seddit.Views.CommentView = Backbone.VotableView.extend({
 
   },
 
-  formHelpers: function(selector, className) {
-    return Backbone.FormBearingView.prototype.formHelpers.call(this);
-  },
-
   initialize: function(options) {
-    //call super
-    Backbone.VotableView.prototype.initialize.call(this, options);
-    Backbone.FormBearingView.prototype.initialize.call(this, options);
-    this.listenTo(this.model.vote, "request sync", this.render);
-    this.formDataDefault["comment"] = { "comment": { "body": null } };
-
+    this.addSubview(new Seddit.Views.KarmaView({
+      model: this.model
+    }));
+    this.addSubview(new Seddit.Views.FormView({
+      model: this.model,
+      collection: this.collection,
+      formClassName: "comment"
+    }))
     //pseudo-render to get elements in place for full render
-    var templateArgs = _.extend({
-      comment: this.model,
-      votingDisabled: false,
-    }, this.formHelpers(".new-comment-form", "comment"));
-
-    this.$el.html(this.template(templateArgs));
+    this.$el.html(this.template({ comment: this.model }));
   },
 
   render: function() {
+    var view = this;
+
     //re-render only own info, without clearing child comments from subShowView
     this.$el.children().first().remove();
+    this.$el.prepend(this.template({ comment: this.model }));
 
-    var templateArgs = _.extend({
-      comment: this.model,
-      votingDisabled: false,
-    }, this.formHelpers(".new-comment-form", "comment"));
-
-    this.$el.prepend(this.template(templateArgs));
+    this.subviews().forEach(function(subview) {
+      if(subview.sedditClass === "KarmaView") {
+        view.$el.find(".karma-container").first().html(subview.render().$el);
+      } else if(subview.sedditClass === "FormView") {
+        view.$el.find(".buttons-container").first().append(subview.render().$el);
+      } else {
+        view.$el.prepend(subview.render().$el);
+      }
+      subview.delegateEvents();
+    });
     return this;
   }
 })

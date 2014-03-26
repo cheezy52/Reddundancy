@@ -12,9 +12,9 @@
   <div class="comment-form-errors"><%= formErrors %></div>
 
   <h3>Add a Comment!</h3>
-  <input type="hidden" name="comment[post_id]" value="<%= postId %>">
-  <% if (parentId) { %>
-    <input type="hidden" name="comment[parent_id]" value="<%= parentId %>">
+  <input type="hidden" name="comment[post_id]" value="<%= model.get("post_id") %>">
+  <% if (model.sedditClass === "Comment") { %>
+    <input type="hidden" name="comment[parent_id]" value="<%= model.get("id") %>">
   <% } %>
 
   <input type="textarea" name="comment[body]"

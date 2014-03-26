@@ -2,7 +2,7 @@
   >Back to <%= post.get("sub_name")%></a></p>
 
 <div class="row">
-  <%= JST["karma"]({ model: post, votingDisabled: votingDisabled }) %>
+  <div class="karma-container"></div>
 
   <div class="post-header col-xs-11">
     <% if (post.get("link")) { %>
@@ -16,22 +16,10 @@
     <% } %>
   </div>
 
-  <% if(post.get("user_is_owner")) { %>
+  <div class="buttons-container"><% if(post.get("user_is_owner")) { %>
     <button class="delete-post btn btn-danger">Delete Post</button>
-  <% } %>
+  <% } %></div>
 
-  <% if (Seddit.current_user) { %>
-    <%= JST["comment_form"]({
-      parentId: null,
-      postId: post.get("id"),
-      showForm: showForm,
-      formErrors: formErrors,
-      formData: formData,
-      formPending: formPending
-    }) %>
-  <% } else { %>
-    <a href="<%= Seddit.ROOT_URL %>/session/new">Log in to comment!</a>
-  <% } %>
 </div>
 
 <hr>

@@ -1,4 +1,4 @@
-Seddit.Views.PostView = Backbone.VotableView.extend({
+Seddit.Views.PostView = Backbone.CompositeView.extend({
   template: JST["post"],
 
   tagName: "li",
@@ -11,21 +11,27 @@ Seddit.Views.PostView = Backbone.VotableView.extend({
 
   className: "post row",
 
+  sedditClass: "PostView",
+
   events: {
 
   },
 
   initialize: function(options) {
-    //call super
-    Backbone.VotableView.prototype.initialize.call(this, options);
-    this.listenTo(this.model.vote, "request sync", this.render);
+    this.addSubview(new Seddit.Views.KarmaView({
+      model: this.model
+    }));
   },
 
   render: function() {
+    var view = this;
     this.$el.html(this.template({
-      post: this.model,
-      votingDisabled: this.awaitingVoteReturn
+      post: this.model
     }));
+    this.subviews().forEach(function(subview) {
+      view.$el.prepend(subview.render().$el);
+      subview.delegateEvents();
+    })
     return this;
   }
 })

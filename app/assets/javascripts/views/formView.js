@@ -1,6 +1,7 @@
-Backbone.FormBearingView = Backbone.View.extend({
+Seddit.Views.FormView = Backbone.View.extend({
   initialize: function(options) {
-    this.showForm = false;
+    //must be passed a formClassName in options!
+    this.formVisible = false;
     this.formErrors = "";
     this.formDataDefault = {};
     this.formPending = false;
@@ -9,30 +10,41 @@ Backbone.FormBearingView = Backbone.View.extend({
     this.formShowButton = ".new-" + this.formClassName + "-show";
     this.formDataDefault = {};
     this.formDataDefault[this.formClassName] = null;
-    Backbone.FormBearingView.prototype.addFormEvents.call(this);
+    var templateName = this.formClassName + "_form";
+    this.template = JST[templateName];
   },
 
-  formHelpers: function() {
-    var formData = this.$el.find(this.formSelector).first().serializeJSON();
+  events: function() {
+    var formShowEventKey = "click " + this.formShowButton;
+    var formSubmitEventKey = "submit " + this.formSelector;
+    var variableEvents = {};
+    variableEvents[formShowEventKey] = "showForm";
+    variableEvents[formSubmitEventKey] = "submitForm";
+    return variableEvents;
+  },
+
+  sedditClass: "FormView",
+
+  render: function() {
+    var view = this;
+    var formData = $("form").serializeJSON();
     if(!formData[this.formClassName]) {
       formData = this.formDataDefault;
     }
-    return {
-      showForm: this.showForm,
+    this.$el.html(this.template({
+      model: this.model,
+      collection: this.collection,
+      showForm: this.formVisible,
       formErrors: this.formErrors,
       formPending: this.formPending,
       formData: formData
-    }
-  },
-
-  addFormEvents: function() {
-    this.events["click " + this.formShowButton] = "showForm";
-    this.events["submit " + this.formSelector] = "submitForm";
+    }));
+    return this;
   },
 
   showForm: function(event) {
-    console.log("showForm fired");
-    this.showForm = !this.showForm;
+    event.preventDefault();
+    this.formVisible = !this.formVisible;
     this.render();
   },
 
@@ -46,7 +58,7 @@ Backbone.FormBearingView = Backbone.View.extend({
     view.render();
     newModel.save({}, {
       success: function(model) {
-        view.showForm = false;
+        view.formVisible = false;
         view.formErrors = null;
         view.formPending = false;
         view.$el.find(view.formSelector).empty();

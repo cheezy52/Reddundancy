@@ -1,16 +1,7 @@
 <h1>Sub-Seddits:</h1>
 
 <div id="new-sub-form-container">
-  <% if (Seddit.current_user) { %>
-    <%= JST["sub_form"]({
-      showForm: showForm,
-      formErrors: formErrors,
-      formData: formData,
-      formPending: formPending
-    }) %>
-  <% } else { %>
-    <a href="<%= Seddit.ROOT_URL %>/session/new">Log in to create a sub!</a>
-  <% } %>
+
 </div>
 
 <ul id="subs-list">

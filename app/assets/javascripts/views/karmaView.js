@@ -1,4 +1,28 @@
-Backbone.VotableView = Backbone.View.extend({
+Seddit.Views.KarmaView = Backbone.View.extend({
+  template: JST["karma"],
+
+  sedditClass: "KarmaView",
+
+  initialize: function(options) {
+    this.awaitingVoteReturn = false;
+    this.listenTo(this.model.vote, "request sync", this.render);
+  },
+
+  events: {
+    "click button.upvote:not(.active)": "upvote",
+    "click button.downvote:not(.active)": "downvote",
+    "click button.upvote.active": "removeVote",
+    "click button.downvote.active": "removeVote"
+  },
+
+  render: function() {
+    this.$el.html(this.template({
+      model: this.model,
+      votingDisabled: this.awaitingVoteReturn
+    }));
+    return this;
+  },
+
   upvote: function(event) {
     if(!this.awaitingVoteReturn) {
       this.disableKarmaButtons();
@@ -27,18 +51,6 @@ Backbone.VotableView = Backbone.View.extend({
 
   enableKarmaButtons: function() {
     this.awaitingVoteReturn = false;
-  },
-
-  addKarmaEvents: function() {
-    this.events["click button.upvote:not(.active)"] = "upvote";
-    this.events["click button.downvote:not(.active)"] = "downvote";
-    this.events["click button.upvote.active"] = "removeVote";
-    this.events["click button.downvote.active"] = "removeVote";
-  },
-
-  initialize: function(options) {
-    this.awaitingVoteReturn = false;
-    this.addKarmaEvents();
   }
 });
 

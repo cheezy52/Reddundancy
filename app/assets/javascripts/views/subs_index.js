@@ -1,36 +1,33 @@
-Seddit.Views.SubsIndexView = Backbone.View.extend({
+Seddit.Views.SubsIndexView = Backbone.CompositeView.extend({
   template: JST["subs_index"],
 
   events: {
 
   },
 
-  initialize: function(options) {
-    Backbone.FormBearingView.prototype.initialize.call(this, options);
-    this.listenTo(this.collection, "add change sync update remove", this.render);
-    this.formDataDefault["sub"] = { "name" : null };
-    this.formPending = false;
-  },
+  sedditClass: "SubsIndexView",
 
-  formHelpers: function(selector, className) {
-    return Backbone.FormBearingView.prototype.formHelpers.call(this);
+  initialize: function(options) {
+    this.listenTo(this.collection, "add change sync update remove", this.render);
+    this.addSubview(new Seddit.Views.FormView({
+      model: this.model,
+      collection: this.collection,
+      formClassName: "sub"
+    }));
   },
 
   render: function() {
-    var templateArgs = _.extend({
-      subs: this.collection
-    }, this.formHelpers(".new-sub-form", "sub"));
+    var view = this;
+    this.$el.html(this.template({ subs: this.collection }));
 
-    this.$el.html(this.template(templateArgs));
+    this.subviews().forEach(function(subview) {
+      if(subview.sedditClass === "FormView") {
+        view.$el.find("#new-sub-form-container").html(subview.render().$el);
+      } else {
+        view.$el.prepend(subview.render().$el);
+      }
+      subview.delegateEvents();
+    })
     return this;
-  },
-
-  showForm: function(event) {
-    Backbone.FormBearingView.prototype.showForm.call(this, event);
-    this.$el.find(".sub-form-name").focus();
-  },
-
-  submitForm: function(event) {
-    Backbone.FormBearingView.prototype.submitForm.call(this, event);
   }
 })

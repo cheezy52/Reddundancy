@@ -2,7 +2,7 @@ class Api::SubSedditsController < ApplicationController
   before_action :verify_ownership, only: [:update, :destroy]
 
   def index
-    @subs = SubSeddit.includes(:owner).all
+    @subs = SubSeddit.includes(:owner).load
     render :index, locals: {subs: @subs}
   end
 
