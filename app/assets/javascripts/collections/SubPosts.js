@@ -1,6 +1,6 @@
 Seddit.Collections.SubPosts = Backbone.Collection.extend({
   url: function() {
-    return Seddit.ROOT_URL + "/api/s/" + this.subId + "/posts"
+    return Seddit.ROOT_URL + "/api/s/" + this.subId + "/posts";
   },
 
   model: Seddit.Models.Post,
@@ -11,6 +11,12 @@ Seddit.Collections.SubPosts = Backbone.Collection.extend({
 
   comparator: function(post) {
     return post.created_at;
+  },
+
+  parse: function(response) {
+    this.page = parseInt(response.page);
+    this.total_pages = parseInt(response.total_pages);
+    return response.posts;
   },
 
   getOrFetch: function(post_id) {

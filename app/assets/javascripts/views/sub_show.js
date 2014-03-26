@@ -20,8 +20,14 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
     this.$el.html(this.template({ sub: this.model }));
 
     this.subviews().forEach(function(subview) {
-      if (subview.model.sedditClass === "Post") {
+      if (subview.sedditClass === "PostView") {
         view.$el.find("#posts").prepend(subview.render().$el);
+      } else if(subview.sedditClass === "PaginationView") {
+        if(subview.position === "top") {
+          view.$el.prepend(subview.render().$el);
+        } else {
+          view.$el.append(subview.render().$el);
+        }
       } else {
         view.$el.find("#posts").before(subview.render().$el);
       }
@@ -36,6 +42,14 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
       model: this.model,
       collection: this.collection,
       formClassName: "post"
+    }));
+    this.addSubview(new Seddit.Views.PaginationView({
+      collection: this.collection,
+      position: "top"
+    }));
+    this.addSubview(new Seddit.Views.PaginationView({
+      collection: this.collection,
+      position: "bottom"
     }));
     this.collection.forEach(function(post) {
       view.addPost(post);

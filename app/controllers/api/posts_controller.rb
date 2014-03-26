@@ -4,6 +4,8 @@ class Api::PostsController < ApplicationController
   def index
     @posts = Post.includes(:sub, :owner, :comments, :votes => :owner)
                  .where(sub_id: params[:sub_seddit_id])
+                 .order(:created_at => :desc)
+                 .page(params[:page])
     render :index, locals: {posts: @posts}
   end
 

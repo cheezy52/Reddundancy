@@ -14,6 +14,7 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
     var router = this;
     var subs = new Seddit.Collections.Subs();
     subs.fetch({
+      data: { page: 1 },
       success: function(models) {
         var view = new Seddit.Views.SubsIndexView({
           collection: subs
@@ -33,7 +34,7 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
       id: id
     });
     var posts = new Seddit.Collections.SubPosts([], {
-      subId: id
+      subId: id,
     });
     //wait until we have sub info to prevent confusing renders
     sub.fetch({
@@ -43,9 +44,14 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
           collection: posts
         });
         router._swapView(view);
+      },
+      error: function() {
+        router.$rootEl.html("Loading failed :(");
       }
     });
-    posts.fetch();
+    posts.fetch({
+      data: { page: 1 }
+    });
   },
 
   postShow: function(id) {
@@ -65,6 +71,9 @@ Seddit.Routers.SubRouter = Backbone.Router.extend({
           collection: comments
         });
         router._swapView(view);
+      },
+      error: function() {
+        router.$rootEl.html("Loading failed :(");
       }
     });
     comments.fetch();

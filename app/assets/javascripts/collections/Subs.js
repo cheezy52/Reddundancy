@@ -1,12 +1,18 @@
 Seddit.Collections.Subs = Backbone.Collection.extend({
   url: function() {
-    return Seddit.ROOT_URL + "/api/s"
+    return Seddit.ROOT_URL + "/api/s";
   },
 
   model: Seddit.Models.Sub,
 
   comparator: function(sub) {
     return sub.created_at;
+  },
+
+  parse: function(response) {
+    this.page = parseInt(response.page);
+    this.total_pages = parseInt(response.total_pages);
+    return response.subs;
   },
 
   getOrFetch: function(sub_id) {

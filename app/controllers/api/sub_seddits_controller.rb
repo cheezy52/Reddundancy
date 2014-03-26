@@ -2,7 +2,8 @@ class Api::SubSedditsController < ApplicationController
   before_action :verify_ownership, only: [:update, :destroy]
 
   def index
-    @subs = SubSeddit.includes(:owner).load
+    @subs = SubSeddit.includes(:owner).order("lower(name)")
+      .page(params[:page].to_i);
     render :index, locals: {subs: @subs}
   end
 
