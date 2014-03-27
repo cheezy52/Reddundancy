@@ -22,7 +22,7 @@ window.Seddit = {
     $(document).ajaxStart(Seddit.displayLoadingIcon);
     $(document).ajaxStop(Seddit.hideLoadingIcon);
 
-    window.Seddit.router = new Seddit.Routers.SubRouter({
+    window.Seddit.router = new Seddit.Routers.Router({
       $rootEl: $("#content")
     });
     Backbone.history.start();
@@ -42,5 +42,7 @@ Seddit.hideLoadingIcon = function() {
 };
 
 $(document).ready(function(){
-  Seddit.initialize();
+  if($(".backbone-trigger").length > 0) {
+    Seddit.initialize();
+  }
 });
