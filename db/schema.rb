@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324190121) do
+ActiveRecord::Schema.define(version: 20140327003251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,10 +46,12 @@ ActiveRecord::Schema.define(version: 20140324190121) do
     t.integer  "owner_id",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug"
   end
 
   add_index "sub_seddits", ["name"], name: "index_sub_seddits_on_name", using: :btree
   add_index "sub_seddits", ["owner_id"], name: "index_sub_seddits_on_owner_id", using: :btree
+  add_index "sub_seddits", ["slug"], name: "index_sub_seddits_on_slug", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "username",        null: false

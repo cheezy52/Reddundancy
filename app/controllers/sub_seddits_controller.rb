@@ -3,8 +3,10 @@ class SubSedditsController < ApplicationController
 
 before_action :ensure_signed_in, only: [:new, :create]
 
-#  def index
-#  end
+  def index
+    #Redirect to Backbone version; note root_url already ends with a "/"
+    redirect_to "#{root_url}#"
+  end
 
   def new
     @sub = SubSeddit.new
@@ -23,8 +25,11 @@ before_action :ensure_signed_in, only: [:new, :create]
   end
 
   def show
-    @sub = SubSeddit.includes(posts: [:comments, :votes, :owner]).find(params[:id])
-    render :show, locals: {sub: @sub, posts: @sub.posts}
+    #Redirect to Backbone version; note root_url already ends with a "/"
+    redirect_to "#{root_url}#/s/#{params[:id]}"
+#    Deprecated Rails UI
+#    @sub = SubSeddit.includes(posts:[:comments, :votes, :owner]).find(params[:id])
+#    render :show, locals: {sub: @sub, posts: @sub.posts}
   end
 
 #   def edit

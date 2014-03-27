@@ -68,6 +68,7 @@ Seddit.Views.FormView = Backbone.View.extend({
       error: function(model, response) {
         view.formPending = false;
         view.formErrors = JSON.parse(response.responseText);
+        view.render();
       }
     })
   }

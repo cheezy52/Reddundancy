@@ -8,7 +8,8 @@ class Api::SubSedditsController < ApplicationController
   end
 
   def show
-    @sub = SubSeddit.includes(posts: [:comments, :votes, :owner]).find(params[:id])
+    @sub = SubSeddit.includes(posts: [:comments, :votes, :owner])
+      .friendly.find(params[:id].to_s.downcase)
     render :show, locals: {sub: @sub}
   end
 

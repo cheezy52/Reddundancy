@@ -7,7 +7,8 @@ Seddit::Application.routes.draw do
 #
 #   resources :users, only: [:show]
 #
-#   resources :sub_seddits, only: [:new, :create, :show, :index], path: "s" do
+#   This route will redirect to the appropriate Backbone view.
+  resources :sub_seddits, only: [:show, :index], path: "s"
 #     resources :posts, only: [:new, :create]
 #   end
 #   resources :posts, only: [:show] do

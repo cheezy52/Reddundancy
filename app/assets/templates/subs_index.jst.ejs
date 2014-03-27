@@ -6,7 +6,7 @@
 
 <ul id="subs-list">
 <% subs.each(function(sub) { %>
-  <li><a href="#/s/<%= sub.get("id") %>"><%= sub.escape("name")%></a></li>
+  <li><a href="#/s/<%= sub.get("name") %>"><%= sub.escape("name")%></a></li>
   <% if(sub.get("user_is_owner") === "true") { %>
     <button class="delete-sub btn btn-danger">Delete</button>
   <% } %>
