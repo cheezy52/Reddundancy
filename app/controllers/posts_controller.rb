@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  # Rails UI is deprecated.  All content UI should be through Backbone.
+
   before_action :ensure_signed_in, only: [:new, :create]
 #   def index
 #   end

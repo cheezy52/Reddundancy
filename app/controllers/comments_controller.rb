@@ -1,4 +1,6 @@
 class CommentsController < ApplicationController
+  # Rails UI is deprecated.  All content UI should be through Backbone.
+
   # def index
   # end
    def new

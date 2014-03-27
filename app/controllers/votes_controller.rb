@@ -1,4 +1,6 @@
 class VotesController < ApplicationController
+  # Rails UI is deprecated.  All content UI should be through Backbone.
+
   def create
     puts vote_params[:up]
     @vote = current_user.owned_votes.build(vote_params)
