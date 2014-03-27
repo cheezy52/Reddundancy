@@ -1,22 +1,28 @@
-<% if(showForm) { %>
-<button class="btn btn-primary new-sub-show hidden">Add a Sub</button>
+<% if (Seddit.current_user) { %>
+
+  <% if(showForm) { %>
+  <button class="btn btn-primary new-sub-show hidden">Add a Sub</button>
+  <% } else { %>
+  <button class="btn btn-primary new-sub-show">Add a Sub</button>
+  <% } %>
+
+  <% if(showForm) { %>
+  <form class="new-sub-form">
+  <% } else { %>
+  <form class="hidden new-sub-form">
+  <% } %>
+    <div id="sub-form-errors"><%= formErrors %></div>
+
+    <h3>Add a Sub!</h3>
+    <label>Name<input type="textarea" name="sub[name]" class="sub-form-name"
+      value="<%= formData["name"] %>"></input></label>
+    <br>
+
+    <input type="submit" class="btn btn-success
+    <%= formPending ? 'disabled' : '' %>"
+    value="<%= formPending ? "Working..." : "Create Sub!" %>"></input>
+  </form>
+
 <% } else { %>
-<button class="btn btn-primary new-sub-show">Add a Sub</button>
+  <a href="<%= Seddit.ROOT_URL %>/session/new">Log in to create a sub!</a>
 <% } %>
-
-<% if(showForm) { %>
-<form class="new-sub-form">
-<% } else { %>
-<form class="hidden new-sub-form">
-<% } %>
-  <div id="sub-form-errors"><%= formErrors %></div>
-
-  <h3>Add a Sub!</h3>
-  <label>Name<input type="textarea" name="sub[name]" class="sub-form-name"
-    value="<%= formData["name"] %>"></input></label>
-  <br>
-
-  <input type="submit" class="btn btn-success
-  <%= formPending ? 'disabled' : '' %>"
-  value="<%= formPending ? "Working..." : "Create Sub!" %>"></input>
-</form>

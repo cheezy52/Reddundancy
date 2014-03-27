@@ -1,3 +1,5 @@
+<% if (Seddit.current_user) { %>
+
 <% if (showForm) { %>
 <button class="btn btn-primary hidden new-comment-show">Add Comment</button>
 <% } else { %>
@@ -26,3 +28,7 @@
   <%= formPending ? 'disabled' : '' %>"
   value="<%= formPending ? "Working..." : "Submit Comment!" %>"></input>
 </form>
+
+<% } else { %>
+  <a href="<%= Seddit.ROOT_URL %>/session/new">Log in to add a comment!</a>
+<% } %>
