@@ -9,7 +9,7 @@ Seddit.Views.FormView = Backbone.View.extend({
     this.formSelector = ".new-" + this.formClassName + "-form";
     this.formShowButton = ".new-" + this.formClassName + "-show";
     this.formDataDefault = {};
-    this.formDataDefault[this.formClassName] = null;
+    this.formDataDefault[this.formClassName] = {};
     var templateName = this.formClassName + "_form";
     this.template = JST[templateName];
   },
@@ -27,7 +27,7 @@ Seddit.Views.FormView = Backbone.View.extend({
 
   render: function() {
     var view = this;
-    var formData = $("form").serializeJSON();
+    var formData = this.$el.find("form").serializeJSON();
     if(!formData[this.formClassName]) {
       formData = this.formDataDefault;
     }
@@ -37,7 +37,7 @@ Seddit.Views.FormView = Backbone.View.extend({
       showForm: this.formVisible,
       formErrors: this.formErrors,
       formPending: this.formPending,
-      formData: formData
+      formData: formData[this.formClassName]
     }));
     return this;
   },

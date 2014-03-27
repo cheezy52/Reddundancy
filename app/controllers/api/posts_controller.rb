@@ -2,8 +2,10 @@ class Api::PostsController < ApplicationController
   before_action :verify_ownership, only: [:update, :destroy]
 
   def index
+    #extra SQL query, but allows use of friendlyID
+    @sub = SubSeddit.friendly.find(params[:sub_seddit_id].to_s.downcase)
     @posts = Post.includes(:sub, :owner, :comments, :votes => :owner)
-                 .where(sub_id: params[:sub_seddit_id])
+                 .where(sub_id: @sub.id)
                  .order(:created_at => :desc)
                  .page(params[:page])
     render :index, locals: {posts: @posts}

@@ -21,7 +21,7 @@
 
   <input type="textarea" name="comment[body]"
    class="comment-body-field" placeholder="Add Your Wisdom..."
-   value="<%= formData["body"] %>"></input>
+   value="<%= formData["body"] || null %>"></input>
   <br>
 
   <input type="submit" class="btn btn-success

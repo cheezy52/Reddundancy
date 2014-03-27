@@ -16,11 +16,11 @@
     <input type="hidden" name="post[sub_id]" value="<%= model.get("id") %>">
 
     <label>Title<input type="textarea" name="post[title]"
-      class="post-form-title" value="<%= formData["title"] %>"></input></label>
+      class="post-form-title" value="<%= formData["title"] || null %>"></input></label>
     <br>
 
     <label>URL<input type="text" name="post[link]"
-      value="<%= formData["link"] %>"></input></label>
+      value="<%= formData["link"] || null %>"></input></label>
     <br>
 
     <input type="submit" class="btn btn-success

@@ -15,7 +15,7 @@
 
     <h3>Add a Sub!</h3>
     <label>Name<input type="textarea" name="sub[name]" class="sub-form-name"
-      value="<%= formData["name"] %>"></input></label>
+      value="<%= formData["name"] || null %>"></input></label>
     <br>
 
     <input type="submit" class="btn btn-success
