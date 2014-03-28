@@ -10,8 +10,8 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
   initialize: function(options) {
     this.listenTo(this.model, "sync change update", this.render);
     this.listenTo(this.collection, "change sync update", this.render);
-    this.listenTo(this.collection, "add", this.addPost);
-    this.listenTo(this.collection, "remove", this.removePost);
+    this.listenTo(this.collection, "add", this.addPostView);
+    this.listenTo(this.collection, "remove", this.removeSubviewByModel);
     this.populateSubviews();
   },
 
@@ -51,21 +51,17 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
       collection: this.collection,
       position: "bottom"
     }));
+    this.addSubview(new Seddit.Views.FavoriteView({
+      model: this.model
+    }));
     this.collection.forEach(function(post) {
-      view.addPost(post);
+      view.addPostView(post);
     });
   },
 
-  addPost: function(post) {
-    var postView = new Seddit.Views.PostView({
-      model: post
-    });
-    this.addSubview(postView);
-    this.$el.find("#posts").prepend(postView.render().$el);
-  },
-
-  removePost: function(post) {
-    this.removeSubviewByModel(post);
-    this.$el.find(".post[data-id=" + post.get("id") + "]").remove();
+  addPostView: function(model) {
+    this.addSubview(new Seddit.Views.PostView({
+      model: model
+    }));
   }
 })

@@ -1,0 +1,2 @@
+module Api::UserSubsHelper
+end

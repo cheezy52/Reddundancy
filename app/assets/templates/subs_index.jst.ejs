@@ -1,14 +1,10 @@
 <h1>Sub-Seddits:</h1>
+<h4>(Sorted by number of subscribers)</h4>
 
 <div id="new-sub-form-container">
 
 </div>
 
 <ul id="subs-list">
-<% subs.each(function(sub) { %>
-  <li><a href="#/s/<%= sub.get("name") %>"><%= sub.escape("name")%></a></li>
-  <% if(sub.get("user_is_owner") === "true") { %>
-    <button class="delete-sub btn btn-danger">Delete</button>
-  <% } %>
-<% }); %>
+
 </ul>

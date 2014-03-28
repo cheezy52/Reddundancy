@@ -17,6 +17,8 @@ class SubSeddit < ActiveRecord::Base
 
   has_many :posts, inverse_of: :sub, foreign_key: :sub_id, dependent: :destroy
   belongs_to :owner, class_name: "User", inverse_of: :owned_subs
+  has_many :user_subs, inverse_of: :sub, foreign_key: :sub_id, dependent: :destroy
+  has_many :followers, through: :user_subs, source: :user
 
   friendly_id :name, :use => :slugged
 

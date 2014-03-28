@@ -1,20 +1,21 @@
 class Api::SubSedditsController < ApplicationController
+  before_action :ensure_signed_in, only: [:update, :destroy, :create]
   before_action :verify_ownership, only: [:update, :destroy]
 
   def index
-    @subs = SubSeddit.includes(:owner).order("lower(name)")
+    @subs = SubSeddit.includes(:owner, :followers)
+      .order(followers_count: :desc).order('lower(name)')
       .page(params[:page].to_i);
     render :index, locals: {subs: @subs}
   end
 
   def show
-    @sub = SubSeddit.includes(posts: [:comments, :votes, :owner])
+    @sub = SubSeddit.includes(:followers, posts: [:comments, :votes, :owner])
       .friendly.find(params[:id].to_s.downcase)
     render :show, locals: {sub: @sub}
   end
 
   def create
-    puts params
     @sub = current_user.owned_subs.build(sub_params)
     if @sub.save
       render :show, locals: {sub: @sub}

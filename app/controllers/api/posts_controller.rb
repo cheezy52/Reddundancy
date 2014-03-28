@@ -1,4 +1,5 @@
 class Api::PostsController < ApplicationController
+  before_action :ensure_signed_in, only: [:update, :destroy, :create]
   before_action :verify_ownership, only: [:update, :destroy]
 
   def index

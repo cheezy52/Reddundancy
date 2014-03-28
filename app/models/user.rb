@@ -21,6 +21,8 @@ class User < ActiveRecord::Base
   has_many :owned_posts, class_name: "Post", foreign_key: "owner_id"
   has_many :owned_subs, class_name: "SubSeddit", foreign_key: "owner_id"
   has_many :owned_votes, class_name: "Vote", foreign_key: "owner_id"
+  has_many :user_subs, class_name: "UserSub", dependent: :destroy
+  has_many :favorite_subs, through: :user_subs, source: :sub
 
   def self.find_by_credentials(username, plaintext_password)
     user = self.find_by_username(username)

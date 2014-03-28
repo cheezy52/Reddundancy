@@ -1,8 +1,4 @@
-<p><a href="#/">Back to Subs Index</a>
-
-<h1><%= sub.escape("name") %></h1>
-
+<a href="#/s/<%= sub.get("name") %>"><%= sub.escape("name")%></a>
 <% if(sub.get("user_is_owner") === true) { %>
   <button class="delete-sub btn btn-danger">Delete</button>
 <% } %>
-<ul id="posts"></ul>

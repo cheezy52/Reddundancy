@@ -24,6 +24,7 @@ Seddit::Application.routes.draw do
     resources :sub_seddits, only: [:index, :show, :create, :update, :destroy],
     path: "s" do
       resources :posts, only: [:index]
+      resource :user_subs, only: [:create, :update, :destroy], path: "favorite"
     end
     resources :posts, only: [:show, :create, :update, :destroy] do
       resources :comments, only: [:index, :create]
