@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require jquery.serializeJSON
 // require turbolinks
-// require bootstrap
+//= require bootstrap
 //= require underscore
 //= require backbone
 //= require seddit

@@ -1,4 +1,18 @@
-<ul class="nav navbar-nav">
+<ul class="nav navbar-nav navbar-left">
+  <div class="dropdown">
+    <button class="btn dropdown-toggle" type="button"
+      id="favorited-subs-dropdown-btn" data-toggle="dropdown">
+      Your Favorite Subs
+      <span class="caret"></span>
+    </button>
+
+    <ul id="favorited-subs" class="dropdown-menu"
+      aria-labelledby="favorited-subs-dropdown-btn">
+      <% current_user.favorite_subs.each do |sub| %>
+        <li><a href="<%= "#{root_url}#/s/#{sub.name}" %>"><%= sub.name%></a></li>
+      <% end %>
+    </ul>
+  </div>
 </ul>
 
 <ul class="nav navbar-nav navbar-right">
