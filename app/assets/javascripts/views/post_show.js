@@ -11,8 +11,8 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
   initialize: function(options) {
     this.listenTo(this.model, "sync change update", this.render);
     this.listenTo(this.collection, "change sync update", this.render);
-    this.listenTo(this.collection, "add", this.addComment);
-    this.listenTo(this.collection, "remove", this.removeComment);
+    this.listenTo(this.collection, "add", this.addCommentView);
+    this.listenTo(this.collection, "remove", this.removeSubviewByModel);
     this.populateSubviews();
   },
 
@@ -25,7 +25,7 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
         view.$el.find(".karma-container").first().html(subview.render().$el);
         subview.delegateEvents();
       } else if(subview.sedditClass === "FormView") {
-        view.$el.find(".buttons-container").first().append(subview.render().$el);
+        view.$el.find(".submission-buttons").first().append(subview.render().$el);
         subview.delegateEvents();
       } else if(subview.sedditClass === "CommentView") {
         //explicitly bypass comment views, as they're handled below
@@ -37,9 +37,10 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
     sortedViews.forEach(function(viewLayer, layerIndex) {
       viewLayer.forEach(function(commentView) {
         if (layerIndex === 0) {
-          view.$el.append(commentView.render().$el);
+          view.$el.find("#comments").prepend(commentView.render().$el);
         } else {
-          view.subviewParentEl(commentView).append(commentView.render().$el);
+          view.subviewParentEl(commentView).find(".comments").first()
+            .prepend(commentView.render().$el);
         }
       });
     });
@@ -100,17 +101,7 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
     return layeredViews;
   },
 
-  removeComment: function(comment) {
-    var commentView = this.findSubviewByModel(comment);
-    if(commentView.$el.find(".comment").length > 0) {
-      //contains child comments
-      commentView.$el.find(".comment-body").first().text("Comment deleted");
-    } else {
-      this.removeSubview(commentView);
-    }
-  },
-
-  addComment: function(comment) {
+  addCommentView: function(comment) {
     var commentView = new Seddit.Views.CommentView({
       model: comment,
       //pass in collection for use in its formView
@@ -121,7 +112,17 @@ Seddit.Views.PostShowView = Backbone.CompositeView.extend({
 
   deleteComment: function(event) {
     var comment = this.collection.get($(event.target).data("id"));
-    comment && comment.destroy();
+    if(comment) {
+      var commentView = this.findSubviewByModel(comment);
+      if(commentView.$el.find(".comment").length > 0) {
+        //contains child comments
+        if(comment.get("body") !== "Comment deleted") {
+          comment.save({ body: "Comment deleted"});
+        }
+      } else {
+        comment.destroy();
+      }
+    }
   },
 
   deletePost: function(event) {

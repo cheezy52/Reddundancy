@@ -1,4 +1,6 @@
-json.(comment, :id, :body, :owner_id, :post_id, :parent_id, :created_at, :updated_at)
+json.(comment, :id, :body, :owner_id, :post_id, :parent_id)
+json.age (time_ago_in_words(comment.created_at))
+json.last_edit_age (time_ago_in_words(comment.updated_at))
 json.user_is_owner(current_user == comment.owner)
 json.karma(comment.karma)
 json.num_comments(comment.num_comments)

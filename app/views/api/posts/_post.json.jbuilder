@@ -1,4 +1,6 @@
-json.(post, :id, :link, :title, :owner_id, :sub_id, :created_at, :updated_at)
+json.(post, :id, :link, :title, :owner_id, :sub_id)
+json.age (time_ago_in_words(post.created_at))
+json.last_edit_age (time_ago_in_words(post.updated_at))
 json.sub_name(post.sub.name)
 json.user_is_owner(current_user == post.owner)
 json.karma(post.karma)

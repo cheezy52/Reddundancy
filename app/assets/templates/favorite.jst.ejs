@@ -1,12 +1,12 @@
 <% if(Seddit.current_user) { %>
   <% if(model.favorite) { %>
-    <button class="unfavorite-sub btn btn-warning"
+    <button class="favorited btn btn-warning"
       data-id="<%= model.get("id") %>"
       data-class="<%= model.sedditClass %>">
     <span class="glyphicon glyphicon-star favorited"></span>
     <%= model.escape("followers") %></button>
   <% } else { %>
-    <button class="favorite-sub btn btn-warning"
+    <button class="unfavorited btn btn-warning"
       data-id="<%= model.get("id") %>"
       data-class="<%= model.sedditClass %>">
     <span class="glyphicon glyphicon-star-empty unfavorited"></span>

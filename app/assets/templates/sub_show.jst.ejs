@@ -2,7 +2,10 @@
 
 <h1><%= sub.escape("name") %></h1>
 
-<% if(sub.get("user_is_owner") === true) { %>
-  <button class="delete-sub btn btn-danger">Delete</button>
-<% } %>
+<div id="sub-buttons" class="submission-buttons">
+  <% if(sub.get("user_is_owner") === true) { %>
+    <button class="delete-sub btn btn-danger"
+      data-id="<%= sub.get("id") %>">Delete</button>
+  <% } %>
+</div>
 <ul id="posts"></ul>

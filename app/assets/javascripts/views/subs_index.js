@@ -2,7 +2,9 @@ Seddit.Views.SubsIndexView = Backbone.CompositeView.extend({
   template: JST["subs_index"],
 
   events: {
-
+    // Sub deletion from index view is disabled to prevent easy misclicks
+    // while trying to favorite, but code kept around for easy re-enabling
+    // "click .delete-sub": "deleteSub"
   },
 
   sedditClass: "SubsIndexView",
@@ -29,7 +31,7 @@ Seddit.Views.SubsIndexView = Backbone.CompositeView.extend({
           view.$el.append(subview.render().$el);
         }
       } else if(subview.sedditClass === "SubSedditView") {
-        view.$el.find("#subs-list").prepend(subview.render().$el);
+        view.$el.find("#subs-list").append(subview.render().$el);
       } else {
         view.$el.prepend(subview.render().$el);
       }
@@ -62,5 +64,15 @@ Seddit.Views.SubsIndexView = Backbone.CompositeView.extend({
     this.addSubview(new Seddit.Views.SubSedditView({
       model: model
     }));
-  }
+  },
+
+//   deleteSub: function() {
+//     $(event.target).addClass("disabled");
+//     var sub = this.collection.get($(event.target).data("id"));
+//     sub && sub.destroy({
+//       error: function(model, response) {
+//         $(event.target).removeClass("disabled")
+//       }
+//     });
+//   }
 })

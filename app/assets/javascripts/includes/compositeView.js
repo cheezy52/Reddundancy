@@ -7,7 +7,11 @@ Backbone.CompositeView = Backbone.View.extend({
   },
 
   addSubview: function(view) {
-    //unshift rather than push so that newer entries will be first
+    this.subviews().push(view)
+  },
+
+  addPrependedSubview: function(view) {
+    //for adding new content (which will be newer) to the front of the stack
     this.subviews().unshift(view)
   },
 

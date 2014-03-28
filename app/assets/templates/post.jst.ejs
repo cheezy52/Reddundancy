@@ -1,8 +1,12 @@
 <div class="post-body col-xs-11">
-  <%= post.escape("owner_name") %> posted:<br>
-  <a href="#/posts/<%= post.get("id") %>"><%= post.escape("title")%></a>
+  <div class="submission-buttons">
+    <% if(post.get("user_is_owner") === true) { %>
+    <button class="delete-post btn btn-danger"
+      data-id="<%= post.get("id") %>">X</button>
+    <% } %>
+  </div>
+  <a class="submission-link" href="#/posts/<%= post.get("id") %>"><%= post.escape("title")%></a>
+
+  <p class="submission-info">submitted <%= post.escape("age") %> ago by <%= post.escape("owner_name") %> to <a href="#/s/<%= post.escape("sub_name") %>"><%= post.escape("sub_name") %>
 </div>
 
-<% if(post.get("user_is_owner") === true) { %>
-  <button class="delete-post btn btn-danger">Delete Post</button>
-<% } %>

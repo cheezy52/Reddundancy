@@ -1,4 +1,5 @@
-<a href="#/s/<%= sub.get("name") %>"><%= sub.escape("name")%></a>
-<% if(sub.get("user_is_owner") === true) { %>
-  <button class="delete-sub btn btn-danger">Delete</button>
-<% } %>
+<div class="submission-buttons">
+</div>
+<a class="submission-link" href="#/s/<%= sub.escape("name") %>"><%= sub.escape("name")%></a>
+
+<p class="submission-info">submitted <%= sub.escape("age") %> ago by <%= sub.escape("owner_name") %> to <a href="#/s/<%= sub.escape("name") %>"><%= sub.escape("name") %></p>

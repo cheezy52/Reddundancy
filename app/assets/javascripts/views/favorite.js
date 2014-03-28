@@ -2,8 +2,8 @@ Seddit.Views.FavoriteView = Backbone.View.extend({
   template: JST["favorite"],
 
   events: {
-    "click .favorite-sub": "addFavorite",
-    "click .unfavorite-sub": "removeFavorite"
+    "click .unfavorited": "addFavorite",
+    "click .favorited": "removeFavorite"
   },
 
   sedditClass: "FavoriteView",

@@ -5,6 +5,8 @@ Seddit.Routers.Router = Backbone.Router.extend({
 
   routes: {
     "": "subsIndex",
+    "s": "subsIndex",
+    "s/": "subsIndex",
     "s/:id": "subShow",
     "posts/:id": "postShow"
   },

@@ -5,6 +5,7 @@ class Api::CommentsController < ApplicationController
   def index
     @comments = Comment.includes({:votes => :owner}, :owner, :comments, :post)
                        .where(post_id: params[:post_id])
+                       .order(:created_at)
     render :index, locals: {comments: @comments}
   end
 
@@ -30,7 +31,7 @@ class Api::CommentsController < ApplicationController
 
   def update
     #@comment found in verify_ownership
-    if @comment.update_attributes(comment_params[:body])
+    if @comment.update_attributes({ body: params[:body]})
       render :show, locals: {comment: @comment}
     else
       render :json => @comment.errors.full_messages, :status => 422

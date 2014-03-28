@@ -2,7 +2,8 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
   template: JST["sub_show"],
 
   events: {
-
+    "click .delete-post": "deletePost",
+    "click .delete-sub": "deleteSub"
   },
 
   sedditClass: "SubShowView",
@@ -21,13 +22,17 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
 
     this.subviews().forEach(function(subview) {
       if (subview.sedditClass === "PostView") {
-        view.$el.find("#posts").prepend(subview.render().$el);
+        view.$el.find("#posts").append(subview.render().$el);
       } else if(subview.sedditClass === "PaginationView") {
         if(subview.position === "top") {
           view.$el.prepend(subview.render().$el);
         } else {
           view.$el.append(subview.render().$el);
         }
+      } else if(subview.sedditClass === "FavoriteView") {
+        view.$el.find("#sub-buttons").append(subview.render().$el);
+      } else if(subview.sedditClass === "FormView") {
+        view.$el.find("#sub-buttons").append(subview.render().$el);
       } else {
         view.$el.find("#posts").before(subview.render().$el);
       }
@@ -38,11 +43,6 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
 
   populateSubviews: function() {
     var view = this;
-    this.addSubview(new Seddit.Views.FormView({
-      model: this.model,
-      collection: this.collection,
-      formClassName: "post"
-    }));
     this.addSubview(new Seddit.Views.PaginationView({
       collection: this.collection,
       position: "top"
@@ -54,6 +54,11 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
     this.addSubview(new Seddit.Views.FavoriteView({
       model: this.model
     }));
+    this.addSubview(new Seddit.Views.FormView({
+      model: this.model,
+      collection: this.collection,
+      formClassName: "post"
+    }));
     this.collection.forEach(function(post) {
       view.addPostView(post);
     });
@@ -63,5 +68,21 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
     this.addSubview(new Seddit.Views.PostView({
       model: model
     }));
+  },
+
+  deletePost: function(event) {
+    $(event.target).addClass("disabled");
+    var post = this.collection.get($(event.target).data("id"));
+    post && post.destroy({
+      error: function(model, response) {
+        $(event.target).removeClass("disabled")
+      }
+    });
+  },
+
+  deleteSub: function(event) {
+    var redirectUrl = "//s";
+    this.model.destroy();
+    Backbone.history.navigate(redirectUrl, {trigger: true})
   }
 })

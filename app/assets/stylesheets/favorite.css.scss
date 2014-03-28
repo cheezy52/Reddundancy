@@ -1,0 +1,31 @@
+.favorites-container {
+  display: inline;
+}
+
+.favorites-container .btn {
+  background-color: darkorange;
+}
+
+.favorites-container .favorited {
+  color: gold;
+}
+
+.favorites-container .favorited:hover {
+  color: red;
+}
+
+.favorites-container .favorited:hover span {
+  color: red;
+}
+
+.favorites-container .unfavorited {
+  color: black;
+}
+
+.favorites-container .unfavorited:hover {
+  color: gold;
+}
+
+.favorites-container .unfavorited:hover span {
+  color: gold;
+}

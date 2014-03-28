@@ -12,35 +12,11 @@
  *= require_tree .
  */
 
+
 @import "bootstrap-custom";
 
-div.content {
+#content {
   margin-left: 20px;
-}
-
-div.flash {
-  margin-left: 20px;
-}
-
-div.notice {
-  margin-left: 20px;
-}
-
-.upvote.active {
-  background-color: orange;
-}
-
-.downvote.active {
-  background-color: #7294f3;
-}
-
-.karma p {
-  text-align: center;
-}
-
-.karma .btn {
-  padding: 0px;
-  height: 50%;
 }
 
 .disabled {
@@ -48,37 +24,39 @@ div.notice {
   filter:alpha(opacity=50);
 }
 
-ul.comment, ul#posts {
-  list-style-type: none;
-}
-
 .hidden {
   display: none;
 }
 
-#loading-icon {
-  background: image-url("loading-20x20.gif");
-  height: 20px;
-  width: 20px;
-  margin-top: 10px;
+ul {
+  list-style-type: none;
 }
 
 .buttons-container > div {
   display: inline;
 }
 
-.pagination-container div.row {
-  width: 200px;
+.submission-info {
+  font-size: 8pt;
 }
 
-.pagination-container p, .pagination-container a {
-  padding: 0px;
+.submission-buttons {
+  display: inline;
+  margin-right: 10px;
 }
 
-.favorites-container {
+.submission-buttons .btn {
+  margin-top: 0px;
+  height: 25px;
+  padding: 3px;
+  border: 1px solid black;
+}
+
+.submission-buttons div {
   display: inline;
 }
 
-.navbar .dropdown {
-  margin-top: 8px;
+.submission-link {
+  font-size: 16pt;
+  vertical-align: middle;
 }

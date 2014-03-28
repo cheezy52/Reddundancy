@@ -19,7 +19,7 @@ Seddit.Views.SubSedditView = Backbone.CompositeView.extend({
 
     this.subviews().forEach(function(subview) {
       if(subview.sedditClass === "FavoriteView") {
-        view.$el.prepend(subview.render().$el);
+        view.$el.find(".submission-buttons").prepend(subview.render().$el);
       } else {
         view.$el.prepend(subview.render().$el);
       }

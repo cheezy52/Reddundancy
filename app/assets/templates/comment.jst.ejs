@@ -1,13 +1,19 @@
 <li class="row">
   <div class="karma-container"></div>
 
-  <div class="comment-body col-xs-11">
-    <%= comment.escape("owner_name") %> wrote:<br>
-    <%= comment.escape("body")%>
+  </div class="comment-body col-xs-11">
+<%= comment.escape("body")%>
   </div>
+  <p class="submission-info">submitted <%= comment.escape("age") %> ago by <%= comment.escape("owner_name") %>
+    <span class="submission-buttons">
+      <% if(comment.get("user_is_owner")) { %>
+        <button class="delete-comment btn btn-danger"
+                data-id="<%= comment.get("id") %>">X</button>
+      <% } %>
+    </span>
+  </p>
 
-  <div class="buttons-container"><% if(comment.get("user_is_owner")) { %>
-    <button class="delete-comment btn btn-danger"
-            data-id="<%= comment.get("id") %>">Delete Comment</button>
-  <% } %></div>
+  <div class="form-container"></div>
+
+  <div class="comments">
 </li>

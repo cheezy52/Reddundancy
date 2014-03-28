@@ -1,12 +1,11 @@
-<p><a href="#/s/<%= post.get("sub_id") %>"
-  >Back to <%= post.get("sub_name")%></a></p>
+<p><a href="#/s/<%= post.escape("sub_name") %>"
+  >Back to <%= post.escape("sub_name")%></a></p>
 
 <div class="row">
-  <div class="karma-container"></div>
-
   <div class="post-header col-xs-11">
-    <% if (post.get("link")) { %>
-      <% if (post.get("link").slice(0, 4) == "http") { %>
+  <div class="karma-container"></div>
+    <% if (post.escape("link")) { %>
+      <% if (post.escape("link").slice(0, 4) == "http") { %>
         <h1><a href="<%= post.escape("link") %>"><%= post.escape("title") %></a></h1>
       <% } else { %>
         <h1><a href="http://<%= post.escape("link") %>"><%= post.escape("title") %></a></h1>
@@ -14,12 +13,15 @@
     <% } else {%>
       <h1><%= post.escape("title") %></h1>
     <% } %>
+    <div class="submission-buttons"><% if(post.get("user_is_owner")) { %>
+      <button class="delete-post btn btn-danger">X</button>
+    <% } %></div>
   </div>
-
-  <div class="buttons-container"><% if(post.get("user_is_owner")) { %>
-    <button class="delete-post btn btn-danger">Delete Post</button>
-  <% } %></div>
-
 </div>
 
 <hr>
+
+<h3>Comments:</h3>
+<div id="comments">
+
+</div>

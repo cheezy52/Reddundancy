@@ -40,8 +40,10 @@ Seddit.Views.CommentView = Backbone.CompositeView.extend({
     this.subviews().forEach(function(subview) {
       if(subview.sedditClass === "KarmaView") {
         view.$el.find(".karma-container").first().html(subview.render().$el);
+      } else if(subview.sedditClass === "FavoriteView") {
+        view.$el.find(".submission-buttons").first().append(subview.render().$el);
       } else if(subview.sedditClass === "FormView") {
-        view.$el.find(".buttons-container").first().append(subview.render().$el);
+        view.$el.find(".form-container").first().append(subview.render().$el);
       } else {
         view.$el.prepend(subview.render().$el);
       }
