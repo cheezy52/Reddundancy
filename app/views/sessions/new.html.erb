@@ -1,3 +1,12 @@
 <h1>Sign In</h1>
 
-<%= render "form", user: user %>
+<div class="row">
+  <div class="signin-form">
+    <%= render "form", user: user %>
+  </div>
+
+  <div class="guest-signin-form">
+    <h3>Or sign in as guest:</h3>
+    <%= render "guest_form" %>
+  </div>
+</div>

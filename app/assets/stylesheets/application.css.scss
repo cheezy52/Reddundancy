@@ -15,6 +15,10 @@
 
 @import "bootstrap-custom";
 
+html body {
+  background-color: #EED5D2;
+}
+
 #content {
   margin-left: 20px;
 }
@@ -42,11 +46,11 @@ ul {
 
 .submission-buttons {
   display: inline;
-  margin-right: 10px;
 }
 
 .submission-buttons .btn {
   margin-top: 0px;
+  margin-right: 10px;
   height: 25px;
   padding: 3px;
   border: 1px solid black;
@@ -59,4 +63,18 @@ ul {
 .submission-link {
   font-size: 16pt;
   vertical-align: middle;
+}
+
+.signin-form, .guest-signin-form {
+  float: left;
+  margin-left: 20px;
+}
+
+.guest-signin-form h3 {
+  margin-top: 0px;
+}
+
+.guest-signin-form .btn {
+  padding: 50px;
+  align: center;
 }

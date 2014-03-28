@@ -8,3 +8,17 @@
 .navbar .dropdown {
   margin-top: 8px;
 }
+
+#navbar {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+}
+
+.navbar {
+  background-color: lightgray;
+  padding-left: 10px;
+  padding-right: 15px;
+  width: 100%;
+  border-bottom: 1px solid gray;
+}
