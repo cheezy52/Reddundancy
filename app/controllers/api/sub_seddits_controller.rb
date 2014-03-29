@@ -4,7 +4,7 @@ class Api::SubSedditsController < ApplicationController
 
   def index
     @subs = SubSeddit.includes(:owner, :followers)
-      .order(followers_count: :desc).order('lower(name)')
+      .order(:followers_count).order('lower(name)')
       .page(params[:page].to_i);
     render :index, locals: {subs: @subs}
   end
