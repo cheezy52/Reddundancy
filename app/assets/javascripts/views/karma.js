@@ -24,6 +24,7 @@ Seddit.Views.KarmaView = Backbone.View.extend({
   },
 
   upvote: function(event) {
+    if(!Seddit.current_user) { return; }
     if(!this.awaitingVoteReturn) {
       this.disableKarmaButtons();
       this.model.upvote(event, this.enableKarmaButtons.bind(this));
@@ -31,6 +32,7 @@ Seddit.Views.KarmaView = Backbone.View.extend({
   },
 
   downvote: function(event) {
+    if(!Seddit.current_user) { return; }
     if(!this.awaitingVoteReturn) {
       this.disableKarmaButtons();
       this.model.downvote(event, this.enableKarmaButtons.bind(this));

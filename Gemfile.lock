@@ -45,6 +45,7 @@ GEM
       jquery-rails
       railties
     bcrypt (3.1.6)
+    bcrypt (3.1.6-x86-mingw32)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -85,6 +86,7 @@ GEM
     ejs (1.1.1)
     erubis (2.7.0)
     eventmachine (1.0.3)
+    eventmachine (1.0.3-x86-mingw32)
     execjs (2.0.2)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
@@ -126,7 +128,10 @@ GEM
     multi_json (1.9.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
+    nokogiri (1.6.1-x86-mingw32)
+      mini_portile (~> 0.5.0)
     pg (0.17.1)
+    pg (0.17.1-x86-mingw32)
     phantomjs (1.9.7.0)
     polyglot (0.3.4)
     rack (1.5.2)
@@ -207,6 +212,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   annotate

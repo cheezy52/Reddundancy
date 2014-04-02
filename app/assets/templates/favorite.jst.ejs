@@ -12,4 +12,8 @@
     <span class="glyphicon glyphicon-star-empty unfavorited"></span>
     <%= model.escape("followers")%></button>
   <% } %>
+<% } else { %>
+  <a href="<%= Seddit.ROOT_URL + '/session/new.html' %>" class="unfavorited btn btn-warning">
+    <span class="glyphicon glyphicon-star-empty unfavorited"></span>
+    <%= model.escape("followers")%></a>
 <% } %>

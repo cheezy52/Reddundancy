@@ -12,6 +12,22 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
+  def login!(user)
+    if user
+      user.generate_session_token!
+      session[:session_token] = user.session_token
+    else
+      flash[:errors] = "Error logging in: no user provided to login function."
+    end
+  end
+
+  def logout!
+    if current_user
+      current_user.generate_session_token!
+      session[:session_token] = nil
+    end
+  end
+
   def ensure_signed_in
     unless logged_in?
       flash[:notice] = "You must sign in to perform this action."

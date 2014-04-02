@@ -24,6 +24,14 @@
             data-model="<%= model.get("class_name") %>"></span>
     </button>
   <% } else { %>
-    <br><%= model.get("karma")%><br>
+    <a href="<%= Seddit.ROOT_URL + '/session/new' %>" class="upvote btn btn-xs">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+
+    <br><%= model.get("karma") %></br>
+
+    <a href="<%= Seddit.ROOT_URL + '/session/new' %>" class="downvote btn btn-xs">
+      <span class="glyphicon glyphicon-chevron-down"></span>
+    </a>
   <% } %>
 </div>
