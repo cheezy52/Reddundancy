@@ -32,8 +32,6 @@ class Comment < ActiveRecord::Base
     comments_hash = Hash.new { [] }
 
     comments.each do |comment|
-      #there's some strange stuff going on in here -
-      #hacky stuff in the meantime to circumvent hash key strangeness
       if (comment.parent_id.nil?)
         comments_hash["toplevel"] = comments_hash["toplevel"].push(comment)
       else

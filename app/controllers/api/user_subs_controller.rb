@@ -8,6 +8,7 @@ class Api::UserSubsController < ApplicationController
       @favorite = @sub.user_subs.build(user_id: current_user.id, sub_id: @sub.id,
         rank: params[:rank] || max_rank + 1)
       if @favorite.save
+        puts @sub.followers_count
         render :json => @favorite
       else
         render :json => @favorite.errors.full_messages, :status => 422
@@ -25,6 +26,7 @@ class Api::UserSubsController < ApplicationController
       if @favorite
         @favorite.rank = params[:rank] || max_rank + 1
         if @favorite.save
+          puts @sub.followers_count
           render :json => @favorite
         else
           head 422
@@ -43,6 +45,7 @@ class Api::UserSubsController < ApplicationController
       @favorite = UserSub.find_by(user_id: current_user.id, sub_id: @sub.id)
       if @favorite
         @favorite.destroy
+        puts @sub.followers_count
         render :json => @favorite
       else
         head 404
