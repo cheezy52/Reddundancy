@@ -23,6 +23,8 @@ Backbone.VotableModel = Backbone.Model.extend({
         callback();
       },
       error: function(model, response) {
+        $(document).find(".flash").html(response.responseText || 
+            "An error occurred.  Please reload the page.");
         callback();
       }
     });
@@ -37,6 +39,8 @@ Backbone.VotableModel = Backbone.Model.extend({
         callback();
       },
       error: function(model, response) {
+        $(document).find(".flash").html(response.responseText || 
+            "An error occurred.  Please reload the page.");
         callback();
       }
     });
@@ -52,6 +56,8 @@ Backbone.VotableModel = Backbone.Model.extend({
         callback();
       },
       error: function(model, response) {
+        $(document).find(".flash").html(response.responseText || 
+            "An error occurred.  Please reload the page.");
         callback();
       }
     });

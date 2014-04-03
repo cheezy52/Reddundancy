@@ -1,0 +1,1 @@
+json.partial! partial: "fav", collection: favs, as: :fav

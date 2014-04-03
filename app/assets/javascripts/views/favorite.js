@@ -23,19 +23,19 @@ Seddit.Views.FavoriteView = Backbone.View.extend({
     if(!this.model.favorite) {
       $(event.target).addClass("disabled");
       this.model.favorite = new Seddit.Models.SubFavorite({
-        sub_id: this.model.id
+        sub_id: this.model.id,
+        rank: $(document).find("#favorited-subs").children().last().data("rank") + 1,
+        sub_name: this.model.escape("name")
       });
       this.model.favorite.save({}, {
         success: function(model) {
           view.model.set("followers", view.model.get("followers") + 1);
-          $("#favorited-subs").append("<li><a href='#/s/" + 
-            view.model.escape("name") + "'>" + 
-            view.model.escape("name") + "</a></li>");
+          Seddit.NavFavoritesView.collection.add(model);
           view.render();
         },
         error: function(model, response) {
-          $(event.target).removeClass("disabled");
-          $(event.target).before(response.responseText);
+          $(document).find(".flash").html(response.responseText || 
+            "An error occurred.  Please reload the page.");
         }
       })
     }
@@ -49,14 +49,14 @@ Seddit.Views.FavoriteView = Backbone.View.extend({
         success: function(model) {
           view.model.favorite = null;
           view.model.set("followers", view.model.get("followers") - 1);
-          $("#favorited-subs").children()
-            .find(":contains('" + view.model.escape("name") + "')")
-            .remove();
+          var removedFav = Seddit.NavFavoritesView.collection
+            .findWhere({sub_id: model.get("sub_id")});
+          Seddit.NavFavoritesView.collection.remove(removedFav);
           view.render();
         },
         error: function(model, response) {
-          $(event.target).removeClass("disabled");
-          $(event.target).before(response.responseText);
+          $(document).find(".flash").html(response.responseText || 
+            "An error occurred.  Please reload the page.");
         }
       });
     }

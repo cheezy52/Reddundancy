@@ -1,0 +1,7 @@
+<% favs.sort().models.forEach(function(fav) { %>
+  <li data-id="<%= fav.escape('sub_id') %>" data-rank="<%= fav.escape('rank') %>">
+    <a href="<%= Seddit.ROOT_URL + '/#/s/' + fav.escape('sub_name') %>">
+      <%= fav.escape('sub_name') %>
+    </a>
+  </li>
+<% }); %>

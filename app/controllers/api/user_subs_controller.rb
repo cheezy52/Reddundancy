@@ -2,9 +2,9 @@ class Api::UserSubsController < ApplicationController
   before_action :ensure_signed_in, only: [:create, :update, :destroy]
 
   def index
-    @user = User.find(params[:user_id])
-    if @user
-      render :json => @user.user_subs
+    @favs = UserSub.includes(:sub).where(user_id: params[:user_id])
+    if @favs
+      render :index, locals: {favs: @favs}
     else
       head 404
     end

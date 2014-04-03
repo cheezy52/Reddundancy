@@ -75,7 +75,9 @@ Seddit.Views.SubShowView = Backbone.CompositeView.extend({
     var post = this.collection.get($(event.target).data("id"));
     post && post.destroy({
       error: function(model, response) {
-        $(event.target).removeClass("disabled")
+        $(event.target).removeClass("disabled");
+        $(document).find(".flash").html(response.responseText || 
+            "An error occurred.  Please reload the page.");
       }
     });
   },

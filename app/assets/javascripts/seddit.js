@@ -34,13 +34,13 @@ window.Seddit = {
     });
     userFavorites.fetch({
       success: function() {
-        window.Seddit.navFavoritesView = new Seddit.Views.NavFavoritesView({
+        window.Seddit.NavFavoritesView = new Seddit.Views.NavFavoritesView({
           el: "#favorited-subs",
           collection: userFavorites
         })
       }
     });
-    
+
     Backbone.history.start();
   }
 };

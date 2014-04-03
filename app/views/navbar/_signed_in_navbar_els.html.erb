@@ -1,5 +1,5 @@
 <ul class="nav navbar-nav navbar-left">
-  <div class="dropdown">
+  <li class="dropdown">
     <button class="btn dropdown-toggle" type="button"
       id="favorited-subs-dropdown-btn" data-toggle="dropdown">
       Your Favorite Subs
@@ -8,13 +8,12 @@
 
     <ul id="favorited-subs" class="dropdown-menu ui-sortable"
       aria-labelledby="favorited-subs-dropdown-btn">
-      <% current_user.user_subs.order(:rank).each do |fav| %>
-        <li data-id="<%= fav.sub.id %>">
-          <a href="<%="#{root_url}#/s/#{fav.sub.name}"%>"><%=fav.sub.name%></a>
-        </li>
-      <% end %>
+      <!-- Backbone will populate favorited-subs contents -->
     </ul>
-  </div>
+  </li>
+  <li>
+    <p class="navbar-text"><em>Drag/drop your favorites to reorder!</em></p>
+  </li>
 </ul>
 
 <ul class="nav navbar-nav navbar-right">
