@@ -29,6 +29,9 @@ Seddit.Views.FavoriteView = Backbone.View.extend({
       this.model.favorite.save({}, {
         success: function(model) {
           view.model.set("followers", view.model.get("followers") + 1);
+          $("#favorited-subs").append("<li><a href='#/s/" + 
+            view.model.escape("name") + "'>" + 
+            view.model.escape("name") + "</a></li>");
           view.render();
         },
         error: function(model, response) {
@@ -47,6 +50,9 @@ Seddit.Views.FavoriteView = Backbone.View.extend({
         success: function(model) {
           view.model.favorite = null;
           view.model.set("followers", view.model.get("followers") - 1);
+          $("#favorited-subs").children()
+            .find(":contains('" + view.model.escape("name") + "')")
+            .remove();
           view.render();
         },
         error: function(model, response) {
