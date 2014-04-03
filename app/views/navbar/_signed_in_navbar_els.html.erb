@@ -6,10 +6,12 @@
       <span class="caret"></span>
     </button>
 
-    <ul id="favorited-subs" class="dropdown-menu"
+    <ul id="favorited-subs" class="dropdown-menu ui-sortable"
       aria-labelledby="favorited-subs-dropdown-btn">
-      <% current_user.favorite_subs.each do |sub| %>
-        <li><a href="<%= "#{root_url}#/s/#{sub.name}" %>"><%= sub.name%></a></li>
+      <% current_user.user_subs.order(:rank).each do |fav| %>
+        <li data-id="<%= fav.sub.id %>">
+          <a href="<%="#{root_url}#/s/#{fav.sub.name}"%>"><%=fav.sub.name%></a>
+        </li>
       <% end %>
     </ul>
   </div>

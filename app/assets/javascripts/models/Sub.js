@@ -6,9 +6,9 @@ Seddit.Models.Sub = Backbone.Model.extend({
   parse: function(data) {
     if(data.is_favorited) {
       this.favorite = new Seddit.Models.SubFavorite({
-        parentId: data["id"],
-        parentClass: this.sedditClass,
-        id: "this is a fake id to make Backbone happy"
+        sub_id: data["id"],
+        //this "id" field is mostly a fake to make Backbone happy
+        id: data["id"]
       })
     } else {
       this.favorite = null;

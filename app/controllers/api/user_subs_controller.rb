@@ -1,6 +1,15 @@
 class Api::UserSubsController < ApplicationController
   before_action :ensure_signed_in, only: [:create, :update, :destroy]
 
+  def index
+    @user = User.find(params[:user_id])
+    if @user
+      render :json => @user.user_subs
+    else
+      head 404
+    end
+  end
+
   def create
     @sub = SubSeddit.friendly.find(params[:sub_seddit_id])
     if @sub
@@ -8,7 +17,6 @@ class Api::UserSubsController < ApplicationController
       @favorite = @sub.user_subs.build(user_id: current_user.id, sub_id: @sub.id,
         rank: params[:rank] || max_rank + 1)
       if @favorite.save
-        puts @sub.followers_count
         render :json => @favorite
       else
         render :json => @favorite.errors.full_messages, :status => 422
@@ -25,8 +33,23 @@ class Api::UserSubsController < ApplicationController
       @favorite = UserSub.find_by(user_id: current_user.id, sub_id: @sub.id)
       if @favorite
         @favorite.rank = params[:rank] || max_rank + 1
-        if @favorite.save
-          puts @sub.followers_count
+        #update favorites this save is colliding with to maintain ranking
+        reranked_faves = [@favorite]
+        possible_collision = true
+        collision_rank = @favorite.rank
+        while possible_collision
+          @collided_favorite = UserSub.find_by(user_id: current_user.id, 
+            rank: collision_rank)
+          if @collided_favorite
+            @collided_favorite.rank += 1
+            collision_rank = @collided_favorite.rank
+            reranked_faves.push(@collided_favorite)
+          else
+            possible_collision = false
+          end
+        end
+        #this will be very slow if users start having very many favorites
+        if reranked_faves.reverse.all? { |fav| fav.save! }
           render :json => @favorite
         else
           head 422
@@ -45,7 +68,6 @@ class Api::UserSubsController < ApplicationController
       @favorite = UserSub.find_by(user_id: current_user.id, sub_id: @sub.id)
       if @favorite
         @favorite.destroy
-        puts @sub.followers_count
         render :json => @favorite
       else
         head 404

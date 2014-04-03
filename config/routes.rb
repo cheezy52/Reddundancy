@@ -32,6 +32,9 @@ Seddit::Application.routes.draw do
     resources :comments, only: [:show, :create, :update, :destroy] do
       resources :comments, only: [:create]
     end
+    resources :users, only: [] do
+      resources :user_subs, only: [:index], path: "favorites"
+    end
 
     resources :votes, only: [:create, :update, :destroy]
   end

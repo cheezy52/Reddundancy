@@ -1,12 +1,10 @@
 Seddit.Models.SubFavorite = Backbone.Model.extend({
   url: function() {
-    return Seddit.ROOT_URL + "/api/s/" + this.get("parentId") + "/favorite";
+    return Seddit.ROOT_URL + "/api/s/" + this.get("sub_id") + "/favorite";
   },
 
   initialize: function(options) {
-    this.set("parentId", options.parentId);
-    //parentClass not currently used, included for future extensibility
-    this.set("parentClass", options.parentClass);
+    this.set("sub_id", options.sub_id);
     this.set("rank", options.rank);
   }
 })

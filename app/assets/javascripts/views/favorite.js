@@ -23,8 +23,7 @@ Seddit.Views.FavoriteView = Backbone.View.extend({
     if(!this.model.favorite) {
       $(event.target).addClass("disabled");
       this.model.favorite = new Seddit.Models.SubFavorite({
-        parentId: this.model.id,
-        parentClass: this.model.sedditClass
+        sub_id: this.model.id
       });
       this.model.favorite.save({}, {
         success: function(model) {

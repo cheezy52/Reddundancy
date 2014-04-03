@@ -14,6 +14,8 @@ window.Seddit = {
     //check for signed-in user
     if (current_user.signed_in) {
       Seddit.current_user = current_user.id;
+       //allow nav dropdown sorting
+       $("#favorited-subs").sortable();
     } else {
       Seddit.current_user = null;
     }
@@ -25,6 +27,20 @@ window.Seddit = {
     window.Seddit.router = new Seddit.Routers.Router({
       $rootEl: $("#content")
     });
+
+    //initialize navbar dropdown watcher
+    var userFavorites = new Seddit.Collections.UserFavorites({}, {
+      userId: Seddit.current_user
+    });
+    userFavorites.fetch({
+      success: function() {
+        window.Seddit.navFavoritesView = new Seddit.Views.NavFavoritesView({
+          el: "#favorited-subs",
+          collection: userFavorites
+        })
+      }
+    });
+    
     Backbone.history.start();
   }
 };
