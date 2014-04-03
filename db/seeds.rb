@@ -38,11 +38,6 @@ ben = SubSeddit.create(name: "BenjaminSmith", owner: sed)
 funny = SubSeddit.create(name: "funny", owner: sed)
 aww = SubSeddit.create(name: "aww", owner: sed)
 
-# subscribe guest user to subs
-guest.user_subs.create(sub: announce, rank: 1)
-guest.user_subs.create(sub: tech, rank: 2)
-guest.user_subs.create(sub: ben, rank: 3)
-
 # create starting posts
   # "announce" sub
   welcome = Post.create(sub: announce, title: "Welcome to Seddit!", owner: sed)
