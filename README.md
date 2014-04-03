@@ -11,7 +11,7 @@ A basic guide to what a user can do on Seddit:
 
 -Sub-seddits: A user can create a sub-seddit of their own.  (NYI) A sub-seddit owner will have additional access privileges as the owner and can appoint moderators with a more limited set of increased privileges.  (NYI) Owners can mark their sub-seddit private, requiring users to subscribe to that sub-seddit before being able to view its posts at all, and/or can require themselves or a moderator to approve subscription requests.
 
--Customizable user experience: A user can subscribe to sub-seddits, allowing links to those sub-seddits on the user's navbar for easy reference.  (NYI) Highly-rated links from those sub-seddits will appear in a content overview specific to that user.  (NYI) Users can customize the order of links on their navbar, and which subscribed sub-seddits appear at all.
+-Customizable user experience: A user can subscribe to sub-seddits, allowing links to those sub-seddits on the user's navbar for easy reference.  Users can customize the order of links on their navbar.  (NYI) Highly-rated links from those sub-seddits will appear in a content overview specific to that user.
 
 -(NYI) Notifications and messaging: A user will receive notifications when one of their submissions (either link or comment) receives a comment in reply.  Users can customize which events will notify them.  Users can also message one another directly.
 
