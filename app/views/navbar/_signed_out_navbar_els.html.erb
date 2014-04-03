@@ -7,12 +7,12 @@
   </li>
   <li><p class="navbar-text">Not signed in.</p></li>
 
-  <li><a href="<%= new_session_url%>"
-    class="btn navbar-btn btn-success">Sign In</a>
+  <li><form action="<%= new_session_url %>">
+    <input type="submit" class="btn navbar-btn btn-success" value="Sign In"></a>
   </li>
 
-  <li><a href="<%= new_user_url%>"
-    class="btn navbar-btn btn-primary">Sign Up</a>
+  <li><form action="<%= new_user_url%>">
+    <input type="submit" class="btn navbar-btn btn-primary" value="Sign Up"></a>
   </li>
 </ul>
 <!-- end navbar body -->
