@@ -9,9 +9,23 @@
   margin-top: 8px;
 }
 
-.navbar-btn {
+#nav-signin-link, #nav-signup-link {
+  padding: 6px 12px;
   margin-left: 4px;
   margin-right: 4px;
+  font-size: 14px;
+  border: 1px solid transparent;
+  color: white;
+}
+
+#nav-signin-link:hover {
+  background-color: #47a447;
+  border-color: #398439;
+}
+
+#nav-signup-link:hover {
+  background-color: #3276b1;
+  border-color: #285e8e;
 }
 
 #navbar {
