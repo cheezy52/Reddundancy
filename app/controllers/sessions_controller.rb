@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     end
     @user = User.find_by_credentials(session_params[:username], session_params[:password])
     if @user
-      @user.username == "SedditGuest" ? login_as_guest! : login!(@user)
+      login!(@user)
       redirect_to "/"
     else
       @user = User.new(session_params)
