@@ -1,5 +1,5 @@
-Seddit.Views.NavFavoritesView = Backbone.View.extend({
-  sedditClass: "NavFavoritesView",
+RedditLite.Views.NavFavoritesView = Backbone.View.extend({
+  redditLiteClass: "NavFavoritesView",
 
   template: JST["nav_favorites"],
 

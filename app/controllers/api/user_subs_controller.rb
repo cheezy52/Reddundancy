@@ -11,7 +11,7 @@ class Api::UserSubsController < ApplicationController
   end
 
   def create
-    @sub = SubSeddit.friendly.find(params[:sub_seddit_id])
+    @sub = SubReddit.friendly.find(params[:sub_reddit_id])
     if @sub
       max_rank = current_user.user_subs.maximum("rank") || 0
       @favorite = @sub.user_subs.build(user_id: current_user.id, sub_id: @sub.id,
@@ -27,7 +27,7 @@ class Api::UserSubsController < ApplicationController
   end
 
   def update
-    @sub = SubSeddit.friendly.find(params[:sub_seddit_id])
+    @sub = SubReddit.friendly.find(params[:sub_reddit_id])
     if @sub
       max_rank = current_user.user_subs.maximum("rank") || 0
       @favorite = UserSub.find_by(user_id: current_user.id, sub_id: @sub.id)
@@ -63,7 +63,7 @@ class Api::UserSubsController < ApplicationController
   end
 
   def destroy
-    @sub = SubSeddit.friendly.find(params[:sub_seddit_id])
+    @sub = SubReddit.friendly.find(params[:sub_reddit_id])
     if @sub
       @favorite = UserSub.find_by(user_id: current_user.id, sub_id: @sub.id)
       if @favorite

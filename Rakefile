@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Seddit::Application.load_tasks
+RedditLite::Application.load_tasks

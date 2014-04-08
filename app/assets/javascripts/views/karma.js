@@ -1,7 +1,7 @@
-Seddit.Views.KarmaView = Backbone.View.extend({
+RedditLite.Views.KarmaView = Backbone.View.extend({
   template: JST["karma"],
 
-  sedditClass: "KarmaView",
+  redditLiteClass: "KarmaView",
 
   initialize: function(options) {
     this.awaitingVoteReturn = false;
@@ -24,7 +24,7 @@ Seddit.Views.KarmaView = Backbone.View.extend({
   },
 
   upvote: function(event) {
-    if(!Seddit.current_user) { return; }
+    if(!RedditLite.current_user) { return; }
     if(!this.awaitingVoteReturn) {
       this.disableKarmaButtons();
       this.model.upvote(event, this.enableKarmaButtons.bind(this));
@@ -32,7 +32,7 @@ Seddit.Views.KarmaView = Backbone.View.extend({
   },
 
   downvote: function(event) {
-    if(!Seddit.current_user) { return; }
+    if(!RedditLite.current_user) { return; }
     if(!this.awaitingVoteReturn) {
       this.disableKarmaButtons();
       this.model.downvote(event, this.enableKarmaButtons.bind(this));

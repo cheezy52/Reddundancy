@@ -1,7 +1,7 @@
-Seddit.Models.Comment = Backbone.VotableModel.extend({
+RedditLite.Models.Comment = Backbone.VotableModel.extend({
   urlRoot: function() {
-    return Seddit.ROOT_URL + "/api/comments"
+    return RedditLite.ROOT_URL + "/api/comments"
   },
 
-  sedditClass: "Comment"
+  redditLiteClass: "Comment"
 })

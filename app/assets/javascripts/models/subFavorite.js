@@ -1,6 +1,6 @@
-Seddit.Models.SubFavorite = Backbone.Model.extend({
+RedditLite.Models.SubFavorite = Backbone.Model.extend({
   url: function() {
-    return Seddit.ROOT_URL + "/api/s/" + this.get("sub_id") + "/favorite";
+    return RedditLite.ROOT_URL + "/api/s/" + this.get("sub_id") + "/favorite";
   },
 
   initialize: function(options) {

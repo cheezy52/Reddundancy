@@ -1,4 +1,4 @@
-<% if (Seddit.current_user) { %>
+<% if (RedditLite.current_user) { %>
 
   <% if(showForm) { %>
   <button class="btn btn-primary new-sub-show hidden">Add a Sub!</button>
@@ -24,5 +24,5 @@
   </form>
 
 <% } else { %>
-  <a href="<%= Seddit.ROOT_URL %>/session/new">Log in to create a sub!</a>
+  <a href="<%= RedditLite.ROOT_URL %>/session/new">Log in to create a sub!</a>
 <% } %>

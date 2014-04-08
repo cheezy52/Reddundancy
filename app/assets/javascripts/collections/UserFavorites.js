@@ -1,9 +1,9 @@
-Seddit.Collections.UserFavorites = Backbone.Collection.extend({
+RedditLite.Collections.UserFavorites = Backbone.Collection.extend({
   url: function() {
-    return Seddit.ROOT_URL + "/api/users/" + this.userId + "/favorites"
+    return RedditLite.ROOT_URL + "/api/users/" + this.userId + "/favorites"
   },
 
-  model: Seddit.Models.SubFavorite,
+  model: RedditLite.Models.SubFavorite,
 
   initialize: function(models, options) {
     this.userId = options.userId;
@@ -19,7 +19,7 @@ Seddit.Collections.UserFavorites = Backbone.Collection.extend({
     if (fav) {
       return fav;
     } else {
-      fav = new Seddit.Models.SubFavorite({
+      fav = new RedditLite.Models.SubFavorite({
         parentId: sub_id
       });
       fav.fetch({

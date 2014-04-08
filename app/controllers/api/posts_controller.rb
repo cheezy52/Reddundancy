@@ -4,7 +4,7 @@ class Api::PostsController < ApplicationController
 
   def index
     #extra SQL query, but allows use of friendlyID
-    @sub = SubSeddit.friendly.find(params[:sub_seddit_id].to_s.downcase)
+    @sub = SubReddit.friendly.find(params[:sub_reddit_id].to_s.downcase)
     @posts = Post.includes(:sub, :owner, :comments, :votes => :owner)
                  .where(sub_id: @sub.id)
                  .order(:created_at => :desc)
@@ -22,7 +22,7 @@ class Api::PostsController < ApplicationController
   end
 
   def create
-    @post = SubSeddit.find(post_params[:sub_id]).posts.build(post_params)
+    @post = SubReddit.find(post_params[:sub_id]).posts.build(post_params)
     @post.owner_id = current_user.id
     if @post.save
       render :show, locals: {post: @post}

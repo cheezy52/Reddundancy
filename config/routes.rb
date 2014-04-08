@@ -1,4 +1,4 @@
-Seddit::Application.routes.draw do
+RedditLite::Application.routes.draw do
   root to: "static_pages#index"
   resource :session, only: [:new, :create, :destroy]
   resources :users, only: [:new, :create]
@@ -8,7 +8,7 @@ Seddit::Application.routes.draw do
 #   resources :users, only: [:show]
 #
 #   This route will redirect to the appropriate Backbone view.
-  resources :sub_seddits, only: [:show, :index], path: "s"
+  resources :sub_reddits, only: [:show, :index], path: "s"
 #     resources :posts, only: [:new, :create]
 #   end
 #   resources :posts, only: [:show] do
@@ -21,7 +21,7 @@ Seddit::Application.routes.draw do
 #   resources :votes, only: [:create, :update]
 
   namespace :api, :defaults => { :format => :json } do
-    resources :sub_seddits, only: [:index, :show, :create, :update, :destroy],
+    resources :sub_reddits, only: [:index, :show, :create, :update, :destroy],
     path: "s" do
       resources :posts, only: [:index]
       resource :user_subs, only: [:create, :update, :destroy], path: "favorite"

@@ -1,4 +1,4 @@
-Seddit.Views.FormView = Backbone.View.extend({
+RedditLite.Views.FormView = Backbone.View.extend({
   initialize: function(options) {
     //must be passed a formClassName in options!
     this.formVisible = false;
@@ -23,7 +23,7 @@ Seddit.Views.FormView = Backbone.View.extend({
     return variableEvents;
   },
 
-  sedditClass: "FormView",
+  redditLiteClass: "FormView",
 
   render: function() {
     var view = this;

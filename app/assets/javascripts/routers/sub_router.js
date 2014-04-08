@@ -1,4 +1,4 @@
-Seddit.Routers.Router = Backbone.Router.extend({
+RedditLite.Routers.Router = Backbone.Router.extend({
   initialize: function(options) {
     this.$rootEl = options.$rootEl;
   },
@@ -14,11 +14,11 @@ Seddit.Routers.Router = Backbone.Router.extend({
   subsIndex: function(id) {
     $("#loading-icon").removeClass("hidden");
     var router = this;
-    var subs = new Seddit.Collections.Subs();
+    var subs = new RedditLite.Collections.Subs();
     subs.fetch({
       data: { page: 1 },
       success: function(models) {
-        var view = new Seddit.Views.SubsIndexView({
+        var view = new RedditLite.Views.SubsIndexView({
           collection: subs
         });
         router._swapView(view);
@@ -32,16 +32,16 @@ Seddit.Routers.Router = Backbone.Router.extend({
   subShow: function(id) {
     $("#loading-icon").removeClass("hidden");
     var router = this;
-    var sub = new Seddit.Models.Sub({
+    var sub = new RedditLite.Models.Sub({
       id: id
     });
-    var posts = new Seddit.Collections.SubPosts([], {
+    var posts = new RedditLite.Collections.SubPosts([], {
       subId: id,
     });
     //wait until we have sub info to prevent confusing renders
     sub.fetch({
       success: function(model) {
-        var view = new Seddit.Views.SubShowView({
+        var view = new RedditLite.Views.SubShowView({
           model: sub,
           collection: posts
         });
@@ -59,16 +59,16 @@ Seddit.Routers.Router = Backbone.Router.extend({
   postShow: function(id) {
     $("#loading-icon").removeClass("hidden");
     var router = this;
-    var post = new Seddit.Models.Post({
+    var post = new RedditLite.Models.Post({
       id: id
     });
-    var comments = new Seddit.Collections.PostComments([], {
+    var comments = new RedditLite.Collections.PostComments([], {
       postId: id
     });
     //wait until we have post info to prevent confusing renders
     post.fetch({
       success: function(model) {
-        var view = new Seddit.Views.PostShowView({
+        var view = new RedditLite.Views.PostShowView({
           model: post,
           collection: comments
         });

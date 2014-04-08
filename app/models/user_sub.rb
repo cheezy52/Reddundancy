@@ -4,6 +4,6 @@ class UserSub < ActiveRecord::Base
   validates_uniqueness_of :rank, :scope => [:user]
 
   belongs_to :user, :inverse_of => :user_subs
-  belongs_to :sub, class_name: "SubSeddit", :inverse_of => :user_subs,
+  belongs_to :sub, class_name: "SubReddit", :inverse_of => :user_subs,
     counter_cache: :followers_count
 end

@@ -1,11 +1,11 @@
-Seddit.Models.Sub = Backbone.Model.extend({
+RedditLite.Models.Sub = Backbone.Model.extend({
   urlRoot: function() {
-    return Seddit.ROOT_URL + "/api/s";
+    return RedditLite.ROOT_URL + "/api/s";
   },
 
   parse: function(data) {
     if(data.is_favorited) {
-      this.favorite = new Seddit.Models.SubFavorite({
+      this.favorite = new RedditLite.Models.SubFavorite({
         sub_id: data["id"],
         //this "id" field is mostly a fake to make Backbone happy
         id: data["id"]
@@ -16,5 +16,5 @@ Seddit.Models.Sub = Backbone.Model.extend({
     return data;
   },
 
-  sedditClass: "Sub"
+  redditLiteClass: "Sub"
 })

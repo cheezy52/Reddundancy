@@ -1,19 +1,19 @@
-<% if(Seddit.current_user) { %>
+<% if(RedditLite.current_user) { %>
   <% if(model.favorite) { %>
     <button class="favorited btn btn-warning"
       data-id="<%= model.get("id") %>"
-      data-class="<%= model.sedditClass %>">
+      data-class="<%= model.redditLiteClass %>">
     <span class="glyphicon glyphicon-star favorited"></span>
     <%= model.escape("followers") %></button>
   <% } else { %>
     <button class="unfavorited btn btn-warning"
       data-id="<%= model.get("id") %>"
-      data-class="<%= model.sedditClass %>">
+      data-class="<%= model.redditLiteClass %>">
     <span class="glyphicon glyphicon-star-empty unfavorited"></span>
     <%= model.escape("followers")%></button>
   <% } %>
 <% } else { %>
-  <a href="<%= Seddit.ROOT_URL + '/session/new.html' %>" class="unfavorited btn btn-warning">
+  <a href="<%= RedditLite.ROOT_URL + '/session/new.html' %>" class="unfavorited btn btn-warning">
     <span class="glyphicon glyphicon-star-empty unfavorited"></span>
     <%= model.escape("followers")%></a>
 <% } %>

@@ -1,16 +1,16 @@
-class Api::SubSedditsController < ApplicationController
+class Api::SubRedditsController < ApplicationController
   before_action :ensure_signed_in, only: [:update, :destroy, :create]
   before_action :verify_ownership, only: [:update, :destroy]
 
   def index
-    @subs = SubSeddit.includes(:owner, :followers)
+    @subs = SubReddit.includes(:owner, :followers)
       .order(:followers_count => :desc).order('lower(name)')
       .page(params[:page].to_i);
     render :index, locals: {subs: @subs}
   end
 
   def show
-    @sub = SubSeddit.includes(:followers, posts: [:comments, :votes, :owner])
+    @sub = SubReddit.includes(:followers, posts: [:comments, :votes, :owner])
       .friendly.find(params[:id].to_s.downcase)
     render :show, locals: {sub: @sub}
   end
@@ -49,7 +49,7 @@ class Api::SubSedditsController < ApplicationController
   end
 
   def verify_ownership
-    @sub = SubSeddit.includes(:owner).find(params[:id])
+    @sub = SubReddit.includes(:owner).find(params[:id])
     head 403 unless @sub.owner == current_user
   end
 end

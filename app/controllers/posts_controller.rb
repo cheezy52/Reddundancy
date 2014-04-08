@@ -6,12 +6,12 @@ class PostsController < ApplicationController
 #   end
 
   def new
-    @post = SubSeddit.find(params[:sub_seddit_id]).posts.build
+    @post = SubReddit.find(params[:sub_reddit_id]).posts.build
     render :new, locals: {post: @post}
   end
 
   def create
-    @post = SubSeddit.find(params[:sub_seddit_id]).posts.build(post_params)
+    @post = SubReddit.find(params[:sub_reddit_id]).posts.build(post_params)
     @post.owner_id = current_user.id
     if @post.save
       flash[:notice] = "Post successfully created!"

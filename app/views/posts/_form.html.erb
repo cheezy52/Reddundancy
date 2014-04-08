@@ -4,7 +4,7 @@
 <h3>Sub: <%= post.sub.name %></h3>
 
 <div class="form-container">
-  <form action="<%= sub_seddit_posts_url(sub) %>" method="POST">
+  <form action="<%= sub_reddit_posts_url(sub) %>" method="POST">
     <%= csrf_token %>
 
     <div class="form-group">

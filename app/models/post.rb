@@ -17,7 +17,7 @@ class Post < ActiveRecord::Base
   validates :owner, :sub, :title, presence: true
 
   belongs_to :sub,
-    class_name: "SubSeddit",
+    class_name: "SubReddit",
     foreign_key: :sub_id,
     inverse_of: :posts
   belongs_to :owner, class_name: "User", inverse_of: :owned_posts

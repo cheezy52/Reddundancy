@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    if session_params[:username] == "SedditGuest"
+    if session_params[:username] == "RedditLiteGuest"
       login_as_guest!
       redirect_to "/" and return
     end
@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    if current_user.username[0..10] == "SedditGuest"
+    if current_user.username[0..14] == "RedditLiteGuest"
       logout_guest!
     elsif current_user
       logout!
@@ -37,13 +37,13 @@ class SessionsController < ApplicationController
   end
 
   #Guest account keeps permanent session token to avoid multi-user conflicts
-  DEFAULT_SUBS = ["SedditAnnouncements", "BenjaminSmith", "technology"]
+  DEFAULT_SUBS = ["RedditLiteAnnouncements", "BenjaminSmith", "technology"]
   def login_as_guest!
-    guest_id = User.maximum(:id) + 1
+    guest_id = (User.maximum(:id) || 1) + 1
     @user = User.create(email: "guest#{guest_id}@herokuapp.com", 
-      username: "SedditGuest#{guest_id}", password: SecureRandom::urlsafe_base64(16))
+      username: "RedditLiteGuest#{guest_id}", password: SecureRandom::urlsafe_base64(16))
     DEFAULT_SUBS.each_with_index do |sub_name, i|
-      @user.user_subs.build(sub: SubSeddit.find_by_name(sub_name), rank: i)
+      @user.user_subs.build(sub: SubReddit.find_by_name(sub_name), rank: i)
     end
     if @user.save
       session[:session_token] = @user.session_token

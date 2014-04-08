@@ -1,7 +1,7 @@
-Seddit.Models.Vote = Backbone.Model.extend({
+RedditLite.Models.Vote = Backbone.Model.extend({
   urlRoot: function() {
-    return Seddit.ROOT_URL + "/api/votes";
+    return RedditLite.ROOT_URL + "/api/votes";
   },
 
-  sedditClass: "Vote"
+  redditLiteClass: "Vote"
 });

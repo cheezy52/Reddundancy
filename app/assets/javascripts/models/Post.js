@@ -1,7 +1,7 @@
-Seddit.Models.Post = Backbone.VotableModel.extend({
+RedditLite.Models.Post = Backbone.VotableModel.extend({
   urlRoot: function() {
-    return Seddit.ROOT_URL + "/api/posts";
+    return RedditLite.ROOT_URL + "/api/posts";
   },
 
-  sedditClass: "Post"
+  redditLiteClass: "Post"
 })

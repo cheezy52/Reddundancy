@@ -7,40 +7,40 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # create superadmin user
-sed = User.create(username: "Seddit", password: SecureRandom::urlsafe_base64(16),
-  email: "seddit@herokuapp.com")
+adm = User.create(username: "RedditLite", password: SecureRandom::urlsafe_base64(16),
+  email: "RedditLite@herokuapp.com")
 
 #create guest user
-guest = User.create!(username: "SedditGuest", password: "GuestPass",
+guest = User.create!(username: "RedditLiteGuest", password: "GuestPass",
   email: "guest@guest.guest")
 
 #create fake seed accounts
-alice = User.create(username: "SedditAlice", password: SecureRandom::urlsafe_base64(16),
-  email: "alice@seddit.com")
-bob = User.create(username: "SedditBob", password: SecureRandom::urlsafe_base64(16),
-  email: "bob@seddit.com")
-carol = User.create(username: "SedditCarol", password: SecureRandom::urlsafe_base64(16),
-  email: "carol@seddit.com")
-dan = User.create(username: "SedditDan", password: SecureRandom::urlsafe_base64(16),
-  email: "dan@seddit.com")
-eve = User.create(username: "SedditEve", password: SecureRandom::urlsafe_base64(16),
-  email: "eve@seddit.com")
-frank = User.create(username: "SedditFrank", password: SecureRandom::urlsafe_base64(16),
-  email: "frank@seddit.com")
+alice = User.create(username: "RedditLiteAlice", password: SecureRandom::urlsafe_base64(16),
+  email: "alice@RedditLite.com")
+bob = User.create(username: "RedditLiteBob", password: SecureRandom::urlsafe_base64(16),
+  email: "bob@RedditLite.com")
+carol = User.create(username: "RedditLiteCarol", password: SecureRandom::urlsafe_base64(16),
+  email: "carol@RedditLite.com")
+dan = User.create(username: "RedditLiteDan", password: SecureRandom::urlsafe_base64(16),
+  email: "dan@RedditLite.com")
+eve = User.create(username: "RedditLiteEve", password: SecureRandom::urlsafe_base64(16),
+  email: "eve@RedditLite.com")
+frank = User.create(username: "RedditLiteFrank", password: SecureRandom::urlsafe_base64(16),
+  email: "frank@RedditLite.com")
 
 # create default subs
-announce = SubSeddit.create(name: "SedditAnnouncements", owner: sed)
-news = SubSeddit.create(name: "news", owner: sed)
-pol = SubSeddit.create(name: "politics", owner: sed)
-sci = SubSeddit.create(name: "science", owner: sed)
-tech = SubSeddit.create(name: "technology", owner: sed)
-ben = SubSeddit.create(name: "BenjaminSmith", owner: sed)
-funny = SubSeddit.create(name: "funny", owner: sed)
-aww = SubSeddit.create(name: "aww", owner: sed)
+announce = SubReddit.create(name: "RedditLiteAnnouncements", owner: adm)
+news = SubReddit.create(name: "news", owner: adm)
+pol = SubReddit.create(name: "politics", owner: adm)
+sci = SubReddit.create(name: "science", owner: adm)
+tech = SubReddit.create(name: "technology", owner: adm)
+ben = SubReddit.create(name: "BenjaminSmith", owner: adm)
+funny = SubReddit.create(name: "funny", owner: adm)
+aww = SubReddit.create(name: "aww", owner: adm)
 
 # create starting posts
   # "announce" sub
-  welcome = Post.create(sub: announce, title: "Welcome to Seddit!", owner: sed)
+  welcome = Post.create(sub: announce, title: "Welcome to RedditLite!", owner: adm)
 
   # "news" sub
 
@@ -52,10 +52,10 @@ aww = SubSeddit.create(name: "aww", owner: sed)
 
   # "ben" sub
   self_plug = Post.create(sub: ben, link: "https://github.com/cheezy52",
-    title: "That Ben Smith sure is a swell guy.", owner: sed)
+    title: "That Ben Smith sure is a swell guy.", owner: adm)
 
     # add starting comments
-    self_plug_c1 = Comment.create(post: self_plug, owner: sed,
+    self_plug_c1 = Comment.create(post: self_plug, owner: adm,
       body: "He certainly is!", parent: nil)
     self_plug_c1_c1 = Comment.create(post: self_plug, owner: guest,
       body: "You know it!", parent: self_plug_c1)

@@ -1,4 +1,4 @@
-<% if (Seddit.current_user) { %>
+<% if (RedditLite.current_user) { %>
 
 <% if (showForm) { %>
 <button class="btn btn-primary hidden new-comment-show">Add Comment</button>
@@ -15,7 +15,7 @@
 
   <h3>Add a Comment!</h3>
   <input type="hidden" name="comment[post_id]" value="<%= model.get("post_id") %>">
-  <% if (model.sedditClass === "Comment") { %>
+  <% if (model.redditLiteClass === "Comment") { %>
     <input type="hidden" name="comment[parent_id]" value="<%= model.get("id") %>">
   <% } %>
 
@@ -30,5 +30,5 @@
 </form>
 
 <% } else { %>
-  <a href="<%= Seddit.ROOT_URL %>/session/new">Log in to add a comment!</a>
+  <a href="<%= RedditLite.ROOT_URL %>/session/new">Log in to add a comment!</a>
 <% } %>

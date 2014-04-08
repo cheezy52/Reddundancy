@@ -1,9 +1,9 @@
-Seddit.Collections.PostComments = Backbone.Collection.extend({
+RedditLite.Collections.PostComments = Backbone.Collection.extend({
   url: function() {
-    return Seddit.ROOT_URL + "/api/posts/" + this.postId + "/comments"
+    return RedditLite.ROOT_URL + "/api/posts/" + this.postId + "/comments"
   },
 
-  model: Seddit.Models.Comment,
+  model: RedditLite.Models.Comment,
 
   initialize: function(models, options) {
     this.postId = options.postId;
@@ -23,7 +23,7 @@ Seddit.Collections.PostComments = Backbone.Collection.extend({
       //hopefully this will never happen!
       //show function for a single comment is very slow server-side
       //all comments should be eager-loaded on page show anyway
-      comment = new Seddit.Models.Comment({
+      comment = new RedditLite.Models.Comment({
         id: comment_id
       });
       comment.fetch({

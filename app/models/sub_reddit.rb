@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: sub_seddits
+# Table name: sub_reddits
 #
 #  id         :integer          not null, primary key
 #  name       :string(255)      not null
@@ -9,7 +9,7 @@
 #  updated_at :datetime
 #
 
-class SubSeddit < ActiveRecord::Base
+class SubReddit < ActiveRecord::Base
   extend FriendlyId
   validates :name, :owner, presence: true
   validates :name, uniqueness: true
@@ -24,7 +24,7 @@ class SubSeddit < ActiveRecord::Base
 
   def is_url_safe
     if /[\W\s]/.match(self.name)
-      errors.add(:sub_seddit,
+      errors.add(:sub_reddit,
       "name must contain only alphanumeric characters and underscores")
     end
   end

@@ -1,4 +1,4 @@
-Seddit.Views.SubsIndexView = Backbone.CompositeView.extend({
+RedditLite.Views.SubsIndexView = Backbone.CompositeView.extend({
   template: JST["subs_index"],
 
   events: {
@@ -7,11 +7,11 @@ Seddit.Views.SubsIndexView = Backbone.CompositeView.extend({
     // "click .delete-sub": "deleteSub"
   },
 
-  sedditClass: "SubsIndexView",
+  redditLiteClass: "SubsIndexView",
 
   initialize: function(options) {
     this.listenTo(this.collection, "change sync update", this.render);
-    this.listenTo(this.collection, "add", this.addSubSedditView);
+    this.listenTo(this.collection, "add", this.addSubRedditLiteView);
     this.listenTo(this.collection, "remove", this.removeSubviewByModel);
     this.populateSubviews();
   },
@@ -21,16 +21,16 @@ Seddit.Views.SubsIndexView = Backbone.CompositeView.extend({
     this.$el.html(this.template({ subs: this.collection }));
 
     this.subviews().forEach(function(subview) {
-      if(subview.sedditClass === "FormView") {
+      if(subview.redditLiteClass === "FormView") {
         view.$el.find("#new-sub-form-container").html(subview.render().$el);
-      } else if(subview.sedditClass === "PaginationView") {
+      } else if(subview.redditLiteClass === "PaginationView") {
         //put pagination links both above and below
         if (subview.position === "top") {
           view.$el.prepend(subview.render().$el);
         } else {
           view.$el.append(subview.render().$el);
         }
-      } else if(subview.sedditClass === "SubSedditView") {
+      } else if(subview.redditLiteClass === "SubRedditLiteView") {
         view.$el.find("#subs-list").append(subview.render().$el);
       } else {
         view.$el.prepend(subview.render().$el);
@@ -42,26 +42,26 @@ Seddit.Views.SubsIndexView = Backbone.CompositeView.extend({
 
   populateSubviews: function() {
     var view = this;
-    this.addSubview(new Seddit.Views.FormView({
+    this.addSubview(new RedditLite.Views.FormView({
       model: this.model,
       collection: this.collection,
       formClassName: "sub"
     }));
-    this.addSubview(new Seddit.Views.PaginationView({
+    this.addSubview(new RedditLite.Views.PaginationView({
       collection: this.collection,
       position: "top"
     }));
-    this.addSubview(new Seddit.Views.PaginationView({
+    this.addSubview(new RedditLite.Views.PaginationView({
       collection: this.collection,
       position: "bottom"
     }));
-    this.collection.forEach(function(subSeddit) {
-      view.addSubSedditView(subSeddit);
+    this.collection.forEach(function(subRedditLite) {
+      view.addSubRedditLiteView(subRedditLite);
     });
   },
 
-  addSubSedditView: function(model) {
-    this.addSubview(new Seddit.Views.SubSedditView({
+  addSubRedditLiteView: function(model) {
+    this.addSubview(new RedditLite.Views.SubRedditLiteView({
       model: model
     }));
   },

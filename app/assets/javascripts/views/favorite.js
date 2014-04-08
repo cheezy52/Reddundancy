@@ -1,4 +1,4 @@
-Seddit.Views.FavoriteView = Backbone.View.extend({
+RedditLite.Views.FavoriteView = Backbone.View.extend({
   template: JST["favorite"],
 
   events: {
@@ -6,7 +6,7 @@ Seddit.Views.FavoriteView = Backbone.View.extend({
     "click button.favorited": "removeFavorite"
   },
 
-  sedditClass: "FavoriteView",
+  redditLiteClass: "FavoriteView",
 
   className: "favorites-container",
 
@@ -19,10 +19,10 @@ Seddit.Views.FavoriteView = Backbone.View.extend({
 
   addFavorite: function(event) {
     var view = this;
-    if(!Seddit.current_user) { return; }
+    if(!RedditLite.current_user) { return; }
     if(!this.model.favorite) {
       $(event.target).addClass("disabled");
-      this.model.favorite = new Seddit.Models.SubFavorite({
+      this.model.favorite = new RedditLite.Models.SubFavorite({
         sub_id: this.model.id,
         rank: $(document).find("#favorited-subs").children().last().data("rank") + 1,
         sub_name: this.model.escape("name")
@@ -30,7 +30,7 @@ Seddit.Views.FavoriteView = Backbone.View.extend({
       this.model.favorite.save({}, {
         success: function(model) {
           view.model.set("followers", view.model.get("followers") + 1);
-          Seddit.NavFavoritesView.collection.add(model);
+          RedditLite.NavFavoritesView.collection.add(model);
           view.render();
         },
         error: function(model, response) {
@@ -49,9 +49,9 @@ Seddit.Views.FavoriteView = Backbone.View.extend({
         success: function(model) {
           view.model.favorite = null;
           view.model.set("followers", view.model.get("followers") - 1);
-          var removedFav = Seddit.NavFavoritesView.collection
+          var removedFav = RedditLite.NavFavoritesView.collection
             .findWhere({sub_id: model.get("sub_id")});
-          Seddit.NavFavoritesView.collection.remove(removedFav);
+          RedditLite.NavFavoritesView.collection.remove(removedFav);
           view.render();
         },
         error: function(model, response) {
