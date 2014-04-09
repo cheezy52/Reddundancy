@@ -18,7 +18,7 @@
 //= require bootstrap
 //= require underscore
 //= require backbone
-//= require redditLite
+//= require reddundancy
 //= require_tree ./includes
 //= require_tree ../templates
 //= require_tree ./models

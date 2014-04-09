@@ -1,4 +1,4 @@
-RedditLite.Views.SubShowView = Backbone.CompositeView.extend({
+Reddundancy.Views.SubShowView = Backbone.CompositeView.extend({
   template: JST["sub_show"],
 
   events: {
@@ -6,7 +6,7 @@ RedditLite.Views.SubShowView = Backbone.CompositeView.extend({
     "click .delete-sub": "deleteSub"
   },
 
-  redditLiteClass: "SubShowView",
+  reddundancyClass: "SubShowView",
 
   initialize: function(options) {
     this.listenTo(this.model, "sync change update", this.render);
@@ -21,17 +21,17 @@ RedditLite.Views.SubShowView = Backbone.CompositeView.extend({
     this.$el.html(this.template({ sub: this.model }));
 
     this.subviews().forEach(function(subview) {
-      if (subview.redditLiteClass === "PostView") {
+      if (subview.reddundancyClass === "PostView") {
         view.$el.find("#posts").append(subview.render().$el);
-      } else if(subview.redditLiteClass === "PaginationView") {
+      } else if(subview.reddundancyClass === "PaginationView") {
         if(subview.position === "top") {
           view.$el.prepend(subview.render().$el);
         } else {
           view.$el.append(subview.render().$el);
         }
-      } else if(subview.redditLiteClass === "FavoriteView") {
+      } else if(subview.reddundancyClass === "FavoriteView") {
         view.$el.find("#sub-buttons").append(subview.render().$el);
-      } else if(subview.redditLiteClass === "FormView") {
+      } else if(subview.reddundancyClass === "FormView") {
         view.$el.find("#sub-buttons").append(subview.render().$el);
       } else {
         view.$el.find("#posts").before(subview.render().$el);
@@ -43,18 +43,18 @@ RedditLite.Views.SubShowView = Backbone.CompositeView.extend({
 
   populateSubviews: function() {
     var view = this;
-    this.addSubview(new RedditLite.Views.PaginationView({
+    this.addSubview(new Reddundancy.Views.PaginationView({
       collection: this.collection,
       position: "top"
     }));
-    this.addSubview(new RedditLite.Views.PaginationView({
+    this.addSubview(new Reddundancy.Views.PaginationView({
       collection: this.collection,
       position: "bottom"
     }));
-    this.addSubview(new RedditLite.Views.FavoriteView({
+    this.addSubview(new Reddundancy.Views.FavoriteView({
       model: this.model
     }));
-    this.addSubview(new RedditLite.Views.FormView({
+    this.addSubview(new Reddundancy.Views.FormView({
       model: this.model,
       collection: this.collection,
       formClassName: "post"
@@ -65,7 +65,7 @@ RedditLite.Views.SubShowView = Backbone.CompositeView.extend({
   },
 
   addPostView: function(model) {
-    this.addSubview(new RedditLite.Views.PostView({
+    this.addSubview(new Reddundancy.Views.PostView({
       model: model
     }));
   },

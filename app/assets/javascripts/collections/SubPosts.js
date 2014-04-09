@@ -1,9 +1,9 @@
-RedditLite.Collections.SubPosts = Backbone.Collection.extend({
+Reddundancy.Collections.SubPosts = Backbone.Collection.extend({
   url: function() {
-    return RedditLite.ROOT_URL + "/api/s/" + this.subId + "/posts";
+    return Reddundancy.ROOT_URL + "/api/s/" + this.subId + "/posts";
   },
 
-  model: RedditLite.Models.Post,
+  model: Reddundancy.Models.Post,
 
   initialize: function(models, options) {
     this.subId = options.subId;
@@ -26,7 +26,7 @@ RedditLite.Collections.SubPosts = Backbone.Collection.extend({
       post.fetch();
       return post;
     } else {
-      post = new RedditLite.Models.Post({
+      post = new Reddundancy.Models.Post({
         id: post_id
       });
       post.fetch({

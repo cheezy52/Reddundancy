@@ -1,4 +1,4 @@
-RedditLite.Views.PaginationView = Backbone.View.extend({
+Reddundancy.Views.PaginationView = Backbone.View.extend({
   template: JST["pagination"],
 
   events: {
@@ -15,7 +15,7 @@ RedditLite.Views.PaginationView = Backbone.View.extend({
     this.position = options.position;
   },
 
-  redditLiteClass: "PaginationView",
+  reddundancyClass: "PaginationView",
 
   render: function() {
     this.$el.html(this.template({

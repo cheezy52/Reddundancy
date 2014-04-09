@@ -1,12 +1,12 @@
-RedditLite.Views.SubRedditLiteView = Backbone.CompositeView.extend({
+Reddundancy.Views.SubReddundancyView = Backbone.CompositeView.extend({
   template: JST["sub"],
 
-  redditLiteClass: "SubRedditLiteView",
+  reddundancyClass: "SubReddundancyView",
 
   tagName: "li",
 
   initialize: function(options) {
-    this.addSubview(new RedditLite.Views.FavoriteView({
+    this.addSubview(new Reddundancy.Views.FavoriteView({
       model: this.model
     }));
   },
@@ -18,7 +18,7 @@ RedditLite.Views.SubRedditLiteView = Backbone.CompositeView.extend({
     }));
 
     this.subviews().forEach(function(subview) {
-      if(subview.redditLiteClass === "FavoriteView") {
+      if(subview.reddundancyClass === "FavoriteView") {
         view.$el.find(".submission-buttons").prepend(subview.render().$el);
       } else {
         view.$el.prepend(subview.render().$el);

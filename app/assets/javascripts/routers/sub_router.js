@@ -1,4 +1,4 @@
-RedditLite.Routers.Router = Backbone.Router.extend({
+Reddundancy.Routers.Router = Backbone.Router.extend({
   initialize: function(options) {
     this.$rootEl = options.$rootEl;
   },
@@ -14,11 +14,11 @@ RedditLite.Routers.Router = Backbone.Router.extend({
   subsIndex: function(id) {
     $("#loading-icon").removeClass("hidden");
     var router = this;
-    var subs = new RedditLite.Collections.Subs();
+    var subs = new Reddundancy.Collections.Subs();
     subs.fetch({
       data: { page: 1 },
       success: function(models) {
-        var view = new RedditLite.Views.SubsIndexView({
+        var view = new Reddundancy.Views.SubsIndexView({
           collection: subs
         });
         router._swapView(view);
@@ -32,16 +32,16 @@ RedditLite.Routers.Router = Backbone.Router.extend({
   subShow: function(id) {
     $("#loading-icon").removeClass("hidden");
     var router = this;
-    var sub = new RedditLite.Models.Sub({
+    var sub = new Reddundancy.Models.Sub({
       id: id
     });
-    var posts = new RedditLite.Collections.SubPosts([], {
+    var posts = new Reddundancy.Collections.SubPosts([], {
       subId: id,
     });
     //wait until we have sub info to prevent confusing renders
     sub.fetch({
       success: function(model) {
-        var view = new RedditLite.Views.SubShowView({
+        var view = new Reddundancy.Views.SubShowView({
           model: sub,
           collection: posts
         });
@@ -59,16 +59,16 @@ RedditLite.Routers.Router = Backbone.Router.extend({
   postShow: function(id) {
     $("#loading-icon").removeClass("hidden");
     var router = this;
-    var post = new RedditLite.Models.Post({
+    var post = new Reddundancy.Models.Post({
       id: id
     });
-    var comments = new RedditLite.Collections.PostComments([], {
+    var comments = new Reddundancy.Collections.PostComments([], {
       postId: id
     });
     //wait until we have post info to prevent confusing renders
     post.fetch({
       success: function(model) {
-        var view = new RedditLite.Views.PostShowView({
+        var view = new Reddundancy.Views.PostShowView({
           model: post,
           collection: comments
         });

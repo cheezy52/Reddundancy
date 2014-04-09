@@ -1,4 +1,4 @@
-RedditLite.Views.SubsIndexView = Backbone.CompositeView.extend({
+Reddundancy.Views.SubsIndexView = Backbone.CompositeView.extend({
   template: JST["subs_index"],
 
   events: {
@@ -7,11 +7,11 @@ RedditLite.Views.SubsIndexView = Backbone.CompositeView.extend({
     // "click .delete-sub": "deleteSub"
   },
 
-  redditLiteClass: "SubsIndexView",
+  reddundancyClass: "SubsIndexView",
 
   initialize: function(options) {
     this.listenTo(this.collection, "change sync update", this.render);
-    this.listenTo(this.collection, "add", this.addSubRedditLiteView);
+    this.listenTo(this.collection, "add", this.addSubReddundancyView);
     this.listenTo(this.collection, "remove", this.removeSubviewByModel);
     this.populateSubviews();
   },
@@ -21,16 +21,16 @@ RedditLite.Views.SubsIndexView = Backbone.CompositeView.extend({
     this.$el.html(this.template({ subs: this.collection }));
 
     this.subviews().forEach(function(subview) {
-      if(subview.redditLiteClass === "FormView") {
+      if(subview.reddundancyClass === "FormView") {
         view.$el.find("#new-sub-form-container").html(subview.render().$el);
-      } else if(subview.redditLiteClass === "PaginationView") {
+      } else if(subview.reddundancyClass === "PaginationView") {
         //put pagination links both above and below
         if (subview.position === "top") {
           view.$el.prepend(subview.render().$el);
         } else {
           view.$el.append(subview.render().$el);
         }
-      } else if(subview.redditLiteClass === "SubRedditLiteView") {
+      } else if(subview.reddundancyClass === "SubReddundancyView") {
         view.$el.find("#subs-list").append(subview.render().$el);
       } else {
         view.$el.prepend(subview.render().$el);
@@ -42,26 +42,26 @@ RedditLite.Views.SubsIndexView = Backbone.CompositeView.extend({
 
   populateSubviews: function() {
     var view = this;
-    this.addSubview(new RedditLite.Views.FormView({
+    this.addSubview(new Reddundancy.Views.FormView({
       model: this.model,
       collection: this.collection,
       formClassName: "sub"
     }));
-    this.addSubview(new RedditLite.Views.PaginationView({
+    this.addSubview(new Reddundancy.Views.PaginationView({
       collection: this.collection,
       position: "top"
     }));
-    this.addSubview(new RedditLite.Views.PaginationView({
+    this.addSubview(new Reddundancy.Views.PaginationView({
       collection: this.collection,
       position: "bottom"
     }));
-    this.collection.forEach(function(subRedditLite) {
-      view.addSubRedditLiteView(subRedditLite);
+    this.collection.forEach(function(subReddundancy) {
+      view.addSubReddundancyView(subReddundancy);
     });
   },
 
-  addSubRedditLiteView: function(model) {
-    this.addSubview(new RedditLite.Views.SubRedditLiteView({
+  addSubReddundancyView: function(model) {
+    this.addSubview(new Reddundancy.Views.SubReddundancyView({
       model: model
     }));
   },

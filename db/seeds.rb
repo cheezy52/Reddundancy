@@ -7,29 +7,29 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # create superadmin user
-adm = User.create(username: "RedditLite", password: SecureRandom::urlsafe_base64(16),
-  email: "RedditLite@herokuapp.com")
+adm = User.create(username: "Reddundancy", password: SecureRandom::urlsafe_base64(16),
+  email: "Reddundancy@herokuapp.com")
 
 #create guest user
-guest = User.create!(username: "RedditLiteGuest", password: "GuestPass",
+guest = User.create!(username: "ReddundancyGuest", password: "GuestPass",
   email: "guest@guest.guest")
 
 #create fake seed accounts
-alice = User.create(username: "RedditLiteAlice", password: SecureRandom::urlsafe_base64(16),
-  email: "alice@RedditLite.com")
-bob = User.create(username: "RedditLiteBob", password: SecureRandom::urlsafe_base64(16),
-  email: "bob@RedditLite.com")
-carol = User.create(username: "RedditLiteCarol", password: SecureRandom::urlsafe_base64(16),
-  email: "carol@RedditLite.com")
-dan = User.create(username: "RedditLiteDan", password: SecureRandom::urlsafe_base64(16),
-  email: "dan@RedditLite.com")
-eve = User.create(username: "RedditLiteEve", password: SecureRandom::urlsafe_base64(16),
-  email: "eve@RedditLite.com")
-frank = User.create(username: "RedditLiteFrank", password: SecureRandom::urlsafe_base64(16),
-  email: "frank@RedditLite.com")
+alice = User.create(username: "ReddundancyAlice", password: SecureRandom::urlsafe_base64(16),
+  email: "alice@Reddundancy.com")
+bob = User.create(username: "ReddundancyBob", password: SecureRandom::urlsafe_base64(16),
+  email: "bob@Reddundancy.com")
+carol = User.create(username: "ReddundancyCarol", password: SecureRandom::urlsafe_base64(16),
+  email: "carol@Reddundancy.com")
+dan = User.create(username: "ReddundancyDan", password: SecureRandom::urlsafe_base64(16),
+  email: "dan@Reddundancy.com")
+eve = User.create(username: "ReddundancyEve", password: SecureRandom::urlsafe_base64(16),
+  email: "eve@Reddundancy.com")
+frank = User.create(username: "ReddundancyFrank", password: SecureRandom::urlsafe_base64(16),
+  email: "frank@Reddundancy.com")
 
 # create default subs
-announce = SubReddit.create(name: "RedditLiteAnnouncements", owner: adm)
+announce = SubReddit.create(name: "ReddundancyAnnouncements", owner: adm)
 news = SubReddit.create(name: "news", owner: adm)
 pol = SubReddit.create(name: "politics", owner: adm)
 sci = SubReddit.create(name: "science", owner: adm)
@@ -40,7 +40,7 @@ aww = SubReddit.create(name: "aww", owner: adm)
 
 # create starting posts
   # "announce" sub
-  welcome = Post.create(sub: announce, title: "Welcome to RedditLite!", owner: adm)
+  welcome = Post.create(sub: announce, title: "Welcome to Reddundancy!", owner: adm)
 
   # "news" sub
 

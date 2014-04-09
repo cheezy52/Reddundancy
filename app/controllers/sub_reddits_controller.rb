@@ -9,7 +9,7 @@ before_action :ensure_signed_in, only: [:new, :create]
   end
 
   def new
-    @sub = SubRedditLite.new
+    @sub = SubReddundancy.new
     render :new, locals: {sub: @sub}
   end
 
@@ -28,7 +28,7 @@ before_action :ensure_signed_in, only: [:new, :create]
     #Redirect to Backbone version; note root_url already ends with a "/"
     redirect_to "#{root_url}#/s/#{params[:id]}"
 #    Deprecated Rails UI
-#    @sub = SubRedditLite.includes(posts:[:comments, :votes, :owner]).find(params[:id])
+#    @sub = SubReddundancy.includes(posts:[:comments, :votes, :owner]).find(params[:id])
 #    render :show, locals: {sub: @sub, posts: @sub.posts}
   end
 

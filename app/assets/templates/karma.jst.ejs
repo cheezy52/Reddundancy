@@ -1,5 +1,5 @@
 <div class="karma col-xs-1">
-  <% if (RedditLite.current_user) { %>
+  <% if (Reddundancy.current_user) { %>
     <button
       class="upvote <%= model.vote.get("up") === true ? 'active' : '' %>
         btn btn-xs <%= votingDisabled ? 'disabled' : '' %>"
@@ -24,13 +24,13 @@
             data-model="<%= model.get("class_name") %>"></span>
     </button>
   <% } else { %>
-    <a href="<%= RedditLite.ROOT_URL + '/session/new' %>" class="upvote btn btn-xs">
+    <a href="<%= Reddundancy.ROOT_URL + '/session/new' %>" class="upvote btn btn-xs">
       <span class="glyphicon glyphicon-chevron-up"></span>
     </a>
 
     <br><%= model.get("karma") %></br>
 
-    <a href="<%= RedditLite.ROOT_URL + '/session/new' %>" class="downvote btn btn-xs">
+    <a href="<%= Reddundancy.ROOT_URL + '/session/new' %>" class="downvote btn btn-xs">
       <span class="glyphicon glyphicon-chevron-down"></span>
     </a>
   <% } %>

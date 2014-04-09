@@ -1,9 +1,9 @@
-Reddit-Lite is a simple Reddit clone, intended to develop and demonstrate development ability.  As a content-aggregation site, Reddit-Lite collects user-submitted links, placed into "sub-reddits", and allows voting and commenting on links by users.  Functionality and user interface should be generally familiar to users of Reddit.
+Reddundancy is a simple Reddit clone, intended to develop and demonstrate development ability.  As a content-aggregation site, Reddundancy collects user-submitted links, placed into "sub-reddits", and allows voting and commenting on links by users.  Functionality and user interface should be generally familiar to users of Reddit.
 
-Reddit-Lite was developed using Rails 4 and Ruby 1.9.3.  It does not use any 3rd-party APIs.
+Reddundancy was developed using Rails 4 and Ruby 1.9.3.  It does not use any 3rd-party APIs.
 
 
-A basic guide to what a user can do on Reddit-Lite:
+A basic guide to what a user can do on Reddundancy:
 
 -User accounts: Signup, signin, signout.  A guest account is available to browse functionality, for those who wish to view the app's features without creating an account.  (NYI) New users will require e-mail confirmation of their accounts; password reset will also be available via e-mail.  
 

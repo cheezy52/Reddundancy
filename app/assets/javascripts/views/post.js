@@ -1,4 +1,4 @@
-RedditLite.Views.PostView = Backbone.CompositeView.extend({
+Reddundancy.Views.PostView = Backbone.CompositeView.extend({
   template: JST["post"],
 
   tagName: "li",
@@ -11,14 +11,14 @@ RedditLite.Views.PostView = Backbone.CompositeView.extend({
 
   className: "post row",
 
-  redditLiteClass: "PostView",
+  reddundancyClass: "PostView",
 
   events: {
 
   },
 
   initialize: function(options) {
-    this.addSubview(new RedditLite.Views.KarmaView({
+    this.addSubview(new Reddundancy.Views.KarmaView({
       model: this.model
     }));
   },

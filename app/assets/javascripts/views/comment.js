@@ -1,7 +1,7 @@
-RedditLite.Views.CommentView = Backbone.CompositeView.extend({
+Reddundancy.Views.CommentView = Backbone.CompositeView.extend({
   template: JST["comment"],
 
-  redditLiteClass: "CommentView",
+  reddundancyClass: "CommentView",
 
   tagName: "ul",
 
@@ -18,10 +18,10 @@ RedditLite.Views.CommentView = Backbone.CompositeView.extend({
   },
 
   initialize: function(options) {
-    this.addSubview(new RedditLite.Views.KarmaView({
+    this.addSubview(new Reddundancy.Views.KarmaView({
       model: this.model
     }));
-    this.addSubview(new RedditLite.Views.FormView({
+    this.addSubview(new Reddundancy.Views.FormView({
       model: this.model,
       collection: this.collection,
       formClassName: "comment"
@@ -38,11 +38,11 @@ RedditLite.Views.CommentView = Backbone.CompositeView.extend({
     this.$el.prepend(this.template({ comment: this.model }));
 
     this.subviews().forEach(function(subview) {
-      if(subview.redditLiteClass === "KarmaView") {
+      if(subview.reddundancyClass === "KarmaView") {
         view.$el.find(".karma-container").first().html(subview.render().$el);
-      } else if(subview.redditLiteClass === "FavoriteView") {
+      } else if(subview.reddundancyClass === "FavoriteView") {
         view.$el.find(".submission-buttons").first().append(subview.render().$el);
-      } else if(subview.redditLiteClass === "FormView") {
+      } else if(subview.reddundancyClass === "FormView") {
         view.$el.find(".form-container").first().append(subview.render().$el);
       } else {
         view.$el.prepend(subview.render().$el);

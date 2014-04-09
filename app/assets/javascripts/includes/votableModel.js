@@ -2,14 +2,14 @@ Backbone.VotableModel = Backbone.Model.extend({
   parse: function(data, options) {
     //constructs this.vote - vote is attached to model
     if(data["already_voted"]) {
-      this.vote = new RedditLite.Models.Vote({
+      this.vote = new Reddundancy.Models.Vote({
         votable_id: data["id"],
         votable_type: data["class_name"],
         up: data["upvoted"],
         id: data["vote_id"]
       });
     } else {
-      this.vote = new RedditLite.Models.Vote({
+      this.vote = new Reddundancy.Models.Vote({
         votable_id: data["id"],
         votable_type: data["class_name"]
       });
@@ -64,7 +64,7 @@ Backbone.VotableModel = Backbone.Model.extend({
 
     //re-initialize fresh, not-yet-persisted vote
     //remember to have views listen to the new model.vote!
-    this.vote = new RedditLite.Models.Vote({
+    this.vote = new Reddundancy.Models.Vote({
       votable_id: this.get("id"),
       votable_type: this.get("class_name")
     });

@@ -1,4 +1,4 @@
-<% if (RedditLite.current_user) { %>
+<% if (Reddundancy.current_user) { %>
   <% if (showForm) { %>
   <button class="btn btn-primary hidden new-post-show">Submit a Post</button>
   <% } else { %>
@@ -28,5 +28,5 @@
     value="<%= formPending ? "Working..." : "Submit Post!" %>"></input>
   </form>
 <% } else { %>
-  <a href="<%= RedditLite.ROOT_URL %>/session/new">Log in to add a post!</a>
+  <a href="<%= Reddundancy.ROOT_URL %>/session/new">Log in to add a post!</a>
 <% } %>

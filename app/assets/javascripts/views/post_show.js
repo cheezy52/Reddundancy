@@ -1,4 +1,4 @@
-RedditLite.Views.PostShowView = Backbone.CompositeView.extend({
+Reddundancy.Views.PostShowView = Backbone.CompositeView.extend({
   template: JST["post_show"],
 
   events: {
@@ -6,7 +6,7 @@ RedditLite.Views.PostShowView = Backbone.CompositeView.extend({
     "click button.delete-post": "deletePost"
   },
 
-  redditLiteClass: "PostShowView",
+  reddundancyClass: "PostShowView",
 
   initialize: function(options) {
     this.listenTo(this.model, "sync change update", this.render);
@@ -21,13 +21,13 @@ RedditLite.Views.PostShowView = Backbone.CompositeView.extend({
 
     this.$el.html(this.template({ post: this.model }));
     this.subviews().forEach(function(subview) {
-      if(subview.redditLiteClass === "KarmaView") {
+      if(subview.reddundancyClass === "KarmaView") {
         view.$el.find(".karma-container").first().html(subview.render().$el);
         subview.delegateEvents();
-      } else if(subview.redditLiteClass === "FormView") {
+      } else if(subview.reddundancyClass === "FormView") {
         view.$el.find(".submission-buttons").first().append(subview.render().$el);
         subview.delegateEvents();
-      } else if(subview.redditLiteClass === "CommentView") {
+      } else if(subview.reddundancyClass === "CommentView") {
         //explicitly bypass comment views, as they're handled below
         return;
       }
@@ -58,11 +58,11 @@ RedditLite.Views.PostShowView = Backbone.CompositeView.extend({
 
   populateSubviews: function() {
     var view = this;
-    view.addSubview(new RedditLite.Views.KarmaView({
+    view.addSubview(new Reddundancy.Views.KarmaView({
       model: this.model
     }));
-    view.addSubview(new RedditLite.Views.FormView({
-      model: new RedditLite.Models.Comment({
+    view.addSubview(new Reddundancy.Views.FormView({
+      model: new Reddundancy.Models.Comment({
         post_id: this.model.get("id"),
         parent_id: null
       }),
@@ -70,7 +70,7 @@ RedditLite.Views.PostShowView = Backbone.CompositeView.extend({
       formClassName: "comment"
     }));
     this.collection.forEach(function(comment) {
-      view.addSubview(new RedditLite.Views.CommentView({
+      view.addSubview(new Reddundancy.Views.CommentView({
         model: comment,
         collection: view.collection
       }));
@@ -85,7 +85,7 @@ RedditLite.Views.PostShowView = Backbone.CompositeView.extend({
     var layeredViews = [];
 
     this.subviews().forEach(function(subview) {
-      if(subview.redditLiteClass === "CommentView") {
+      if(subview.reddundancyClass === "CommentView") {
         var tempComment = subview.model;
         var nestingDepth = 0;
         while(tempComment.get("parent_id")) {
@@ -102,7 +102,7 @@ RedditLite.Views.PostShowView = Backbone.CompositeView.extend({
   },
 
   addCommentView: function(comment) {
-    var commentView = new RedditLite.Views.CommentView({
+    var commentView = new Reddundancy.Views.CommentView({
       model: comment,
       //pass in collection for use in its formView
       collection: this.collection

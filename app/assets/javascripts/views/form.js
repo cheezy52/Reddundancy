@@ -1,4 +1,4 @@
-RedditLite.Views.FormView = Backbone.View.extend({
+Reddundancy.Views.FormView = Backbone.View.extend({
   initialize: function(options) {
     //must be passed a formClassName in options!
     this.formVisible = false;
@@ -23,7 +23,7 @@ RedditLite.Views.FormView = Backbone.View.extend({
     return variableEvents;
   },
 
-  redditLiteClass: "FormView",
+  reddundancyClass: "FormView",
 
   render: function() {
     var view = this;

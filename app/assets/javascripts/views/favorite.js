@@ -1,4 +1,4 @@
-RedditLite.Views.FavoriteView = Backbone.View.extend({
+Reddundancy.Views.FavoriteView = Backbone.View.extend({
   template: JST["favorite"],
 
   events: {
@@ -6,7 +6,7 @@ RedditLite.Views.FavoriteView = Backbone.View.extend({
     "click button.favorited": "removeFavorite"
   },
 
-  redditLiteClass: "FavoriteView",
+  reddundancyClass: "FavoriteView",
 
   className: "favorites-container",
 
@@ -19,10 +19,10 @@ RedditLite.Views.FavoriteView = Backbone.View.extend({
 
   addFavorite: function(event) {
     var view = this;
-    if(!RedditLite.current_user) { return; }
+    if(!Reddundancy.current_user) { return; }
     if(!this.model.favorite) {
       $(event.target).addClass("disabled");
-      this.model.favorite = new RedditLite.Models.SubFavorite({
+      this.model.favorite = new Reddundancy.Models.SubFavorite({
         sub_id: this.model.id,
         rank: $(document).find("#favorited-subs").children().last().data("rank") + 1,
         sub_name: this.model.escape("name")
@@ -30,7 +30,7 @@ RedditLite.Views.FavoriteView = Backbone.View.extend({
       this.model.favorite.save({}, {
         success: function(model) {
           view.model.set("followers", view.model.get("followers") + 1);
-          RedditLite.NavFavoritesView.collection.add(model);
+          Reddundancy.NavFavoritesView.collection.add(model);
           view.render();
         },
         error: function(model, response) {
@@ -49,9 +49,9 @@ RedditLite.Views.FavoriteView = Backbone.View.extend({
         success: function(model) {
           view.model.favorite = null;
           view.model.set("followers", view.model.get("followers") - 1);
-          var removedFav = RedditLite.NavFavoritesView.collection
+          var removedFav = Reddundancy.NavFavoritesView.collection
             .findWhere({sub_id: model.get("sub_id")});
-          RedditLite.NavFavoritesView.collection.remove(removedFav);
+          Reddundancy.NavFavoritesView.collection.remove(removedFav);
           view.render();
         },
         error: function(model, response) {

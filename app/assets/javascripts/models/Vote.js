@@ -1,7 +1,7 @@
-RedditLite.Models.Vote = Backbone.Model.extend({
+Reddundancy.Models.Vote = Backbone.Model.extend({
   urlRoot: function() {
-    return RedditLite.ROOT_URL + "/api/votes";
+    return Reddundancy.ROOT_URL + "/api/votes";
   },
 
-  redditLiteClass: "Vote"
+  reddundancyClass: "Vote"
 });

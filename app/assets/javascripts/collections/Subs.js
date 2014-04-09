@@ -1,9 +1,9 @@
-RedditLite.Collections.Subs = Backbone.Collection.extend({
+Reddundancy.Collections.Subs = Backbone.Collection.extend({
   url: function() {
-    return RedditLite.ROOT_URL + "/api/s";
+    return Reddundancy.ROOT_URL + "/api/s";
   },
 
-  model: RedditLite.Models.Sub,
+  model: Reddundancy.Models.Sub,
 
   comparator: function(sub) {
     return sub.created_at;
@@ -22,7 +22,7 @@ RedditLite.Collections.Subs = Backbone.Collection.extend({
       sub.fetch();
       return sub;
     } else {
-      sub = new RedditLite.Models.Sub({
+      sub = new Reddundancy.Models.Sub({
         id: sub_id
       });
       sub.fetch({
