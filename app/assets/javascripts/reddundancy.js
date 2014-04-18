@@ -29,18 +29,20 @@ window.Reddundancy = {
     });
 
     //initialize navbar dropdown watcher
-    var userFavorites = new Reddundancy.Collections.UserFavorites({}, {
-      userId: Reddundancy.current_user
-    });
-    userFavorites.fetch({
-      success: function() {
-        window.Reddundancy.NavFavoritesView = new Reddundancy.Views.NavFavoritesView({
-          el: "#favorited-subs",
-          collection: userFavorites
-        })
-      }
-    });
-
+    if (Reddundancy.current_user) {
+      var userFavorites = new Reddundancy.Collections.UserFavorites({}, {
+        userId: Reddundancy.current_user
+      });
+      userFavorites.fetch({
+        success: function() {
+          window.Reddundancy.NavFavoritesView = new Reddundancy.Views.NavFavoritesView({
+            el: "#favorited-subs",
+            collection: userFavorites
+          })
+        }
+      });
+    }
+    
     Backbone.history.start();
   }
 };
