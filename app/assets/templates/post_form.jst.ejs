@@ -15,12 +15,18 @@
     <h3>Add a Post!</h3>
     <input type="hidden" name="post[sub_id]" value="<%= model.get("id") %>">
 
-    <label>Title<input type="textarea" name="post[title]"
-      class="post-form-title" value="<%= formData["title"] || null %>"></input></label>
+    <label>Title<textarea class="form-control" name="post[title]" cols="50"
+      class="post-form-title" value="<%= formData["title"] || null %>"></textarea></label>
     <br>
 
-    <label>URL<input type="text" name="post[link]"
-      value="<%= formData["link"] || null %>"></input></label>
+    <label>URL<input type="text" class="form-control" name="post[link]" size="49"
+      value="<%= formData["link"] || null %>"
+      placeholder="Can be left blank."></input></label>
+    <br>
+
+    <label>Body<textarea class="form-control" name="post[body]" cols="50"
+      value="<%= formData["link"] || null %>"
+      placeholder="Can be left blank."></textarea></label>
     <br>
 
     <input type="submit" class="btn btn-success

@@ -1,12 +1,23 @@
-<div class="post-body col-xs-11">
+<div class="post-listing col-xs-11">
   <div class="submission-buttons">
     <% if(post.get("user_is_owner") === true) { %>
     <button class="delete-post btn btn-danger"
       data-id="<%= post.get("id") %>">X</button>
     <% } %>
   </div>
+  <% if (post.escape("link")) { %>
+    <% if (post.escape("link").slice(0, 4) == "http") { %>
+      <a class="submission-link" 
+      href="<%= post.escape("link") %>"><%= post.escape("title") %></a>
+    <% } else { %>
+      <a class="submission-link" 
+      href="http://<%= post.escape("link") %>"><%= post.escape("title") %></a>
+    <% } %>
+  <% } else { %>
   <a class="submission-link" href="#/posts/<%= post.get("id") %>"><%= post.escape("title")%></a>
+  <% } %>
 
-  <p class="submission-info">submitted <%= post.escape("age") %> ago by <%= post.escape("owner_name") %> to <a href="#/s/<%= post.escape("sub_name") %>"><%= post.escape("sub_name") %>
+  <p class="submission-info">submitted <%= post.escape("age") %> ago by <%= post.escape("owner_name") %> to <a href="#/s/<%= post.escape("sub_name") %>"><%= post.escape("sub_name") %></a><br>
+  <a href="#/posts/<%= post.get("id") %>"><%= post.escape("num_comments") %> comments</a></p>
 </div>
 

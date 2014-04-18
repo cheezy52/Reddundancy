@@ -52,7 +52,7 @@ class Api::PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:link, :title, :sub_id)
+    params.require(:post).permit(:link, :title, :body, :sub_id)
   end
 
   def verify_ownership

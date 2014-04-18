@@ -14,12 +14,17 @@
       <h1><%= post.escape("title") %></h1>
     <% } %>
     <% if (post.escape("body")) { %>
-      <div class="post-body"><%= post.escape("body") %></div>
+      <div class="post-body col-xs-11"><%= post.escape("body") %></div>
       <br><br>
     <% } %>
+    
+    <p class="submission-info">submitted <%= post.escape("age") %> ago by <%= post.escape("owner_name") %> to <a href="#/s/<%= post.escape("sub_name") %>"><%= post.escape("sub_name") %></a><br>
+    <%= post.escape("num_comments") %> comments</p>
+
     <div class="submission-buttons"><% if(post.get("user_is_owner")) { %>
       <button class="delete-post btn btn-danger">X</button>
     <% } %></div>
+    
   </div>
 </div>
 

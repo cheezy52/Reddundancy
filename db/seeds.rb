@@ -78,8 +78,9 @@ aww = SubReddit.create(name: "aww", owner: adm)
 
 
   # "ben" sub
-  self_plug = Post.create(sub: ben, link: "https://github.com/cheezy52",
-    title: "That Ben Smith sure is a swell guy.", owner: adm)
+  self_plug = Post.create(sub: ben, link: "http://cheezy52.github.io",
+    title: "That Ben Smith sure is a swell guy.", owner: adm,
+    body: "And so modest too!")
 
     # add starting comments
     self_plug_c1 = Comment.create(post: self_plug, owner: adm,
@@ -101,6 +102,10 @@ def random_vote(user, votable)
 end
 
 User.all.each do |user|
+  UserSub.create(user: user, sub: announce, rank: 1)
+  UserSub.create(user: user, sub: ben, rank: 2)
+  UserSub.create(user: user, sub: tech, rank: 3) if rand(3) > 0
+  UserSub.create(user: user, sub: aww, rank: 4) if rand(3) > 1
   Post.all.each do |post|    
     random_vote(user, post)
   end
