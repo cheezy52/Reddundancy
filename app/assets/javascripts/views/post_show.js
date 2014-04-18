@@ -35,6 +35,7 @@ Reddundancy.Views.PostShowView = Backbone.CompositeView.extend({
 
     var sortedViews = this.sortComments();
     sortedViews.forEach(function(viewLayer, layerIndex) {
+      viewLayer.sort().reverse();
       viewLayer.forEach(function(commentView) {
         if (layerIndex === 0) {
           view.$el.find("#comments").prepend(commentView.render().$el);

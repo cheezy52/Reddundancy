@@ -1,4 +1,4 @@
-json.(post, :id, :link, :title, :owner_id, :sub_id)
+json.(post, :id, :link, :title, :body, :owner_id, :sub_id)
 json.age (time_ago_in_words(post.created_at))
 json.last_edit_age (time_ago_in_words(post.updated_at))
 json.sub_name(post.sub.name)

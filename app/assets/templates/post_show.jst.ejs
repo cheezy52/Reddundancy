@@ -13,6 +13,10 @@
     <% } else {%>
       <h1><%= post.escape("title") %></h1>
     <% } %>
+    <% if (post.escape("body")) { %>
+      <div class="post-body"><%= post.escape("body") %></div>
+      <br><br>
+    <% } %>
     <div class="submission-buttons"><% if(post.get("user_is_owner")) { %>
       <button class="delete-post btn btn-danger">X</button>
     <% } %></div>

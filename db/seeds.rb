@@ -5,6 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+require 'date'
 
 # create superadmin user
 adm = User.create(username: "Reddundancy", password: SecureRandom::urlsafe_base64(16),
@@ -40,7 +41,32 @@ aww = SubReddit.create(name: "aww", owner: adm)
 
 # create starting posts
   # "announce" sub
-  welcome = Post.create(sub: announce, title: "Welcome to Reddundancy!", owner: adm)
+  today = Date.today
+  (0..105).to_a.reverse.each do |days_ago|
+    day_post = Post.create(sub: announce, owner: adm,
+      title: "Daily maintenace for #{today - days_ago}",
+      body: "Reddundancy's daily maintenance for #{today - days_ago} is now concluded.  Thank you for your patience.")
+    a1 = Comment.create(post: day_post, owner: alice, parent: nil, 
+      body: "Another daily maintenance?!  That's #{105 - days_ago} times now!")
+    b1 = Comment.create(post: day_post, owner: bob, parent: a1, 
+      body: "Oh, be quiet, Alice.  It seems like you're here complaining every day.")
+    a2 = Comment.create(post: day_post, owner: alice, parent: b1, 
+      body: "Well, maybe when they stop bringing the server down, I'll stop complaining.")
+    c1 = Comment.create(post: day_post, owner: carol, parent: b1, 
+      body: "And it seems like you're here complaining about Alice's complaining every day.")
+    b2 = Comment.create(post: day_post, owner: bob, parent: c1, 
+      body: "We have to go deeper.")
+    d1 = Comment.create(post: day_post, owner: dan, parent: b2, 
+      body: "BWONNNNNNG")
+    e1 = Comment.create(post: day_post, owner: eve, parent: nil, 
+      body: "It's all good, take all the time you need!")
+    a3 = Comment.create(post: day_post, owner: alice, parent: e1, 
+      body: "White-knighting detected")
+    f1 = Comment.create(post: day_post, owner: frank, parent: a3,
+      body: "Because they're the poster we deserve, but not the one we need right now...")
+  end
+  welcome = Post.create(sub: announce, title: "Welcome to Reddundancy!", 
+    owner: adm)
 
   # "news" sub
 
@@ -49,6 +75,7 @@ aww = SubReddit.create(name: "aww", owner: adm)
   # "science" sub
 
   # "technology" sub
+
 
   # "ben" sub
   self_plug = Post.create(sub: ben, link: "https://github.com/cheezy52",
@@ -63,3 +90,21 @@ aww = SubReddit.create(name: "aww", owner: adm)
   # "funny" sub
 
   # "aww" sub
+
+def random_vote(user, votable)
+  vote = rand(3)
+  if vote == 0
+    Vote.create(owner: user, votable: votable, up: false)
+  elsif vote == 1
+    Vote.create(owner: user, votable: votable, up: true)
+  end
+end
+
+User.all.each do |user|
+  Post.all.each do |post|    
+    random_vote(user, post)
+  end
+  Comment.all.each do |comment|
+    random_vote(user, comment)
+  end
+end
