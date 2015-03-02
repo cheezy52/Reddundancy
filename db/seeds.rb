@@ -325,7 +325,7 @@ def random_vote(user, votable)
 end
 
 def random_post_comment(user, post)
-  comment = rand(10)
+  comment = rand(20)
   if comment == 0
     Comment.create(owner: user, post: post, parent: nil, 
       body: "Interesting!")
@@ -342,7 +342,7 @@ def random_post_comment(user, post)
 end
 
 def random_comment_comment(user, post, parent_comment)
-  comment = rand(10)
+  comment = rand(20)
   if comment == 0
     Comment.create(owner: user, post: post, parent: parent_comment, 
       body: "I'm with you on this one!")
@@ -361,8 +361,9 @@ end
 User.all.each do |user|
   UserSub.create(user: user, sub: announce, rank: 1)
   UserSub.create(user: user, sub: ben, rank: 2)
-  UserSub.create(user: user, sub: tech, rank: 3) if rand(3) > 0
-  UserSub.create(user: user, sub: aww, rank: 4) if rand(3) > 1
+  UserSub.create(user: user, sub: tech, rank: 3) if rand(4) > 0
+  UserSub.create(user: user, sub: aww, rank: 4) if rand(4) > 1
+  UserSub.create(user: user, sub: funny, rank: 5) if rand(4) > 2
   Post.all.each do |post|    
     random_vote(user, post)
     random_post_comment(user, post)
