@@ -9,6 +9,7 @@ class Api::PostsController < ApplicationController
                  .where(sub_id: @sub.id)
                  .order(:created_at => :desc)
                  .page(params[:page])
+                 .per(10)
     render :index, locals: {posts: @posts}
   end
 
